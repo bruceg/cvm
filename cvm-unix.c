@@ -21,8 +21,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
-#include "hasspnam.h"
-#include "hasuserpw.h"
+
+#include <sysdeps.h>
+
 #include "module.h"
 
 const unsigned cvm_credential_count = 1;

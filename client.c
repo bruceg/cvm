@@ -22,10 +22,11 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include "socket/socket.h"
-#include "fork.h"
+
+#include <sysdeps.h>
+#include <net/socket.h>
+
 #include "client.h"
-#include "iopoll.h"
 
 const char* cvm_account_split_chars = "@";
 

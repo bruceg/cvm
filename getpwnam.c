@@ -20,9 +20,10 @@
 #include <pwd.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include <sysdeps.h>
+
 #include "module.h"
-#include "hasspnam.h"
-#include "hasuserpw.h"
 
 #ifdef HASGETSPNAM
 #include <shadow.h>

@@ -21,7 +21,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include "socket/socket.h"
+
+#include <net/socket.h>
+
 #include "module.h"
 
 static const char* path;

@@ -21,7 +21,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include "socket/socket.h"
+
+#include <net/socket.h>
+
 #include "module.h"
 
 static int sock;

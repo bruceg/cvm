@@ -15,8 +15,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+#include <sysdeps.h>
+
 #include "client.h"
-#include "setenv.h"
 
 static char* utoa_rec(unsigned i, char* buf)
 {
