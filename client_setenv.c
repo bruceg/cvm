@@ -1,5 +1,5 @@
 /* cvm/client_setenv.c - CVM client standard setenv calls
- * Copyright (C) 2001  Bruce Guenter <bruceg@em.ca>
+ * Copyright (C) 2001,2003  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -84,7 +84,8 @@ int cvm_setenv(void)
   if (cvm_fact_domain &&
       setenv("DOMAIN", cvm_fact_domain, 1) != 0) return 0;
   if (cvm_fact_mailbox &&
-      setenv("MAILBOX", cvm_fact_mailbox, 1) != 0) return 0;
+      (setenv("MAIL", cvm_fact_mailbox, 1) != 0 ||
+       setenv("MAILBOX", cvm_fact_mailbox, 1) != 0)) return 0;
   if (!set_gids()) return 0;
   return 1;
 }

@@ -7,6 +7,9 @@ Changes in version 0.18
 - Fixed yet another typo in installer that put a header file in place of
   a library.
 
+- The cvm_setenv routine now exports both $MAIL and $MAILBOX, as some
+  programs (notably Dovecot IMAP) prefer to use $MAIL.
+
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/
 -------------------------------------------------------------------------------
