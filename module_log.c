@@ -31,27 +31,21 @@ void log_shutdown(void)
 
 void log_request(void)
 {
-  char tmp[BUFSIZE+4];
-  char status;
+  char buf[BUFSIZE+4];
   char* ptr;
+  const char* str;
   
-  ptr = tmp;
+  ptr = buf;
   switch (outbuffer[0]) {
-  case 0: status = '+'; break;
-  case CVME_PERMFAIL: status = '-'; break;
-  default: status = '?'; break;
+  case 0: *ptr++ = '+'; break;
+  case CVME_PERMFAIL: *ptr++ = '-'; break;
+  default: *ptr++ = '?'; break;
   }
-  *ptr++ = status;
-
   *ptr++ = ' ';
-  memcpy(ptr, cvm_account_name.s, cvm_account_name.len);
-  ptr += cvm_account_name.len;
-
+  for (str = cvm_account_name; *str; ++str) *ptr++ = *str;
   *ptr++ = '@';
-  memcpy(ptr, cvm_account_domain.s, cvm_account_domain.len);
-  ptr += cvm_account_domain.len;
-  
+  for (str = cvm_account_domain; *str; ++str) *ptr++ = *str;
   *ptr++ = '\n';
   *ptr = 0;
-  write(1, tmp, ptr-tmp);
+  write(1, buf, ptr-buf);
 }

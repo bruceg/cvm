@@ -18,27 +18,23 @@
 #include <string.h>
 #include "module.h"
 
-str cvm_account_name;
-str cvm_account_domain;
+const char* cvm_account_name;
+const char* cvm_account_domain;
 
 char inbuffer[BUFSIZE+1];
 unsigned inbuflen;
 
-#define ADVANCE do{ \
-  char* tmp; \
-  if ((tmp = memchr(buf, 0, len)) == 0) return CVME_BAD_CLIDATA; \
-  ++tmp; \
-  if (len < (unsigned)(tmp - buf)) return CVME_BAD_CLIDATA; \
-  len -= tmp - buf; \
-  buf = tmp; \
-} while (0)
-
-#define COPY_ADVANCE(STR) do{ \
-  if (!str_copys(STR, buf)) return CVME_IO; \
-  if ((STR)->len >= len) return CVME_BAD_CLIDATA; \
-  len -= (STR)->len+1; \
-  buf += (STR)->len+1; \
-} while (0)
+static int copy_advance(const char** ptr, char**buf, unsigned* len)
+{
+  char* tmp;
+  if ((tmp = memchr(*buf, 0, *len)) == 0) return 0;
+  ++tmp;
+  if (*len < (unsigned)(tmp - *buf)) return 0;
+  *ptr = *buf;
+  *len -= tmp - *buf;
+  *buf = tmp;
+  return 1;
+}
 
 static int parse_input(void)
 {
@@ -53,11 +49,12 @@ static int parse_input(void)
   buf = inbuffer + 1;
   len = inbuflen - 1;
 
-  COPY_ADVANCE(&cvm_account_name);
-  COPY_ADVANCE(&cvm_account_domain);
+  if (!copy_advance(&cvm_account_name, &buf, &len)) return CVME_BAD_CLIDATA;
+  if (!copy_advance(&cvm_account_domain, &buf, &len)) return CVME_BAD_CLIDATA;
 
   for (i = 0; i < cvm_credential_count; ++i)
-    COPY_ADVANCE(&cvm_credentials[i]);
+    if (!copy_advance(&cvm_credentials[i], &buf, &len))
+      return CVME_BAD_CLIDATA;
   
   if (*buf != 0) return CVME_BAD_CLIDATA;
   return 0;
