@@ -25,6 +25,7 @@ void insthier(void) {
     c(dir, "cvm-pgsql-udp",       -1, -1, 0755);
   }
   c(dir, "cvm-pwfile",          -1, -1, 0755);
+  c(dir, "cvm-qmaillookup",     -1, -1, 0755);
   c(dir, "cvm-testclient",      -1, -1, 0755);
   c(dir, "cvm-vmailmgr",        -1, -1, 0755);
   c(dir, "cvm-vmailmgr-local",  -1, -1, 0755);
