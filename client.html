@@ -1,0 +1,34 @@
+<html>
+<body>
+
+<h2><a href="cvm.html">CVM</a></h2>
+
+<h1>CVM Client Library</h1>
+
+<p>The CVM client library defines the following functions:<dl>
+
+<dt><tt>int authenticate(const char* module, const char**
+credentials)</tt> <dd><p>This is the main entry point to the library.
+Simply set up the account name and credentials as an array with a
+trailing NULL pointer and call <tt>authenticate</tt>.  The function
+will return 0 if authentication succeeded and 100 for permanent
+failure.  Anything else is a temporary failure.</p>
+
+<p>If authentication succeeds, this routine automatically retrieves
+<tt>fact_username</tt>, <tt>fact_userid</tt>, <tt>fact_groupid</tt>,
+<tt>fact_directory</tt>, and <tt>fact_shell</tt>.
+<tt>fact_realname</tt>, <tt>fact_groupname</tt>,
+<tt>fact_sys_username</tt>, and <tt>fact_sys_directory</tt> are also
+set if they were present in the results.</p>
+
+<dt><tt>int fact_str(int number, const char** data)</tt>
+<dd><p>Retrieves a fact from the data returned by the module as a
+NUL-terminated string.  Returns non-zero if the fact was present.</p>
+
+<dt><tt>int fact_uint(int number, unsigned** data)</tt>
+<dd><p>Retrieves a fact from the data returned by the module as an
+unsigned integer.  Returns non-zero if the fact was present and was an
+unsigned integer.</p>
+
+</dl></p>
+

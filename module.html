@@ -1,0 +1,25 @@
+<html>
+<body>
+
+<h2><a href="cvm.html">CVM</a></h2>
+
+<h1>CVM Module Library</h1>
+
+<p>To write a module using the CVM module library, you must provide a
+single routine, <tt>void authenticate(void)</tt>.  Before this routine
+is called, the input data stream is read and the account name is
+parsed into <tt>account_name</tt>.  The service name is also available
+as <tt>service_name</tt>.  To retrieve the next credential from the
+input data, call <tt>const char* cred_string(void)</tt>.  This routine
+will terminate the module if no more credentials are available.</p>
+
+<p>If authentication fails, the module must exit 100.  If there was a
+temporary error, exit 111.  Otherwise, set <tt>fact_username</tt>,
+<tt>fact_userid</tt>, <tt>fact_groupid</tt>, <tt>fact_directory</tt>,
+and <tt>fact_shell</tt>, which will be automatically sent to the
+client when <tt>authenticate</tt> completes.  <tt>fact_realname</tt>,
+<tt>fact_groupname</tt>, <tt>fact_sys_username</tt>, and
+<tt>fact_sys_directory</tt> will also be sent if they are set.  If any
+other facts are to be returned to the client, send them with
+<tt>fact_str(int number, const char* data)</tt> or <tt>fact_uint(int
+number, unsigned data)</tt>.</p>
