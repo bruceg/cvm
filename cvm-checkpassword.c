@@ -21,7 +21,6 @@
 #include <string.h>
 #include <unistd.h>
 #include "client.h"
-#include "setenv.h"
 
 static char buffer[513];
 static char* pass;
@@ -61,14 +60,8 @@ int main(int argc, char** argv)
   if ((i = cvm_authenticate(argv[1], buffer, getenv("TCPLOCALHOST"),
 			    tokens, 1)) != 0) return i;
 
-  if (setenv("HOME", cvm_fact_directory, 1) != 0 ||
-      setenv("USER", cvm_fact_username, 1) != 0 ||
-      (cvm_fact_realname && setenv("NAME", cvm_fact_realname, 1) != 0) ||
-      setenv("SHELL", cvm_fact_shell,1) != 0 ||
-      chdir(cvm_fact_directory) != 0 ||
-      setgid(cvm_fact_groupid) != 0 ||
-      setuid(cvm_fact_userid) != 0)
-    return 111;
+  if (!cvm_setugid()) return 111;
+  if (!cvm_setenv()) return 111;
 
   execvp(argv[2], argv+2);
   return 111;
