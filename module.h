@@ -12,6 +12,8 @@
 
 #define CVM_PROTOCOL 1
 
+extern const char program[];
+
 extern const char* cvm_account_name;
 extern const char* cvm_account_domain;
 

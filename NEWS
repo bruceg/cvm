@@ -1,6 +1,10 @@
 -------------------------------------------------------------------------------
 Changes in version 0.15
 
+- Added a new generic module library that supports all three operation
+  modes (command, local socket, UDP socket) from the same binary.  The
+  seperated module libraries have been retained for compatibility.
+
 - Fixed cvm-unix to properly handle shadow passwords.
 
 Development of this version has been sponsored by FutureQuest, Inc.
