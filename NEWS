@@ -1,4 +1,10 @@
 -------------------------------------------------------------------------------
+Changes in version 0.20
+
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
+-------------------------------------------------------------------------------
 Changes in version 0.18
 
 - Changed the order of the chdir in cvm_setugid, to avoid problems with
