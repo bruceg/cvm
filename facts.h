@@ -1,5 +1,5 @@
-#ifndef AUTHENTICATOR__FACTS__H__
-#define AUTHENTICATOR__FACTS__H__
+#ifndef CVM__FACTS__H__
+#define CVM__FACTS__H__
 
 #define CVM_FACT_USERNAME 1
 #define CVM_FACT_USERID 2
