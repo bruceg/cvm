@@ -75,11 +75,14 @@ int main(int argc, char** argv)
   if ((code = cvm_auth_init()) != 0) return code;
   log_startup();
 
-  for (;;) {
+  code = 0;
+  do {
     if ((code = read_input()) != 0) continue;
     code = handle_request();
-    cvm_fact_end(code);
+    cvm_fact_end(code & CVME_MASK);
     log_request();
     write_output();
-  }
+  } while ((code & CVME_FATAL) == 0);
+  cvm_auth_stop();
+  return 0;
 }

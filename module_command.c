@@ -47,9 +47,11 @@ int main(void)
 {
   int code;
   if ((code = cvm_auth_init()) != 0) return code;
-  if ((code = read_input()) != 0) return code;
-  if ((code = handle_request()) != 0) return code;
+  if ((code = read_input()) != 0) { cvm_auth_stop(); return code; }
+  if ((code = handle_request() & CVME_MASK) != 0)
+    { cvm_auth_stop(); return code; }
   cvm_fact_end(code);
-  if ((code = write_output()) != 0) return code;
-  return 0;
+  code = write_output();
+  cvm_auth_stop();
+  return code;
 }

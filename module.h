@@ -33,5 +33,6 @@ extern const unsigned cvm_credential_count;
 extern const char* cvm_credentials[];
 extern int cvm_auth_init(void);
 extern int cvm_authenticate(void);
+extern void cvm_auth_stop(void);
 
 #endif
