@@ -1,0 +1,37 @@
+
+cvm-vchkpw for authentication using vpopmail from
+http://www.inter7.com/vpopmail.html
+
+vpopmail is a virtual domain manager for qmail. Using this cvm you can
+authenticate against the user-data managed by vpopmail.
+
+
+CHANGES TO conf-cc AND conf-ld
+
+   cvm-vchkpw is linked against libvpopmail.a which is installed in
+   $vpopmailhome/lib/. Thus you need to add "-I$vpopmailhome/include" to
+   conf-cc and "-L$vpopmailhome/lib" to conf-ld.
+
+   If your vpopmail installation has mysql-support, you also have to add
+   "-L/usr/local/lib/mysql -R/usr/local/lib/mysql" to conf-ld.
+
+COMPILATION AND INSTALLATION
+
+   cvm-vchkpw has to be compiled as root because libvpopmail.a is only
+   readable by root as it contains the login-data for the user-database.
+
+   cvm-vchkpw should also be installed with restricted permissions:
+
+     -rwxr-x--- 1 root vchkpw 117455 Dec 14 13:30 cvm-vchkpw
+
+   where vchkpw is the group of the vpopmail-user.
+
+USAGE EXAMPLE
+
+runfile for daemontools:
+
+  exec softlimit -m 2000000 setuidgid vpopmail \
+     /usr/local/bin/cvm-vchkpw \
+     cvm-local:/service/cvm-vchkpw/socket
+
+
