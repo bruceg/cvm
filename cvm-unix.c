@@ -16,8 +16,11 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 #include <errno.h>
+#include <grp.h>
 #include <pwd.h>
+#include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
 #include "hasspnam.h"
 #include "hasuserpw.h"
 #include "module.h"
@@ -27,21 +30,26 @@ const char* credentials[1];
 
 #ifdef HASGETSPNAM
 #include <shadow.h>
-static struct spwd* spw;
 #endif
 
 #ifdef HASUSERPW
 #include <userpw.h>
-static struct userpw* upw;
 #endif
-
-static struct passwd* pw;
 
 extern char* crypt(const char* key, const char* salt);
 
 int authenticate(void)
 {
+  struct passwd* pw;
+  struct group* gr;
+#ifdef HASUSERPW
+  struct userpw* upw;
+#endif
+#ifdef HASGETSPNAM
+  struct spwd* spw;
+#endif
   const char* cpw;
+  char* tmp;
   cpw = 0;
   
   pw = getpwnam(account_name);
@@ -69,11 +77,34 @@ int authenticate(void)
   if (!cpw) return 100;
   if (strcmp(crypt(credentials[0], cpw), cpw)) return 100;
 
+  if ((tmp = strchr(pw->pw_gecos, ',')) != 0)
+    *tmp = 0;
+
   fact_username = pw->pw_name;
   fact_userid = pw->pw_uid;
   fact_groupid = pw->pw_gid;
   fact_realname = pw->pw_gecos;
   fact_directory = pw->pw_dir;
   fact_shell = pw->pw_shell;
+
+  if (fact_groupname) free((char*)fact_groupname);
+  fact_groupname = 0;
+  setgrent();
+  while ((gr = getgrent()) != 0) {
+    if (gr->gr_gid == pw->pw_gid) {
+      fact_groupname = strdup(gr->gr_name);
+      fact_uint(FACT_SUPP_GROUPID, gr->gr_gid);
+    }
+    else {
+      unsigned i;
+      for (i = 0; gr->gr_mem[i]; i++)
+	if (strcmp(gr->gr_mem[i], pw->pw_name) == 0) {
+	  fact_uint(FACT_SUPP_GROUPID, gr->gr_gid);
+	  break;
+	}
+    }
+  }
+  endgrent();
+  
   return 0;
 }
