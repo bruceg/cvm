@@ -116,3 +116,7 @@ int cvm_authenticate(void)
   
   return 0;
 }
+
+void cvm_auth_stop(void)
+{
+}
