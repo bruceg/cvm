@@ -1,4 +1,4 @@
-testl virt test.tld ''
+testl virt test.tld secret
 <result>
 user name:        virt
 user ID:          @UID@

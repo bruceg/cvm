@@ -1,6 +1,4 @@
-CVM_LOOKUP_SECRET=lpass
-export CVM_LOOKUP_SECRET
-testl virt test.tld 'lpass'
+testl virt test.tld secret
 <result>
 user name:        virt
 user ID:          @UID@

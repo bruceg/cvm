@@ -1,5 +1,3 @@
-CVM_LOOKUP_SECRET=lpass
-export CVM_LOOKUP_SECRET
 testl virt test.tld 'xpass'
 <result>
 Authentication failed, error #7

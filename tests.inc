@@ -8,8 +8,8 @@ make_pwfile()
   ) >$CVM_PWFILE_PATH
 }
 testc() { ./cvm-testclient ./cvm-vmailmgr "$@"; }
-testl() { ./cvm-testclient ./cvm-vmlookup "$@"; }
-testq() { ./cvm-testclient ./cvm-qmail "$@" secret; }
+testl() { CVM_LOOKUP_SECRET=secret ./cvm-testclient ./cvm-vmailmgr "$@"; }
+testq() { CVM_LOOKUP_SECRET=secret ./cvm-testclient ./cvm-qmail "$@"; }
 
 QMAIL_ROOT=$tmp
 export QMAIL_ROOT
