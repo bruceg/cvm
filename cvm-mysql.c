@@ -18,26 +18,24 @@
 #include <mysql/mysql.h>
 #include <stdlib.h>
 #include <string.h>
+#include "str/str.h"
+#include "pwcmp/client.h"
 #include "module.h"
 #include "sql.h"
-#include "str/str.h"
 
 const unsigned cvm_credential_count = 1;
 const char* cvm_credentials[1];
-
-extern char* crypt(const char* key, const char* salt);
-
-static const char* host;
-static const char* user;
-static const char* pass;
-static const char* db;
-static unsigned port;
-static const char* unix_socket;
 
 static MYSQL mysql;
 
 int cvm_auth_init(void)
 {
+  const char* host;
+  const char* user;
+  const char* pass;
+  const char* db;
+  unsigned port;
+  const char* unix_socket;
   const char* tmp;
   int i;
 
@@ -52,7 +50,10 @@ int cvm_auth_init(void)
     if ((i = sql_query_setup(tmp)) != 0) return i;
   
   mysql_init(&mysql);
-  if (!mysql_real_connect(&mysql, 0, 0, 0, 0, 0, 0, 0)) return CVME_IO;
+  if (!mysql_real_connect(&mysql, host, user, pass, db,
+			  port, unix_socket, 0)) return CVME_IO;
+
+  if (!pwcmp_start(getenv("CVM_MYSQL_PWCMP"))) return CVME_GENERAL;
 
   return 0;
 }
@@ -63,12 +64,11 @@ int cvm_authenticate(void)
   MYSQL_RES* result;
   MYSQL_ROW row;
   unsigned long* lengths;
-  const char* cpw;
   int i;
   
   /* Query the database based on the custom query */
-  if ((i = sql_query_build(&q)) != 0) return i;
-  if (mysql_real_query(&mysql, q.s, q.len)) return CVME_IO;
+  if ((i = sql_query_build(&q)) != 0) return i | CVME_FATAL;
+  if (mysql_real_query(&mysql, q.s, q.len)) return CVME_IO | CVME_FATAL;
   result = mysql_store_result(&mysql);
 
   /* If the result didn't produce a single row, fail the username */
@@ -78,11 +78,12 @@ int cvm_authenticate(void)
 
   /* If there is no password field, fail the password */
   if (lengths[0] < 1) return CVME_PERMFAIL;
-  /* If the stored encrypted password is not the right length, fail the pass */
-  cpw = crypt(cvm_credentials[0], row[0]);
-  if (lengths[0] != strlen(cpw)) return CVME_PERMFAIL;
   /* Finally, if the stored pass is not the same, fail the pass */
-  if (memcmp(cpw, row[0], lengths[0]) != 0) return CVME_PERMFAIL;
+  switch (pwcmp_check(cvm_credentials[0], row[0])) {
+  case 0: break;
+  case -1: return CVME_IO | CVME_FATAL;
+  default: return CVME_PERMFAIL;
+  }
   
   /* Credentials accepted */
   cvm_fact_username = row[1];
@@ -94,4 +95,10 @@ int cvm_authenticate(void)
   cvm_fact_groupname = 0;
   
   return 0;
+}
+
+void cvm_auth_stop(void)
+{
+  pwcmp_stop();
+  mysql_close(&mysql);
 }
