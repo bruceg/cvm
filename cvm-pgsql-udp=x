@@ -1,6 +1,6 @@
-cvm-pgsql.o
-sql.a
 command.a
+sql.a
+cvm-pgsql.o
 str/str.a
 pwcmp/client.a
 crypt.lib
