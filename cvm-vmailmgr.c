@@ -40,23 +40,20 @@ static const char* null_crypt(const char* pass)
   return buffer.s;
 }
 
-int vpwentry_auth(const vpwentry* vpw)
+int cvm_authenticate(void)
 {
   const char* pass;
   const char* enc;
 
-  if (vpw == 0)
-    return CVME_PERMFAIL;
-
-  if (lock_disabled && !vpw->is_mailbox_enabled) {
+  if (lock_disabled && !vpw.is_mailbox_enabled) {
     DEBUG("Mailbox is disabled", 0, 0);
     return CVME_PERMFAIL;
   }
-  if (vpw->pass.len < 3) {
+  if (vpw.pass.len < 3) {
     DEBUG("Encoded password is too short", 0, 0);
     return CVME_PERMFAIL;
   }
-  pass = vpw->pass.s;
+  pass = vpw.pass.s;
   if (pass[0] == '$' && pass[2] == '$') {
     switch (pass[1]) {
     case '0':

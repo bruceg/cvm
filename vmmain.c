@@ -44,6 +44,7 @@ int lock_disabled;
 str domain = {0,0,0};
 str virtuser = {0,0,0};
 str vpwdata = {0,0,0};
+vpwentry vpw;
 
 const char* pwfile = 0;
 
@@ -66,6 +67,7 @@ void debug(const char* func, int line,
 int cvm_auth_init(void)
 {
   const char* tmp;
+  memset(&vpw, 0, sizeof vpw);
   qmail_init();
   if ((pwfile = getenv("VMAILMGR_PWFILE")) == 0) pwfile = "passwd.cdb";
   if ((tmp = getenv("VMAILMGR_DEFAULT")) == 0) tmp = "+";
@@ -76,7 +78,6 @@ int cvm_auth_init(void)
   return lookup_init();
 }
 
-static vpwentry vpw;
 static str directory;
 
 /* Account name is either "baseuser-virtuser" or "virtuser@domain" */
@@ -95,11 +96,6 @@ int cvm_lookup(void)
   }
 
   return 0;
-}
-
-int cvm_authenticate(void)
-{
-  return vpwentry_auth(&vpw);
 }
 
 int cvm_results(void)

@@ -92,10 +92,10 @@ int lookup_baseuser(void)
 {
   switch (qmail_users_lookup_split(&vmuser, account.s, &baseuser, &virtuser)) {
   case -1: return CVME_GENERAL;
-  case 0: return vpwentry_auth(0);
+  case 0: return CVME_PERMFAIL;
   }
   if (virtuser.len == 0)
-    return vpwentry_auth(0);
+    return CVME_PERMFAIL;
   return 0;
 }
 
@@ -126,14 +126,14 @@ int lookup_virtuser(void)
 	break;
       case 0:
 	DEBUG("cdb_get failed", 0, 0);
-	err = vpwentry_auth(0);
+	err = CVME_PERMFAIL;
 	break;
       default:
 	err = 0;
       }
     }
     else
-      err = vpwentry_auth(0);
+      err = CVME_PERMFAIL;
     break;
   default:
     err = 0;

@@ -10,6 +10,7 @@ extern struct qmail_user vmuser;
 extern str domain;
 extern str virtuser;
 extern str vpwdata;
+extern vpwentry vpw;
 
 extern const char* pwfile;
 extern const char* qmail_root;
@@ -25,7 +26,5 @@ extern int lookup_reinit(void);
 extern int lookup_domain(void);
 extern int lookup_baseuser(void);
 extern int lookup_virtuser(void);
-
-extern int vpwentry_auth(const vpwentry*);
 
 #endif

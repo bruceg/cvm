@@ -29,12 +29,15 @@ const char* cvm_credentials[1];
 const char program[] = "cvm-vmlookup";
 const int try_default = 1;
 
-int vpwentry_auth(const vpwentry* vpw)
+int cvm_preauth(void)
 {
   if (secret != 0)
     if (strcmp(secret, cvm_credentials[0]) != 0)
       return CVME_BAD_MODDATA;
-  if (vpw == 0)
-    return CVME_PERMFAIL;
+  return 0;
+}
+
+int cvm_authenticate(void)
+{
   return 0;
 }
