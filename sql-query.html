@@ -10,16 +10,16 @@
 Do not include quotes in the query.</p>
 
 <p><b>Results:</b> The query must produce the following fields exactly
-in order:
+in order.  All required fields must not be null or empty.
 
 <ol>
-<li>Password, encrypted with <tt>crypt</tt>.
-<li>Actual account name.  Must not be null.
-<li>User ID (integer).  Must not be null.
-<li>Group ID (integer).  Must not be null.
-<li>Real name.  Optional.
-<li>Directory.  Must not be null.
-<li>Login shell.  Optional.
+<li>Password, encrypted with <tt>crypt</tt> (required)
+<li>Actual account name (required)
+<li>User ID (integer) (required)
+<li>Group ID (integer) (required)
+<li>Real name (optional)
+<li>Directory (required)
+<li>Login shell (optional)
 </ol></p>
 
 <p><b>Default:</b> The default query is "<tt>SELECT password,
