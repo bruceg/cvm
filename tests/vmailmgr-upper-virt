@@ -1,0 +1,14 @@
+<requires qmail>
+testc Virt test.tld pass
+<result>
+user name:        virt
+user ID:          500
+group ID:         500
+real name:        (null)
+directory:        @SOURCE@/virt
+shell:            (null)
+group name:       (null)
+system user name: user
+system directory: @SOURCE@
+domain:           test.tld
+mailbox path:     @SOURCE@/virt

@@ -1,0 +1,6 @@
+<requires qmail>
+VMLOOKUP_SECRET=lpass
+export VMLOOKUP_SECRET
+testl virt test.tld 'xpass'
+<result>
+Authentication failed, error #3

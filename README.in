@@ -10,6 +10,7 @@ This package contains:
 - A checkpassword interface CVM client.
 - A UNIX/POSIX system module (uses getpwnam).
 - A flat-file module.
+- A vmailmgr module.
 - A library for client writers.
 - A set of libraries for module writers.
 
@@ -21,6 +22,13 @@ A mailing list archive is available at:
 
 Development versions of @PACKAGE@ are available via Subversion at:
 	svn://bruce-guenter.dyndns.org/@PACKAGE@/trunk
+
+Requirements:
+
+- bglibs library package version 1.009 or later.
+- The vmailmgr modules should work with all versions of vmailmgr that
+  use CDB password tables, introduced in vmailmgr version 0.89 (only
+  tested with version 0.96.9)
 
 Installation:
 
@@ -40,3 +48,14 @@ This program is Copyright(C) 2001-2004 Bruce Guenter, and may be copied
 according to the GNU GENERAL PUBLIC LICENSE (GPL) Version 2 or a later
 version.  A copy of this license is included with this package.  This
 package comes with no warranty of any kind.
+
+The cvm-vmailmgr project was initiated at FutureQuest, Inc.  We are
+releasing it as an open-source project because we felt it would be
+useful to others, as well as to repay our debt of gratitude to the
+larger open-source community for the excellent packages we have enjoyed.
+
+For more details, you may contact FutureQuest, Inc. at:
+FutureQuest, Inc.
+PO BOX 623127
+Oviedo FL 32762-3127 USA
+http://www.FutureQuest.net/

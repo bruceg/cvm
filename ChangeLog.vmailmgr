@@ -1,0 +1,372 @@
+------------------------------------------------------------------------
+rev 47:  bruce | 2003-05-23 15:12:17 -0600 (Fri, 23 May 2003) | 2 lines
+Changed paths:
+   M /trunk/tests/build-qmail
+
+Adjusted printf invocation in test for RH6 compatibility.
+
+------------------------------------------------------------------------
+rev 46:  bruce | 2003-05-23 14:58:48 -0600 (Fri, 23 May 2003) | 2 lines
+Changed paths:
+   M /trunk/NEWS
+   M /trunk/spec
+   A /trunk/tests
+   A /trunk/tests/build-qmail
+   A /trunk/tests/del-qmail
+   A /trunk/tests/lookup-badpass
+   A /trunk/tests/lookup-normal
+   A /trunk/tests/lookup-pass
+   A /trunk/tests/lookup-upper-domain
+   A /trunk/tests/lookup-upper-virt
+   A /trunk/tests/test-normal
+   A /trunk/tests/test-upper-domain
+   A /trunk/tests/test-upper-pass
+   A /trunk/tests/test-upper-virt
+   A /trunk/tests.inc
+
+Added several self-tests.
+
+------------------------------------------------------------------------
+rev 45:  bruce | 2003-05-23 10:29:57 -0600 (Fri, 23 May 2003) | 2 lines
+Changed paths:
+   M /trunk/NEWS
+   M /trunk/lookup.c
+
+Do proper case manipulation in lookups and tests.
+
+------------------------------------------------------------------------
+rev 44:  bruce | 2003-05-23 09:44:52 -0600 (Fri, 23 May 2003) | 2 lines
+Changed paths:
+   M /trunk/NEWS
+   M /trunk/cvm-vmailmgr.h
+   M /trunk/lookup.c
+   M /trunk/main.c
+
+Elimiated a duplicate chdir in the fast path of lookups.
+
+------------------------------------------------------------------------
+rev 43:  bruce | 2003-05-23 09:44:20 -0600 (Fri, 23 May 2003) | 2 lines
+Changed paths:
+   M /trunk/NEWS
+   M /trunk/VERSION
+
+Bumped version up to 0.6
+
+------------------------------------------------------------------------
+rev 41:  bruce | 2003-05-21 17:42:53 -0600 (Wed, 21 May 2003) | 2 lines
+Changed paths:
+   M /trunk/README.in
+
+Added some helpful usage notes.
+
+------------------------------------------------------------------------
+rev 40:  bruce | 2003-05-21 16:41:00 -0600 (Wed, 21 May 2003) | 2 lines
+Changed paths:
+   M /trunk/VERSION
+
+Bumped version number to 0.5
+
+------------------------------------------------------------------------
+rev 39:  bruce | 2003-05-21 16:40:29 -0600 (Wed, 21 May 2003) | 2 lines
+Changed paths:
+   M /trunk/spec
+
+Added BuildRequires for base cvm libraries.
+
+------------------------------------------------------------------------
+rev 38:  bruce | 2003-05-21 16:38:22 -0600 (Wed, 21 May 2003) | 3 lines
+Changed paths:
+   M /trunk/cvm-vmailmgr=x
+
+Broke common code away from cvm-vmailmgr, and added cvm-vmlookup
+lookup-only module.
+
+------------------------------------------------------------------------
+rev 37:  bruce | 2003-05-21 16:37:57 -0600 (Wed, 21 May 2003) | 2 lines
+Changed paths:
+   A /trunk/cvm-vmailmgr-local=x
+   A /trunk/cvm-vmailmgr-udp=x
+
+Restored the old-style modules, for compatibility with old installations.
+
+------------------------------------------------------------------------
+rev 36:  bruce | 2003-05-21 16:37:24 -0600 (Wed, 21 May 2003) | 2 lines
+Changed paths:
+   M /trunk/insthier.c
+
+Add cvm-vmlookup to the list of installed programs.
+
+------------------------------------------------------------------------
+rev 35:  bruce | 2003-05-21 16:36:37 -0600 (Wed, 21 May 2003) | 3 lines
+Changed paths:
+   M /trunk/NEWS
+   M /trunk/cvm-vmailmgr.c
+   A /trunk/cvm-vmailmgr.h
+   A /trunk/cvm-vmlookup.c
+   A /trunk/cvm-vmlookup=x
+   A /trunk/lookup.c
+   A /trunk/main.c
+
+Broke common code away from cvm-vmailmgr, and added cvm-vmlookup
+lookup-only module.
+
+------------------------------------------------------------------------
+rev 34:  bruce | 2003-05-20 17:09:53 -0600 (Tue, 20 May 2003) | 2 lines
+Changed paths:
+   D /trunk/cvm-vmailmgr-local=x
+   D /trunk/cvm-vmailmgr-udp=x
+   M /trunk/cvm-vmailmgr.c
+   M /trunk/cvm-vmailmgr=x
+
+Converted to new CVM libraries, merging all three CVM modes into one module.
+
+------------------------------------------------------------------------
+rev 32:  bruce | 2003-04-15 13:53:57 -0600 (Tue, 15 Apr 2003) | 2 lines
+Changed paths:
+   M /trunk/spec
+
+Remove generated files before rebuilding installer.
+
+------------------------------------------------------------------------
+rev 31:  bruce | 2003-04-15 13:47:54 -0600 (Tue, 15 Apr 2003) | 2 lines
+Changed paths:
+   M /trunk/spec
+
+Added BuildRequires for bglibs.
+
+------------------------------------------------------------------------
+rev 30:  bruce | 2003-04-15 13:46:08 -0600 (Tue, 15 Apr 2003) | 2 lines
+Changed paths:
+   M /trunk/cvm-vmailmgr-local=x
+   M /trunk/cvm-vmailmgr-udp=x
+   M /trunk/cvm-vmailmgr=x
+
+Changed to new-style bglibs library links.
+
+------------------------------------------------------------------------
+rev 29:  bruce | 2003-04-15 13:45:49 -0600 (Tue, 15 Apr 2003) | 2 lines
+Changed paths:
+   D /trunk/README
+   A /trunk/README.in (from /trunk/README:26)
+
+Converted to templated README file.
+
+------------------------------------------------------------------------
+rev 28:  bruce | 2003-04-15 13:44:13 -0600 (Tue, 15 Apr 2003) | 2 lines
+Changed paths:
+   D /trunk/README.CVS
+
+Removed irrelevant file.
+
+------------------------------------------------------------------------
+rev 27:  bruce | 2003-04-15 13:43:55 -0600 (Tue, 15 Apr 2003) | 2 lines
+Changed paths:
+   M /trunk/NEWS
+   M /trunk/cvm-vmailmgr.c
+
+Added support for qmail in paths other than /var/qmail by setting $QMAIL_ROOT.
+
+------------------------------------------------------------------------
+rev 24:  bruce | 2002-12-15 15:09:24 -0600 (Sun, 15 Dec 2002) | 2 lines
+Changed paths:
+   M /trunk/NEWS
+   M /trunk/README
+   M /trunk/cvm-vmailmgr-local=x
+   M /trunk/cvm-vmailmgr-udp=x
+   M /trunk/cvm-vmailmgr.c
+   M /trunk/cvm-vmailmgr=x
+   M /trunk/insthier.c
+
+Converted to external bglibs.
+
+------------------------------------------------------------------------
+rev 23:  bruce | 2002-11-20 18:37:33 -0600 (Wed, 20 Nov 2002) | 2 lines
+Changed paths:
+   M /trunk/NEWS
+
+Added bug fix notes.
+
+------------------------------------------------------------------------
+rev 22:  bruce | 2002-11-20 18:36:19 -0600 (Wed, 20 Nov 2002) | 2 lines
+Changed paths:
+   M /trunk/README
+   M /trunk/VERSION
+
+Bumped version to 1.4
+
+------------------------------------------------------------------------
+rev 21:  bruce | 2002-10-28 21:44:35 -0600 (Mon, 28 Oct 2002) | 2 lines
+Changed paths:
+   M /trunk/cvm-vmailmgr.c
+
+Pass null_crypt the right variable.
+
+------------------------------------------------------------------------
+rev 20:  bruce | 2002-10-28 21:43:01 -0600 (Mon, 28 Oct 2002) | 2 lines
+Changed paths:
+   M /trunk/cvm-vmailmgr.c
+
+Deny access if the mailbox is disabled.
+
+------------------------------------------------------------------------
+rev 19:  bruce | 2002-10-28 21:42:03 -0600 (Mon, 28 Oct 2002) | 2 lines
+Changed paths:
+   M /trunk/README
+   M /trunk/cvm-vmailmgr.c
+
+Adjusted copyright to include 2002.
+
+------------------------------------------------------------------------
+rev 18:  bruce | 2002-02-08 21:33:45 -0600 (Fri, 08 Feb 2002) | 3 lines
+Changed paths:
+   M /trunk/NEWS
+   M /trunk/cvm-vmailmgr.c
+
+Near total rewrite, including using qmail-users CDB file and caching
+virtualdomains.
+
+------------------------------------------------------------------------
+rev 17:  bruce | 2002-02-08 21:32:21 -0600 (Fri, 08 Feb 2002) | 2 lines
+Changed paths:
+   M /trunk/TODO
+
+*** empty log message ***
+
+------------------------------------------------------------------------
+rev 16:  bruce | 2002-02-08 21:32:11 -0600 (Fri, 08 Feb 2002) | 3 lines
+Changed paths:
+   M /trunk/README
+
+Bumped up version.
+Updated FQ notice.
+
+------------------------------------------------------------------------
+rev 15:  bruce | 2002-02-08 21:31:31 -0600 (Fri, 08 Feb 2002) | 2 lines
+Changed paths:
+   M /trunk/cvm-vmailmgr-local=x
+   M /trunk/cvm-vmailmgr-udp=x
+   M /trunk/cvm-vmailmgr=x
+
+Include needed str library.
+
+------------------------------------------------------------------------
+rev 14:  bruce | 2001-12-30 06:13:39 -0600 (Sun, 30 Dec 2001) | 2 lines
+Changed paths:
+   M /trunk/VERSION
+
+Bumped the version number.
+
+------------------------------------------------------------------------
+rev 13:  bruce | 2001-12-30 06:13:18 -0600 (Sun, 30 Dec 2001) | 2 lines
+Changed paths:
+   M /trunk/cvm-vmailmgr.c
+
+Removed a hard-coded virtualdomains path.
+
+------------------------------------------------------------------------
+rev 12:  bruce | 2001-12-30 06:10:39 -0600 (Sun, 30 Dec 2001) | 3 lines
+Changed paths:
+   M /trunk/cvm-vmailmgr.c
+
+Removed local user authentication (in preparation for using
+qmail-users CDB lookups).
+
+------------------------------------------------------------------------
+rev 11:  bruce | 2001-12-30 05:55:14 -0600 (Sun, 30 Dec 2001) | 2 lines
+Changed paths:
+   M /trunk/cvm-vmailmgr.c
+
+Preload virtualdomains at startup time.
+
+------------------------------------------------------------------------
+rev 10:  bruce | 2001-12-30 05:45:48 -0600 (Sun, 30 Dec 2001) | 4 lines
+Changed paths:
+   M /trunk/cvm-vmailmgr.c
+
+Added debugging information.
+Cache virtualdomains, and check for changes.
+Handle non-encrypted ($0$) passwords.
+
+------------------------------------------------------------------------
+rev 9:  bruce | 2001-09-13 00:08:14 -0600 (Thu, 13 Sep 2001) | 2 lines
+Changed paths:
+   M /trunk/NEWS
+   A /trunk/README.CVS
+
+*** empty log message ***
+
+------------------------------------------------------------------------
+rev 8:  bruce | 2001-09-13 00:07:09 -0600 (Thu, 13 Sep 2001) | 2 lines
+Changed paths:
+   M /trunk/cvm-vmailmgr-local=x
+   M /trunk/cvm-vmailmgr-udp=x
+   M /trunk/cvm-vmailmgr=x
+
+Add the required path library.
+
+------------------------------------------------------------------------
+rev 7:  bruce | 2001-09-13 00:06:56 -0600 (Thu, 13 Sep 2001) | 3 lines
+Changed paths:
+   M /trunk/cvm-vmailmgr.c
+
+Do a proper path merge to produce the mailbox directory, and use it as
+the home directory fact as well.
+
+------------------------------------------------------------------------
+rev 6:  bruce | 2001-09-12 23:41:06 -0600 (Wed, 12 Sep 2001) | 2 lines
+Changed paths:
+   M /trunk/README
+   M /trunk/VERSION
+
+*** empty log message ***
+
+------------------------------------------------------------------------
+rev 5:  bruce | 2001-09-12 23:40:59 -0600 (Wed, 12 Sep 2001) | 2 lines
+Changed paths:
+   M /trunk/NEWS
+   M /trunk/cvm-vmailmgr.c
+
+Output fact suitable for use with pop3front-auth.
+
+------------------------------------------------------------------------
+rev 4:  bruce | 2001-08-24 20:03:49 -0600 (Fri, 24 Aug 2001) | 2 lines
+Changed paths:
+   M /trunk/README
+
+*** empty log message ***
+
+------------------------------------------------------------------------
+rev 3:  bruce | 2001-08-23 23:07:24 -0600 (Thu, 23 Aug 2001) | 2 lines
+Changed paths:
+   M /trunk/README
+   A /trunk/makedist.py
+   A /trunk/spec
+
+*** empty log message ***
+
+------------------------------------------------------------------------
+rev 2:  bruce | 2001-08-23 22:58:17 -0600 (Thu, 23 Aug 2001) | 2 lines
+Changed paths:
+   M /trunk/cvm-vmailmgr.c
+
+Modified for new CVM domain handling.
+
+------------------------------------------------------------------------
+rev 1:  bruce | 2001-08-10 22:29:01 -0600 (Fri, 10 Aug 2001) | 2 lines
+Changed paths:
+   A /trunk
+   A /trunk/NEWS
+   A /trunk/README
+   A /trunk/TODO
+   A /trunk/VERSION
+   A /trunk/cvm-vmailmgr-local.c
+   A /trunk/cvm-vmailmgr-local=x
+   A /trunk/cvm-vmailmgr-udp.c
+   A /trunk/cvm-vmailmgr-udp=x
+   A /trunk/cvm-vmailmgr.c
+   A /trunk/cvm-vmailmgr=x
+   A /trunk/insthier.c
+
+First checkin
+
+------------------------------------------------------------------------

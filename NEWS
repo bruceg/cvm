@@ -1,6 +1,7 @@
 -------------------------------------------------------------------------------
 Changes in version 0.20
 
+- Merged cvm-vmailmgr (including cvm-vmlookup) into this package.
 
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/

@@ -9,6 +9,7 @@ BuildRoot: %{_tmppath}/cvm-buildroot
 URL: http://untroubled.org/cvm/
 Packager: Bruce Guenter <bruceg@em.ca>
 BuildRequires: bglibs >= 1.009
+Obsoletes: cvm-vmailmgr
 
 %description
 This package implements the CVM interface as a client (cvm-testclient),

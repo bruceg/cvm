@@ -7,3 +7,6 @@ make_pwfile()
     echo 'cryptuser:tpzv1IkcX9.fE:234:567:Crypt:/home/crypt:/bin/true'
   ) >$CVM_PWFILE_PATH
 }
+export QMAIL_ROOT=$src
+testc() { cvm-testclient ./cvm-vmailmgr "$@"; }
+testl() { cvm-testclient ./cvm-vmlookup "$@"; }
