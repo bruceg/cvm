@@ -16,6 +16,9 @@ Changes in version 0.8
   group id list reported by cvm-unix actually follow the fact
   specification.
 
+- Bug fix in the client library code that caused the shell fact to be
+  required.
+
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/
 -------------------------------------------------------------------------------
