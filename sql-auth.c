@@ -26,6 +26,7 @@ const unsigned cvm_credential_count = 1;
 const char* cvm_credentials[1];
 
 static const char* query;
+static const char* postq;
 
 static const char sql_query_default[] =
 "SELECT password,username,userid,groupid,directory,realname,shell,groupname,"
@@ -41,6 +42,9 @@ int cvm_auth_init(void)
   query = ((tmp = getenv(sql_query_var)) != 0) ? tmp : sql_query_default;
   if (!sql_query_validate(query)) return CVME_CONFIG;
 
+  if ((postq = getenv(sql_postq_var)) != 0)
+    if (!sql_query_validate(postq)) return CVME_CONFIG;
+  
   if ((result = sql_auth_init()) != 0) return result;
   
   if (!pwcmp_start(getenv(sql_pwcmp_var))) return CVME_GENERAL;
@@ -52,14 +56,14 @@ int cvm_authenticate(void)
 {
   static str q;
   const char* cpw;
-  int rows;
+  int i;
   
   /* Query the database based on the custom query */  
   if (!sql_query_build(query, &q)) return CVME_GENERAL | CVME_FATAL;
-  if ((rows = sql_auth_query(&q)) < 0) return -rows;
+  if ((i = sql_auth_query(&q)) < 0) return -i;
 
   /* If the result didn't produce a single row, fail the username */
-  if (rows != 1) return CVME_PERMFAIL;
+  if (i != 1) return CVME_PERMFAIL;
 
   /* If there is no password field, fail the password */
   cpw = sql_get_field(0);
@@ -70,6 +74,11 @@ int cvm_authenticate(void)
   case 0: break;
   case -1: return CVME_IO | CVME_FATAL;
   default: return CVME_PERMFAIL;
+  }
+
+  if (postq) {
+    if (!sql_query_build(postq, &q)) return CVME_GENERAL | CVME_FATAL;
+    if ((i = sql_post_query(&q)) != 0) return i;
   }
   
   /* Credentials accepted */

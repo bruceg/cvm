@@ -23,6 +23,7 @@
 
 const char sql_query_var[] = "CVM_PGSQL_QUERY";
 const char sql_pwcmp_var[] = "CVM_PGSQL_PWCMP";
+const char sql_postq_var[] = "CVM_PGSQL_POSTQ";
 
 static PGconn* pg;
 
@@ -38,6 +39,17 @@ static PGresult* result;
 const char* sql_get_field(int field)
 {
   return PQgetisnull(result, 0, field) ? 0 : PQgetvalue(result, 0, field);
+}
+
+int sql_post_query(const str* query)
+{
+  if ((result = PQexec(pg, query->s)) == 0) return CVME_IO | CVME_FATAL;
+  switch (PQresultStatus(result)) {
+  case PGRES_TUPLES_OK:
+  case PGRES_COMMAND_OK:
+    return 0;
+  default: return CVME_IO;
+  }
 }
 
 int sql_auth_query(const str* query)

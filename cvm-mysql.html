@@ -35,15 +35,19 @@ set, the invoking user is assumed.
 <li><tt>CVM_MYSQL_PORT</tt>: The port number for the TCP/IP connection
 (only used if the server is not local).
 
+<li><tt>CVM_MYSQL_POSTQ</tt> (optional): The <a
+href="sql.html">SQL</a> query to execute after the credentials have
+been validated.
+
+<li><tt>CVM_MYSQL_PWCMP</tt> (optional): The <a
+href="../pwcmp/pwcmp.html">password comparison module</a> to use.
+
 <li><tt>CVM_MYSQL_SOCKET</tt>: The path to the socket that should be
 used for connections to a local server.
 
 <li><tt>CVM_MYSQL_QUERY</tt> (optional): The <a
 href="sql.html">SQL</a> query to issue to retrieve the row containing
 the account information from the database.
-
-<li><tt>CVM_MYSQL_PWCMP</tt> (optional): The <a
-href="../pwcmp/pwcmp.html">password comparison module</a> to use.
 
 </ul>
 

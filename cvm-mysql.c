@@ -25,6 +25,7 @@ static MYSQL mysql;
 
 const char sql_query_var[] = "CVM_MYSQL_QUERY";
 const char sql_pwcmp_var[] = "CVM_MYSQL_PWCMP";
+const char sql_postq_var[] = "CVM_MYSQL_POSTQ";
 
 int sql_auth_init(void)
 {
@@ -54,10 +55,17 @@ int sql_auth_init(void)
 static MYSQL_RES* result;
 static MYSQL_ROW row;
 
-int sql_auth_query(const str* query)
+int sql_post_query(const str* query)
 {
   if (mysql_real_query(&mysql, query->s, query->len))
-    return -(CVME_IO | CVME_FATAL);
+    return CVME_IO | CVME_FATAL;
+  return 0;
+}
+
+int sql_auth_query(const str* query)
+{
+  int i;
+  if ((i = sql_post_query(query)) != 0) return -i;
   result = mysql_store_result(&mysql);
   row = mysql_fetch_row(result);
   return mysql_num_rows(result);
