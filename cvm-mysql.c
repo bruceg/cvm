@@ -46,6 +46,12 @@ int sql_auth_init(void)
   unix_socket = getenv("CVM_MYSQL_SOCKET");
   
   mysql_init(&mysql);
+  if ((tmp = getenv("CVM_MYSQL_DEFAULT_FILE")) != 0)
+    if (mysql_options(&mysql, MYSQL_READ_DEFAULT_FILE, tmp))
+      return CVME_CONFIG;
+  if ((tmp = getenv("CVM_MYSQL_DEFAULT_GROUP")) != 0)
+    if (mysql_options(&mysql, MYSQL_READ_DEFAULT_GROUP, tmp))
+      return CVME_CONFIG;
   if (!mysql_real_connect(&mysql, host, user, pass, db,
 			  port, unix_socket, 0)) return CVME_IO;
 

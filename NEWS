@@ -13,6 +13,9 @@ Changes in version 0.10
 
 - Modified the MySQL and PgSQL modules to deal with domain names.
 
+- The MySQL module will now read connection options out of a defaults
+  file if specified.
+
 NOTE:  Modules built against this version of CVM will be incompatible
 with clients built against older versions, and vice versa!  Use care
 when upgrading.

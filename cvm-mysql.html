@@ -22,6 +22,14 @@ the stored pass phrase with the given one using <tt>crypt</tt>.</p>
 
 <ul>
 
+<li><tt>CVM_MYSQL_DEFAULT_FILE</tt>: The full path of the defaults
+file to read if the following variable is set.  If not set, the file
+<tt>$HOME/.my.cnf</tt> will be read (the MySQL default).
+
+<li><tt>CVM_MYSQL_DEFAULT_GROUP</tt>: If set, the module will read
+connection default options from the named group in the defaults file
+as above.
+
 <li><tt>CVM_MYSQL_HOST</tt>: The hostname or IP of the MySQL server.
 If not set, a connection to the local host is assumed.
 
