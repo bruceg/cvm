@@ -1,7 +1,0 @@
-getpwnam.o
-udp.a
--lbg-net
-crypt.lib
-shadow.lib
-s.lib
-socket.lib

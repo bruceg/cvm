@@ -9,12 +9,8 @@ void insthier(void) {
   c(dir, "cvm-benchclient",     -1, -1, 0755);
   c(dir, "cvm-checkpassword",   -1, -1, 0755);
   c(dir, "cvm-pwfile",          -1, -1, 0755);
-  c(dir, "cvm-pwfile-local",    -1, -1, 0755);
-  c(dir, "cvm-pwfile-udp",      -1, -1, 0755);
   c(dir, "cvm-testclient",      -1, -1, 0755);
   c(dir, "cvm-unix",            -1, -1, 0755);
-  c(dir, "cvm-unix-local",      -1, -1, 0755);
-  c(dir, "cvm-unix-udp",        -1, -1, 0755);
 
   dir = d(home, "include",      -1, -1, 0755);
   dir = d(dir,  "cvm",          -1, -1, 0755);
