@@ -22,9 +22,9 @@ int qmail_users_lookup(struct qmail_user* user, const char* name, char dash);
 int qmail_users_lookup_split(struct qmail_user* u, const char* name,
 			     str* local, str* ext);
 
-int qmail_vdomains_init(void);
-int qmail_vdomains_reinit(void);
-int qmail_vdomains_lookup(const char* d, str* domain, str* prefix);
+int qmail_domains_init(void);
+int qmail_domains_reinit(void);
+int qmail_domains_lookup(const char* d, str* domain, str* prefix);
 
 int qmail_dotfile_exists(const struct qmail_user* user, const char* ext);
 

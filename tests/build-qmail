@@ -11,6 +11,7 @@ mkdir users
 ) | cdbmake users/cdb users/tmp
 
 mkdir control
+touch control/locals
 echo test.tld:user >control/virtualdomains
 
 (

@@ -1,4 +1,4 @@
-/* qmail-vdomains.c - qmail virtualdomains lookup routines
+/* qmail-domains.c - qmail locals/virtualdomains lookup routines
  * Copyright (C) 2004  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -28,55 +28,86 @@ static dict vdomains;
 static struct stat vdomains_stat;
 static str vdomains_path;
 
+static dict locals;
+static struct stat locals_stat;
+static str locals_path;
+
 static int map_lower(str* s)
 {
   str_lower(s);
   return 1;
 }
 
-static int load_vdomains(const struct stat* s)
+static int stat_changed(const char* path, const struct stat* orig,
+			struct stat* curr)
 {
-  if (s) {
-    // FIXME: obuf_putsflush(&errbuf, "Reloading virtualdomains\n");
-    vdomains_stat = *s;
+  if (stat(path, curr) != 0)
+    return -1;
+  if (orig->st_mtime != curr->st_mtime
+      || orig->st_ino != curr->st_ino
+      || orig->st_size != curr->st_size)
+    return 1;
+  return 0;
+}
+
+static int load_vdomains(void)
+{
+  struct stat s;
+  switch (stat_changed(vdomains_path.s, &vdomains_stat, &s)) {
+  case -1: return 0;
+  case 0: return 1;
   }
-  else {
-    // FIXME: obuf_putsflush(&errbuf, "Loading virtualdomains\n");
-    if (stat(vdomains_path.s, &vdomains_stat) == -1) return 0;
-  }
+  // FIXME: obuf_putsflush(&errbuf, "Reloading virtualdomains\n");
+  vdomains_stat = s;
   dict_free(&vdomains, dict_str_free);
   return dict_load_map(&vdomains, vdomains_path.s, 0, ':', map_lower, 0);
 }
 
-int qmail_vdomains_reinit(void)
+static int load_locals(void)
 {
   struct stat s;
-  if (stat(vdomains_path.s, &s) != 0)
-    return -1;
-  if (vdomains_stat.st_mtime != s.st_mtime ||
-      vdomains_stat.st_ino != s.st_ino ||
-      vdomains_stat.st_size != s.st_size)
-    if (!load_vdomains(&s))
-      return -1;
-  return 0;
+  switch (stat_changed(locals_path.s, &locals_stat, &s)) {
+  case -1: return 0;
+  case 0: return 1;
+  }
+  // FIXME: obuf_putsflush(&errbuf, "Reloading locals\n");
+  locals_stat = s;
+  dict_free(&locals, 0);
+  return dict_load_list(&locals, locals_path.s, 0, map_lower);
 }
 
-int qmail_vdomains_init(void)
+int qmail_domains_reinit(void)
 {
-  if (!str_copy2s(&vdomains_path, qmail_root, "/control/virtualdomains"))
+  if (!load_locals()
+      || !load_vdomains())
     return -1;
-  if (!load_vdomains(0))
-    return -1;
+  
   return 0;
 }
 
-int qmail_vdomains_lookup(const char* d, str* domain, str* prefix)
+int qmail_domains_init(void)
+{
+  if (!str_copy2s(&vdomains_path, qmail_root, "/control/virtualdomains")
+      || !str_copy2s(&locals_path, qmail_root, "/control/locals"))
+    return -1;
+
+  if (!load_locals()
+      || !load_vdomains())
+    return -1;
+
+  return 0;
+}
+
+int qmail_domains_lookup(const char* d, str* domain, str* prefix)
 {
   dict_entry* e;
 
   if (!str_copys(domain, d))
     return -1;
   str_lower(domain);
+
+  if ((e = dict_get(&locals, domain)) != 0)
+    return str_copys(prefix, "") ? 1 : -1;
 
   if ((e = dict_get(&vdomains, domain)) == 0) {
     unsigned i;

@@ -58,7 +58,7 @@ int lookup_init(void)
 
   if (qmail_users_init() != 0)
     return CVME_IO;
-  if (qmail_vdomains_init() != 0)
+  if (qmail_domains_init() != 0)
     return CVME_IO;
 
   return 0;

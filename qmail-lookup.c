@@ -24,7 +24,7 @@ int qmail_lookup_init(void)
 {
   if (qmail_init() != 0
       || qmail_users_init() != 0
-      || qmail_vdomains_init() != 0)
+      || qmail_domains_init() != 0)
     return -1;
 
   return 0;
@@ -39,20 +39,21 @@ int qmail_lookup_cvm(struct qmail_user* user,
   static str fullname;
 
   if (qmail_users_reinit() != 0
-      || qmail_vdomains_reinit() != 0)
+      || qmail_domains_reinit() != 0)
     return -1;
 
-  switch (qmail_vdomains_lookup(cvm_account_domain, domain, &prefix)) {
+  switch (qmail_domains_lookup(cvm_account_domain, domain, &prefix)) {
   case -1:
     return -1;
   case 0:
-    if (!str_copys(&fullname, cvm_account_name))
-      return -1;
-    break;
+    return 0;
   default:
-    if (!str_copy(&fullname, &prefix) ||
-	!str_catc(&fullname, '-') ||
-	!str_cats(&fullname, cvm_account_name))
+    fullname.len = 0;
+    if (prefix.len > 0)
+      if (!str_copy(&fullname, &prefix)
+	  || !str_catc(&fullname, '-'))
+	return -1;
+    if (!str_cats(&fullname, cvm_account_name))
       return -1;
   }
 
