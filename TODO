@@ -1,3 +1,9 @@
+- Make the SQL stuff handle domain names.
+
+- Make cvm-mysql call
+  mysql_options(MYSQL_READ_DEFAULT_FILE, $CVM_MYSQL_DEFAULT_FILE)
+  mysql_options(MYSQL_READ_DEFAULT_GROUP, $CVM_MYSQL_DEFAULT_GROUP)
+
 - Add more fine-grained support to module_local.o for controlling the
   permissions of the socket file (owner, permissions).
 

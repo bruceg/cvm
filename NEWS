@@ -1,9 +1,22 @@
 -------------------------------------------------------------------------------
-Changes in version 0.9
+Changes in version 0.10
 
 - Added support to the MySQL and PgSQL modules for executing a query
   after credential validation, useful for updating a "last logged in at"
   field or similar.
+
+- Modified the client->server protocol to include a protocol identifier
+  byte (to allow for future revisions) and a domain name.
+
+- Modified the client library to optionally parse a domain name out of
+  the account name.
+
+NOTE:  Modules built against this version of CVM will be incompatible
+with clients built against older versions, and vice versa!  Use care
+when upgrading.
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
 -------------------------------------------------------------------------------
 Changes in version 0.8
 
