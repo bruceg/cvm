@@ -23,8 +23,9 @@ verification routine.
 
 </dl>
 Before <tt>cvm_authenticate()</tt> is called, the input data stream is
-read and the account name is parsed into <tt>cvm_account_name</tt> and
-the credentials are parsed into <tt>cvm_credentials</tt>..</p>
+read and the account name is parsed into <tt>cvm_account_name</tt>,
+the domain name into <tt>cvm_account_domain</tt>, and the credentials
+are parsed into <tt>cvm_credentials</tt>.</p>
 
 <p>If authentication fails, the module must return
 <tt>CVME_PERMFAIL</tt> (value 100).  If there was a temporary error,
@@ -34,11 +35,11 @@ Otherwise, return zero after setting <tt>cvm_fact_username</tt>,
 <tt>cvm_fact_directory</tt>, and <tt>cvm_fact_shell</tt>, which will
 be automatically sent to the client when <tt>authenticate()</tt>
 completes.  <tt>cvm_fact_realname</tt>, <tt>cvm_fact_groupname</tt>,
-<tt>cvm_fact_sys_username</tt>, and <tt>cvm_fact_sys_directory</tt>
-will also be sent if they are set.  If any other facts are to be
-returned to the client, send them with <tt>cvm_fact_str(int number,
-const char* data)</tt> or <tt>cvm_fact_uint(int number, unsigned
-data)</tt>.</p>
+<tt>cvm_fact_sys_username</tt>, <tt>cvm_fact_sys_directory</tt>, and
+<tt>cvm_fact_domain</tt> will also be sent if they are set.  If any
+other facts are to be returned to the client, send them with
+<tt>cvm_fact_str(int number, const char* data)</tt> or
+<tt>cvm_fact_uint(int number, unsigned data)</tt>.</p>
 
 <p><b>NOTE:</b> <tt>cvm_authenticate()</tt> must never exit except on
 fatal errors.  If it allocates any memory, it must either be freed or
