@@ -1,0 +1,9 @@
+-------------------------------------------------------------------------------
+Changes in version 0.2
+
+- Renamed cvm_unix to cvm-unix.
+
+- Fixed a bug in parsing in fact_uint, which incorrectly used strtol.
+
+- Added more documentation.
+-------------------------------------------------------------------------------
