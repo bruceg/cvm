@@ -1,4 +1,10 @@
 -------------------------------------------------------------------------------
+Changes in version 0.32
+
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
+-------------------------------------------------------------------------------
 Changes in version 0.31
 
 - Changed error code in the qmail code from EBADMSG to EDOM to allow
