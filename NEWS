@@ -1,4 +1,12 @@
 -------------------------------------------------------------------------------
+Changes in version 0.11
+
+- Removed the MySQL and PgSQL modules from this package, and bundled
+  them into a seperate cvm-sql package.
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
+-------------------------------------------------------------------------------
 Changes in version 0.10
 
 - Added support to the MySQL and PgSQL modules for executing a query
