@@ -1,4 +1,12 @@
 -------------------------------------------------------------------------------
+Changes in version 0.7
+
+- Fixed the APIs to use "unsigned long" for the integer type instead of
+  just "unsigned".
+
+- Fixed use of iopoll to properly support systems with a missing or broken
+  poll syscall.
+-------------------------------------------------------------------------------
 Changes in version 0.6
 
 - Fixed some client library bugs.
