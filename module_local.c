@@ -18,6 +18,8 @@
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <unistd.h>
 #include "socket/socket.h"
 #include "module.h"
@@ -67,6 +69,7 @@ static void usage(void)
 int main(int argc, char** argv)
 {
   int code;
+  mode_t old_umask;
   
   if (argc != 2) usage();
   path = argv[1];
@@ -76,7 +79,9 @@ int main(int argc, char** argv)
   signal(SIGTERM, exitfn);
   
   if ((sock = socket_unixstr()) == -1) perror("socket");
+  old_umask = umask(0);
   if (!socket_bindu(sock, path)) perror("bind");
+  umask(old_umask);
   if (!socket_listen(sock, 1)) perror("listen");
   if ((code = cvm_auth_init()) != 0) return code;
   log_startup();
