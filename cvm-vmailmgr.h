@@ -13,7 +13,6 @@ extern vpwentry vpw;
 
 extern const char* pwfile;
 extern const char* qmail_root;
-extern const int try_default;
 extern int lock_disabled;
 
 #define DEBUG(A,B,C) debug(__FUNCTION__, __LINE__, A, B, C)

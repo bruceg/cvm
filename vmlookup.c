@@ -89,7 +89,9 @@ int lookup_virtuser(void)
     break;
   case 0:
     DEBUG("cdb_get failed", 0, 0);
-    if (try_default) {
+    /* Only handle the default user when in lookup mode, as
+       authenticating the default user shouldn't happen. */
+    if (cvm_lookup_secret != 0) {
       switch (cdb_get(&cdb, &default_user, &vpwdata)) {
       case -1:
 	DEBUG("cdb_get returned error", 0, 0);

@@ -1,5 +1,5 @@
 /* cvm-vmailmgr.c - Direct file access vmailmgr CVM
- * Copyright (C) 2001-2002  Bruce Guenter <bruceg@em.ca>
+ * Copyright (C) 2004  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,7 +27,6 @@
 const unsigned cvm_credential_count = 1;
 const char* cvm_credentials[1];
 const char program[] = "cvm-vmailmgr";
-const int try_default = 0;
 
 extern char* crypt(const char* key, const char* salt);
 extern char* md5_crypt(const char* key, const char* salt);
