@@ -48,12 +48,12 @@ extern void usage(void);
 int command_main(void)
 {
   int code;
+  int wcode;
   if ((code = cvm_auth_init()) != 0) return code;
   if ((code = read_input()) != 0) { cvm_auth_stop(); return code; }
-  if ((code = handle_request() & CVME_MASK) != 0)
-    { cvm_auth_stop(); return code; }
+  code = handle_request();
   cvm_fact_end(code);
-  code = write_output();
+  if ((wcode = write_output()) != 0 && code == 0) code = wcode;
   cvm_auth_stop();
-  return code;
+  return code & CVME_MASK;
 }

@@ -6,6 +6,10 @@ Changes in version 0.16
 - Bug fix for SIGPIPE (on at least Solaris) if modules exit unexpectedly
   (from Lars Uffmann).
 
+- Modified the module command mode to always write the output, even if
+  authentication failed.  This allows command mode to be used with a
+  UCSPI server to provide other modes of servers.
+
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/
 -------------------------------------------------------------------------------
