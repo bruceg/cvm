@@ -1,8 +1,8 @@
 cvm
 Credential Validation Modules
 Bruce Guenter <bruceg@em.ca>
-Version @VERSION@
-@TODAY@
+Version 0.8
+2001-07-16
 
 This package contains:
 - The reference source for the CVM interface.
@@ -10,6 +10,7 @@ This package contains:
 - A checkpassword interface CVM client.
 - A UNIX/POSIX system module (uses getpwnam).
 - A flat-file module (uses fgetpwent).
+- MySQL and PgSQL modules.
 - A library for client writers.
 - A set of libraries for module writers.
 
