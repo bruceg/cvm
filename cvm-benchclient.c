@@ -27,7 +27,7 @@ int main(int argc, char** argv)
   char* ptr;
   
   if (argc < 5) {
-    printf("usage: testclient count cvmodule account credential [credential ...]\n");
+    printf("usage: cvm-benchclient count cvmodule account credential [credential ...]\n");
     return 1;
   }
   

@@ -23,7 +23,7 @@ int main(int argc, char** argv)
   int i;
 
   if (argc < 4) {
-    printf("usage: testclient cvmodule account credential [credential ...]\n");
+    printf("usage: cvm-testclient cvmodule account credential [credential ...]\n");
     return 1;
   }
   
