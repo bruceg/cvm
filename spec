@@ -15,20 +15,6 @@ Packager: Bruce Guenter <bruceg@em.ca>
 This package implements the CVM interface as a client (testcvmclient)
 and as a module (cvm_unix).
 
-%package mysql
-Group: Utilities/System
-Summary: MySQL Credential Validation Modules
-
-%description mysql
-Credential Validation Modules that authenticate against a MySQL server.
-
-%package pgsql
-Group: Utilities/System
-Summary: PostgreSQL Credential Validation Modules
-
-%description pgsql
-Credential Validation Modules that authenticate against a PostgreSQL server.
-
 %prep
 %setup
 
@@ -59,11 +45,3 @@ rm -rf %{buildroot}
 %{_bindir}/cvm-pwfile*
 %{_bindir}/cvm-testclient
 %{_bindir}/cvm-unix*
-
-%files mysql
-%defattr(-,root,root)
-%{_bindir}/cvm-mysql*
-
-%files pgsql
-%defattr(-,root,root)
-%{_bindir}/cvm-pgsql*
