@@ -16,6 +16,7 @@ extern const char program[];
 
 extern const char* cvm_account_name;
 extern const char* cvm_account_domain;
+extern const char* cvm_lookup_secret;
 
 extern char outbuffer[BUFSIZE];
 extern unsigned outbuflen;

@@ -25,7 +25,7 @@ const char* cvm_account_domain;
 char inbuffer[BUFSIZE+1];
 unsigned inbuflen;
 
-static const char* lookup_secret;
+const char* cvm_lookup_secret = 0;
 static const char* lookup_creds[1];
 static unsigned credential_count = 1;
 static const char** credentials = lookup_creds;
@@ -34,7 +34,7 @@ void init_request(void)
 {
   /* Determine if the module is to operate in lookup mode, and if not
      set the local credential values appropriately. */
-  if ((lookup_secret = getenv("CVM_LOOKUP_SECRET")) == 0) {
+  if ((cvm_lookup_secret = getenv("CVM_LOOKUP_SECRET")) == 0) {
     credentials = cvm_credentials;
     credential_count = cvm_credential_count;
   }
@@ -80,13 +80,13 @@ int handle_request(void)
 {
   int code;
   if ((code = parse_input()) != 0) return code;
-  if (lookup_secret != 0) {
+  if (cvm_lookup_secret != 0) {
     if (credentials[0] == 0 ||
-	strcmp(credentials[0], lookup_secret) != 0)
+	strcmp(credentials[0], cvm_lookup_secret) != 0)
       return CVME_NOCRED;
   }
   if ((code = cvm_lookup()) != 0) return code;
-  if (lookup_secret == 0)
+  if (cvm_lookup_secret == 0)
     if ((code = cvm_authenticate()) != 0) return code;
   cvm_fact_start();
   if ((code = cvm_results()) != 0) return code;
