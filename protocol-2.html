@@ -11,7 +11,8 @@ byte protocol identifier (always "CVM2"), a four byte packet type
 identifier, eight bytes of random data (to help prevent spoofing of UDP
 responses), followed by a series of tagged strings, and completed with a
 single NUL byte.  The total size of either the input and output must not
-exceed 512 bytes.</p>
+exceed 512 bytes.  The random data in the response is copied exactly
+from the request.</p>
 
 <p>A tagged string consists of a tag byte, a length byte, and that many
 bytes of data.  The tag byte identifies what <a
@@ -39,28 +40,22 @@ the string.</p>
 a list of <a href="facts.html">facts</a>.
 
 <dt><tt>FAIL</tt> <dd>Authentication rejected, permanent error.  The
-credentials were accepted by this module, but are not valid.
+credentials were accepted by this module, but are not valid.  The facts
+may include an error code number and a message.
 
-<dt><tt>ERRR</tt> <dd>Authentication failed, temporary error.
+<dt><tt>EBAD</tt> <dd>Authentication failed, permanent error.  The
+credentials were not accepted by this module.
+
+<dt><tt>ETMP</tt> <dd>Authentication failed, temporary error.
+
 </dl>
 
-<p>The flag byte in the version 2 protocol output contains the
-authentication success code.  If authentication succeeded, the code
-byte will be 0.  If the credentials are accepted by this module, but
-are not valid, the code will be 100 (permanent authentication
-failure).  Any other code indicates a temporary <a
-href="errors.html">error</a>.  The list of <a
-href="facts.html">facts</a> will follow the flag byte only if
-authentication succeeded.  Example (all numbers are hexadecimal):</p>
+<p>Example (all numbers are hexadecimal):</p>
 
 <pre>
-000000 00 01 08 75 73 65 72 6e  61 6d 65 02 05 31 32 33  ...usern ame..123
-000010 34 35 03 05 32 33 34 35  36 04 09 54 65 73 74 20  45..2345 6..Test 
-000020 55 73 65 72 05 0a 2f 68  6f 6d 65 2f 75 73 65 72  User../h ome/user
-000030 08 03 35 30 30 08 05 32  33 34 35 36 08 03 31 30  ..500..2 3456..10
-000040 30 0e 09 6c 6f 63 61 6c  68 6f 73 74 0f 12 2f 68  0..local host../h
-000050 6f 6d 65 2f 75 73 65 72  2f 4d 61 69 6c 64 69 72  ome/user /Maildir
-000060 00                                                . 
+0000000: 4356 4d32 5355 4343 0102 0304 0506 0708  CVM2SUCC........
+0000010: 0108 7573 6572 6e61 6d65 0205 3132 3334  ..username..1234
+0000020: 3503 0532 3334 3536 00                   5..23456.
 </pre>
 
 </body>
