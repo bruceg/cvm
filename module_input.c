@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include "module.h"
 
-#define BUFSIZE 4096
+#define BUFSIZE 512
 static char buffer[BUFSIZE + 1];
 static const char* bufend;
 const char* service_name;

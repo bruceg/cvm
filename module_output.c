@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include "module.h"
 
-#define BUFSIZE 4096
+#define BUFSIZE 511
 static char buffer[BUFSIZE];
 static char* bufptr = buffer;
 static char* bufend = buffer + BUFSIZE;
