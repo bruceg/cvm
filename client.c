@@ -36,7 +36,6 @@ static pid_t pid = -1;
 static int parse_buffer(void)
 {
   if (buflen < 3) return 0;
-  if (buffer[0]) return buffer[0];
   if (buffer[buflen-1] != 0 || buffer[buflen-2] != 0) return 0;
   if (!fact_str(FACT_USERNAME, &fact_username) ||
       !fact_uint(FACT_USERID, &fact_userid) ||
@@ -101,7 +100,7 @@ static int pipefork(const char* cmd, int pipes[2])
   int pipe2[2];
   
   if (pipe(pipe1) == -1 || pipe(pipe2) == -2) return 0;
-  pid = vfork();
+  pid = fork();
   switch (pid) {
   case -1:
     return 0;
@@ -282,6 +281,7 @@ int authenticate(const char* module, const char** credentials)
     result = cvm_command(module);
   }
   if (result != 0) return result;
-  if (!parse_buffer()) return 1;
+  if (buffer[0]) return buffer[0];
+  if (!parse_buffer()) return CVME_BAD_MODDATA;
   return 0;
 }
