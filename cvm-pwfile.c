@@ -1,4 +1,4 @@
-/* cvm/cvm-file.c - Alternate passwd file CVM module
+/* cvm/cvm-pwfile.c - Alternate passwd file CVM module
  * Copyright (C) 2001  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -32,7 +32,7 @@ static const char* pwfilename;
 
 int cvm_auth_init(void)
 {
-  if ((pwfilename = getenv("CVM_FILE_PATH")) == 0) return CVME_GENERAL;
+  if ((pwfilename = getenv("CVM_PWFILE_PATH")) == 0) return CVME_GENERAL;
   return 0;
 }
 

@@ -3,7 +3,7 @@
 
 <h2><a href="cvm.html">CVM</a></h2>
 
-<h1>The cvm-file Module</h1>
+<h1>The cvm-pwfile Module</h1>
 
 <h2>Synopsis:</h2> <p>POSIX-style passwd file module</p>
 
@@ -17,12 +17,13 @@
 
 <p>This module loads entries from an alternate password file using the
 <tt>fgetpwent</tt> API, which requires the file to be formatted the
-same as the UNIX <tt>/etc/passwd</tt> file.</p>
+same as the UNIX <tt>/etc/passwd</tt> file.  No group name lookups are
+done.</p>
 
 <h2>Configuration Variables:</h2>
 
 <ul>
-<li><tt>CVM_FILE_PATH</tt>
+<li><tt>CVM_PWFILE_PATH</tt>
 </ul>
 
 </body>

@@ -1,7 +1,7 @@
 -------------------------------------------------------------------------------
 Changes in version 0.7
 
-- Added a text-file module, cvm-file.
+- Added a text-file module, cvm-pwfile.
 
 - Modified the client and module APIs to add "cvm_" in front of all
   exported symbols.
