@@ -18,32 +18,15 @@
 #include <pgsql/libpq-fe.h>
 #include <stdlib.h>
 #include <string.h>
+#include "str/str.h"
+#include "pwcmp/client.h"
 #include "module.h"
 #include "sql.h"
-#include "str/str.h"
 
 const unsigned cvm_credential_count = 1;
 const char* cvm_credentials[1];
 
-extern char* crypt(const char* key, const char* salt);
-
 static PGconn* pg;
-
-#define QUOTE '\''
-#define BACKSLASH '\\'
-
-int str_cats_quoted(str* s, const char* ptr)
-{
-  if (!str_catc(s, QUOTE)) return 0;
-  for (; *ptr; ++ptr) {
-    switch (*ptr) {
-    case QUOTE: if (!str_catc(s, QUOTE)) return 0; break;
-    case BACKSLASH: if (!str_catc(s, BACKSLASH)) return 0; break;
-    }
-    str_catc(s, *ptr);
-  }
-  return str_catc(s, QUOTE);
-}
 
 int cvm_auth_init(void)
 {
@@ -56,6 +39,8 @@ int cvm_auth_init(void)
   if ((pg = PQconnectdb("")) == 0) return CVME_IO;
   if (PQstatus(pg) == CONNECTION_BAD) return CVME_IO;
   
+  if (!pwcmp_start(getenv("CVM_PGSQL_PWCMP"))) return CVME_GENERAL;
+
   return 0;
 }
 
@@ -73,7 +58,7 @@ int cvm_authenticate(void)
   
   /* Query the database based on the custom query */  
   if ((i = sql_query_build(&q)) != 0) return i;
-  if ((result = PQexec(pg, q.s)) == 0) return CVME_IO;
+  if ((result = PQexec(pg, q.s)) == 0) return CVME_IO | CVME_FATAL;
   switch (PQresultStatus(result)) {
   case PGRES_TUPLES_OK: break;
   case PGRES_COMMAND_OK: return CVME_PERMFAIL;
@@ -81,13 +66,17 @@ int cvm_authenticate(void)
   }
 
   /* If the result didn't produce a single row, fail the username */
-  if (PQnfields(result) != 1) return CVME_PERMFAIL;
+  if (PQntuples(result) != 1) return CVME_PERMFAIL;
 
   /* If there is no password field, fail the password */
   cpw = PQgetvnull(result, 0, 0);
   if (cpw == 0 || cpw[0] == 0) return CVME_PERMFAIL;
   /* Finally, if the stored pass is not the same, fail the pass */
-  if (strcmp(crypt(cvm_credentials[0], cpw), cpw) != 0) return CVME_PERMFAIL;
+  switch (pwcmp_check(cvm_credentials[0], cpw)) {
+  case 0: break;
+  case -1: return CVME_IO | CVME_FATAL;
+  default: return CVME_PERMFAIL;
+  }
   
   /* Credentials accepted */
   cvm_fact_username = PQgetvalue(result, 0, 1);
@@ -99,4 +88,10 @@ int cvm_authenticate(void)
   cvm_fact_groupname = 0;
   
   return 0;
+}
+
+void cvm_auth_stop(void)
+{
+  pwcmp_stop();
+  PQfinish(pg);
 }
