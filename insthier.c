@@ -28,5 +28,6 @@ void insthier(void) {
   cf(dir, "cvm-client.a",       -1, -1, 0644, "client.a");
   cf(dir, "cvm-command.a",      -1, -1, 0644, "command.a");
   cf(dir, "cvm-local.a",        -1, -1, 0644, "local.a");
+  cf(dir, "cvm-module.a",       -1, -1, 0644, "module.a");
   cf(dir, "cvm-udp.a",          -1, -1, 0644, "udp.a");
 }
