@@ -34,9 +34,10 @@ always 2.  Example (all numbers are hexadecimal):</p>
 <p>The flag byte in the version 2 protocol output contains the
 authentication success code.  If authentication succeeded, the code
 byte will be 0.  If the credentials are accepted by this module, but
-are not valid, the code will be 100 (permanent failure).  Any other
-code indicates a temporary <a href="errors.html">error</a>.  The list
-of <a href="facts.html">facts</a> will follow the flag byte only if
+are not valid, the code will be 100 (permanent authentication
+failure).  Any other code indicates a temporary <a
+href="errors.html">error</a>.  The list of <a
+href="facts.html">facts</a> will follow the flag byte only if
 authentication succeeded.  Example (all numbers are hexadecimal):</p>
 
 <pre>
@@ -62,15 +63,17 @@ PAM modules to determine which configuration file to load.
 client.  The CVM client has no control over the environment variables
 of non-command modules.</p>
 
-<h2>Code Considerations</h2>
-
-<p>Each module will implement a single type of credential validation.
-The invoker will choose which modules to invoke depending on what type
-of credentials it needs validated.</p>
+<h2>Implementation Considerations</h2>
 
 <p>The module must report a temporary error if it detects malformed
-input (too few credentials, etc.).  Extra input is a fault in the
-invoking code, and may produce undefined results.</p>
+input (incorrect credentials, etc.).  Extra data following the final
+NUL byte in the credentials is a fault in the invoking code, and must
+be rejected by the module.  Similarly, extra data following the final
+NUL byte in the facts is a fault in the module code.</p>
+
+<p>All data following an unsuccessful result status code must be
+ignored by the invoking code.  Modules should not produce any facts
+when validation fails.</p>
 
 <p>An executable module must exit 0 if authentication succeeds.
 Non-zero exit codes from an executable module should be treated as a
@@ -79,11 +82,6 @@ temporary error.</p>
 <p>The invoker of an executable module must assume a temporary error
 if the module either fails to completely read its input or produces
 incomplete output, even if the module exits without error.</p>
-
-<p>The invoking code should change directory to the named home
-directory and drop root priviledges as soon as possible after
-successful authentication.  Where reasonable, the invoking code should
-also chroot to the directory for added protection.</p>
 
 <h2>Protocol Version 1</h2>
 
