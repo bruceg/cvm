@@ -36,6 +36,11 @@ prevent parsing of the account name, no matter what
 <tt>cvm_fact_sys_directory</tt>, and <tt>cvm_fact_domain</tt> are also
 set if they were present in the results.</p>
 
+<p>The client should change directory to the named home directory and
+drop root priviledges as soon as possible after successful
+authentication.  Where reasonable, the client should also chroot to
+the directory for added protection.</p>
+
 <dt><tt>int cvm_fact_str(int number, const char** data)</tt>
 <dd><p>Retrieves a <a href="facts.html">fact</a> from the data
 returned by the module as a NUL-terminated string.  Returns zero if
