@@ -270,8 +270,7 @@ static int cvm_udp(const char* hostport)
   memcpy(&ip, he->h_addr_list[0], 4);
   
   if ((sock = socket_udp()) == -1) return CVME_IO;
-  if (!socket_connect4(sock, &ip, port) ||
-      !udp_sendrecv(sock, &ip, port)) {
+  if (!udp_sendrecv(sock, &ip, port)) {
     close(sock);
     return CVME_IO;
   }
