@@ -1,8 +1,8 @@
 cvm
 Credential Validation Modules
 Bruce Guenter <bruceg@em.ca>
-Version 0.3
-2001-03-08
+Version 0.5
+2001-03-19
 
 This package contains:
 - The reference source for the CVM interface.
@@ -10,6 +10,16 @@ This package contains:
 - A test CVM client.
 - A library for module writers.
 - A library for client writers.
+
+A mailing list has been set up to discuss this and other packages.
+To subscribe, send an email to:
+	bgware-subscribe@lists.em.ca
+A mailing list archive is available at:
+	http://lists.em.ca/?list=bgware
+
+Development versions of cvm are available via anonymous CVS.
+Set your CVSROOT to ":pserver:cvs@bruce-guenter.dyndns.org:/CVS",
+login with an empty password, and check out the "cvm" module.
 
 This program is Copyright(C) 2000-2001 Bruce Guenter, and may be copied
 according to the GNU GENERAL PUBLIC LICENSE (GPL) Version 2 or a later
