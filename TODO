@@ -1,0 +1,12 @@
+- Write modules to do lookups from:
+  - CDB file
+  - MySQL
+  - PgSQL
+  - Both passwd and one of the above.
+
+- Document the second protocol as either CVM2 or XCVM.
+  - See http://lists.em.ca/?command=monthbythread&list=bgware&month=200105
+
+- Stop using perror.
+
+- Stop using stdio.
