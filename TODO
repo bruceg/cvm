@@ -25,7 +25,7 @@
   manipulate that file "cdbpasswd".
 
 - Document the second protocol as either CVM2 or XCVM.
-  - See http://lists.em.ca/?command=monthbythread&list=bgware&month=200105
+  - See http://lists.untroubled.org/?list=bgware&cmd=monthbythread&month=200105
 
 - Stop using perror.
 
