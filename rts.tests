@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# Set up test directory
+src=`pwd`
+tmp=/tmp/rts-tmp
+rm -rf $tmp
+mkdir $tmp
+cvm=$tmp/cvm
+uid=`id -u`
+gid=`id -g`
+
+# Support functions
+rem() { echo; echo --- "$@" }
+
+
+# Cleanup
+rm -rf $tmp
