@@ -65,7 +65,9 @@ int handle_request(void)
   int code;
   if ((code = parse_input()) != 0) return code;
   cvm_fact_start();
+  if ((code = cvm_lookup()) != 0) return code;
   if ((code = cvm_authenticate()) != 0) return code;
+  if ((code = cvm_results()) != 0) return code;
   cvm_fact_str(CVM_FACT_USERNAME, cvm_fact_username);
   cvm_fact_uint(CVM_FACT_USERID, cvm_fact_userid);
   cvm_fact_uint(CVM_FACT_GROUPID, cvm_fact_groupid);

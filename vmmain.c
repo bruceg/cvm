@@ -64,34 +64,6 @@ void debug(const char* func, int line,
   obuf_putsflush(&errbuf, "\n");
 }
 
-static int vmailmgr_auth(const str* data)
-{
-  static vpwentry vpw;
-  static str directory;
-  int err;
-  
-  if (!vpwentry_import(&vpw, &virtuser, data)) {
-    DEBUG("Could not import virtual password data", 0, 0);
-    return CVME_IO;
-  }
-
-  if ((err = vpwentry_auth(&vpw)) != 0) return err;
-
-  if (!str_copys(&directory, pw_dir)) return CVME_IO;
-  if (!path_merge(&directory, vpw.directory.s)) return CVME_IO;
-  cvm_fact_username = vpw.name.s;
-  cvm_fact_userid = pw_uid;
-  cvm_fact_groupid = pw_gid;
-  cvm_fact_realname = 0;
-  cvm_fact_directory = directory.s;
-  cvm_fact_shell = 0;
-  cvm_fact_sys_username = pw_name;
-  cvm_fact_sys_directory = pw_dir;
-  cvm_fact_domain = domain.s;
-  cvm_fact_mailbox = directory.s;
-  return 0;
-}
-
 int cvm_auth_init(void)
 {
   const char* tmp;
@@ -105,8 +77,11 @@ int cvm_auth_init(void)
   return lookup_init();
 }
 
+static vpwentry vpw;
+static str directory;
+
 /* Account name is either "baseuser-virtuser" or "virtuser@domain" */
-int cvm_authenticate(void)
+int cvm_lookup(void)
 {
   int err;
 
@@ -114,7 +89,35 @@ int cvm_authenticate(void)
   if ((err = lookup_domain()) != 0) return err;
   if ((err = lookup_baseuser()) != 0) return err;
   if ((err = lookup_virtuser()) != 0) return err;
-  return vmailmgr_auth(&vpwdata);
+
+  if (!vpwentry_import(&vpw, &virtuser, &vpwdata)) {
+    DEBUG("Could not import virtual password data", 0, 0);
+    return CVME_IO;
+  }
+
+  return 0;
+}
+
+int cvm_authenticate(void)
+{
+  return vpwentry_auth(&vpw);
+}
+
+int cvm_results(void)
+{
+  if (!str_copys(&directory, pw_dir)) return CVME_IO;
+  if (!path_merge(&directory, vpw.directory.s)) return CVME_IO;
+  cvm_fact_username = vpw.name.s;
+  cvm_fact_userid = pw_uid;
+  cvm_fact_groupid = pw_gid;
+  cvm_fact_realname = 0;
+  cvm_fact_directory = directory.s;
+  cvm_fact_shell = 0;
+  cvm_fact_sys_username = pw_name;
+  cvm_fact_sys_directory = pw_dir;
+  cvm_fact_domain = domain.s;
+  cvm_fact_mailbox = directory.s;
+  return 0;
 }
 
 void cvm_auth_stop(void)

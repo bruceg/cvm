@@ -40,18 +40,27 @@ int cvm_auth_init(void)
 
 extern int cvm_getpwnam(const char*, struct passwd**);
 
-int cvm_authenticate(void)
-{
-  struct passwd* pw;
-  struct group* gr;
-  char* tmp;
-  int err;
+static struct passwd* pw;
+static struct group* gr;
 
+int cvm_lookup(void)
+{
+  int err;
   if ((err = cvm_getpwnam(cvm_account_name, &pw)) != 0) return err;
   if (pw->pw_passwd == 0) return CVME_PERMFAIL;
+  return 0;
+}
+
+int cvm_authenticate(void)
+{
   if (strcmp(crypt(cvm_credentials[0], pw->pw_passwd), pw->pw_passwd) != 0)
     return CVME_PERMFAIL;
+  return 0;
+}
 
+int cvm_results(void)
+{
+  char* tmp;
   if ((tmp = strchr(pw->pw_gecos, ',')) != 0)
     *tmp = 0;
 

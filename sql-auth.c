@@ -45,29 +45,39 @@ int cvm_auth_init(void)
   return 0;
 }
 
-int cvm_authenticate(void)
+static str q;
+
+int cvm_lookup(void)
 {
-  static str q;
-  const char* cpw;
   int i;
-  
+
   /* Query the database based on the custom query */  
   if (!sql_query_build(query, &q)) return CVME_GENERAL | CVME_FATAL;
   if ((i = sql_auth_query(&q)) < 0) return -i;
 
   /* If the result didn't produce a single row, fail the username */
-  if (i != 1) return CVME_PERMFAIL;
+  return (i == 1) ? 0 : CVME_PERMFAIL;
+}
 
+int cvm_authenticate(void)
+{
+  const char* cpw;
+  
   /* If there is no password field, fail the password */
   cpw = sql_get_field(0);
   if (cpw == 0 || cpw[0] == 0) return CVME_PERMFAIL;
 
   /* Finally, if the stored pass is not the same, fail the pass */
   switch (pwcmp_check(cvm_credentials[0], cpw)) {
-  case 0: break;
+  case 0: return 0;
   case -1: return CVME_IO | CVME_FATAL;
   default: return CVME_PERMFAIL;
   }
+}
+
+int cvm_results(void)
+{
+  int i;
 
   if (postq) {
     if (!sql_query_build(postq, &q)) return CVME_GENERAL | CVME_FATAL;

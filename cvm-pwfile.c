@@ -68,13 +68,14 @@ static int parse_rest(char* rest)
   return 1;
 }
 
-int cvm_authenticate(void)
+static char* passwd;
+static char* rest;
+static char line[1024];
+
+int cvm_lookup(void)
 {
   FILE* pwfile;
-  char* passwd;
-  char* rest;
   long namelen;
-  char line[1024];
 
   passwd = 0;
   namelen = strlen(cvm_account_name);
@@ -97,12 +98,20 @@ int cvm_authenticate(void)
   if ((rest = strchr(passwd, ':')) == 0 || rest == passwd)
     return CVME_PERMFAIL;
   *rest++ = 0;
+  return 0;
+}
+
+int cvm_authenticate(void)
+{
   switch (pwcmp_check(cvm_credentials[0], passwd)) {
-  case 0: break;
+  case 0: return 0;
   case -1: return CVME_IO | CVME_FATAL;
   default: return CVME_PERMFAIL;
   }
+}
 
+int cvm_results(void)
+{
   cvm_fact_username = line;
   if (!parse_rest(rest)) return CVME_CONFIG;
   return 0;
