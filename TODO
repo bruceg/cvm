@@ -1,3 +1,6 @@
+- Add more fine-grained support to module_local.o for controlling the
+  permissions of the socket file (owner, permissions).
+
 - Add support for allow/deny tables
 
   - File based: if $CVM_ACCESS/deny/$USER exists, or if
