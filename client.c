@@ -50,6 +50,7 @@ static int parse_buffer(void)
   cvm_fact_str(CVM_FACT_SYS_USERNAME, &cvm_fact_sys_username);
   cvm_fact_str(CVM_FACT_SYS_DIRECTORY, &cvm_fact_sys_directory);
   cvm_fact_str(CVM_FACT_DOMAIN, &cvm_fact_domain);
+  cvm_fact_str(CVM_FACT_MAILBOX, &cvm_fact_mailbox);
   return 0;
 }
 

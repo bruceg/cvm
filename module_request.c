@@ -81,5 +81,7 @@ int handle_request(void)
     cvm_fact_str(CVM_FACT_SYS_DIRECTORY, cvm_fact_sys_directory);
   if (cvm_fact_domain)
     cvm_fact_str(CVM_FACT_DOMAIN, cvm_fact_domain);
+  if (cvm_fact_mailbox)
+    cvm_fact_str(CVM_FACT_MAILBOX, cvm_fact_mailbox);
   return 0;
 }
