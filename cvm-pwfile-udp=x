@@ -1,5 +1,5 @@
 udp.a
-socket/socket.a
+net/socket.a
 pwcmp/client.a
 crypt.lib
 socket.lib
