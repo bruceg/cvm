@@ -1,7 +1,7 @@
 CVM_PWFILE_PATH=$tmp/pwfile export CVM_PWFILE_PATH
 CVM_PWFILE_PWCMP=crypt export CVM_PWFILE_PWCMP
 echo 'pwfuser:tpzv1IkcX9.fE:123:456:Gecos:/home/ftp:/bin/false' >$CVM_PWFILE_PATH
-cvm-testclient cvm-pwfile pwfuser '' testpass
+./cvm-testclient ./cvm-pwfile pwfuser '' testpass
 <result>
 user name:        pwfuser
 user ID:          123

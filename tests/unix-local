@@ -1,5 +1,5 @@
 <requires unix-local>
-cvm-testclient cvm-local:$tmp/socket cvmtest '' cvmpass
+./cvm-testclient cvm-local:$tmp/socket cvmtest '' cvmpass
 tail -1 $tmp/log
 <result>
 user name:        cvmtest

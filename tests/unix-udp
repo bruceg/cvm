@@ -1,5 +1,5 @@
 <requires unix-udp>
-cvm-testclient cvm-udp:127.1.2.3:12345 cvmtest '' cvmpass
+./cvm-testclient cvm-udp:127.1.2.3:12345 cvmtest '' cvmpass
 tail -1 $tmp/log
 <result>
 user name:        cvmtest

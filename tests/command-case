@@ -1,4 +1,4 @@
-cvm-testclient cvm-unix CvmTest '' cvmpass
+./cvm-testclient ./cvm-unix CvmTest '' cvmpass
 <result>
 user name:        cvmtest
 user ID:          99
