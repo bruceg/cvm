@@ -41,8 +41,10 @@ static const char* copyact(const char* account)
 {
   unsigned len;
   char *ptr;
-  if ((len = strlen(account)) > actlen)
-    if ((actbuf = realloc(actbuf, actlen+1)) == 0) return 0;
+  if ((len = strlen(account)) > actlen) {
+    if ((actbuf = realloc(actbuf, len+1)) == 0) return 0;
+    actlen = len;
+  }
   for (ptr = actbuf; *account != 0; ++ptr, ++account)
     *ptr = isupper(*account) ? tolower(*account) : *account;
   *ptr = 0;
