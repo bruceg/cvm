@@ -74,7 +74,8 @@ int handle_request(void)
   if (cvm_fact_realname)
     cvm_fact_str(CVM_FACT_REALNAME, cvm_fact_realname);
   cvm_fact_str(CVM_FACT_DIRECTORY, cvm_fact_directory);
-  cvm_fact_str(CVM_FACT_SHELL, cvm_fact_shell);
+  if (cvm_fact_shell)
+    cvm_fact_str(CVM_FACT_SHELL, cvm_fact_shell);
   if (cvm_fact_groupname)
     cvm_fact_str(CVM_FACT_GROUPNAME, cvm_fact_groupname);
   if (cvm_fact_sys_username)

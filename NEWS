@@ -5,6 +5,9 @@ Changes in version 0.20
 
 - Re-merged in SQL modules from cvm-sql package (cvm-mysql and cvm-pgsql).
 
+- Fixed a bug in the module library: cvm_fact_shell was treated as
+  mandatory instead of optional.
+
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/
 -------------------------------------------------------------------------------
