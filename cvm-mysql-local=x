@@ -1,0 +1,7 @@
+cvm-mysql.o
+sql.a
+local.a
+socket/socket.a
+str/str.a
+crypt.lib
+-L/usr/lib/mysql -lmysqlclient

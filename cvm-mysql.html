@@ -1,0 +1,63 @@
+<html>
+<body>
+
+<h2><a href="cvm.html">CVM</a></h2>
+
+<h1>The cvm-mysql Module</h1>
+
+<h2>Synopsis:</h2> <p>MySQL module</p>
+
+<h2>Credentials:</h2>
+
+<ol>
+<li>Pass phrase
+</ol>
+
+<h2>Description:</h2>
+
+<p>This module queries a MySQL database for the account name, compares
+the stored pass phrase with the given one using <tt>crypt</tt>.</p>
+
+<h2>Configuration Variables:</h2>
+
+<ul>
+
+<li><tt>CVM_MYSQL_HOST</tt>: The hostname or IP of the MySQL server.
+If not set, a connection to the local host is assumed.
+
+<li><tt>CVM_MYSQL_USER</tt>: The MySQL login ID to connect as.  If not
+set, the invoking user is assumed.
+
+<li><tt>CVM_MYSQL_PASS</tt>: The password for the above user.
+
+<li><tt>CVM_MYSQL_DB</tt>: The database name, must be set.
+
+<li><tt>CVM_MYSQL_PORT</tt>: The port number for the TCP/IP connection
+(only used if the server is not local).
+
+<li><tt>CVM_MYSQL_SOCKET</tt>: The path to the socket that should be
+used for connections to a local server.
+
+<li><tt>CVM_MYSQL_QUERY</tt> (optional): The query to issue to
+retrieve the row containing the account information from the database.
+The first occurrence of the percent symbol (<tt>%</tt>) is replaced
+with the quoted value of the account name.  The query must produce the
+following fields exactly in order:
+
+<ol>
+<li>Pass phrase, encrypted with <tt>crypt</tt>.
+<li>Actual account name.  Must not be null.
+<li>User ID (integer).  Must not be null.
+<li>Group ID (integer).  Must not be null.
+<li>Real name.  Optional.
+<li>Directory.  Must not be null.
+<li>Login shell.  Optional.
+</ol>
+
+Defaults to "<tt>SELECT password, username, userid, groupid, realname,
+directory, shell FROM accounts WHERE username=%</tt>".
+
+</ul>
+
+</body>
+</html>
