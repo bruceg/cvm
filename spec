@@ -26,7 +26,7 @@ Credential Validation Modules that authenticate against a MySQL server.
 Group: Utilities/System
 Summary: PostgreSQL Credential Validation Modules
 
-%description mysql
+%description pgsql
 Credential Validation Modules that authenticate against a PostgreSQL server.
 
 %prep
