@@ -33,18 +33,25 @@ void log_request(void)
 {
   char tmp[BUFSIZE+4];
   char status;
-  unsigned long account_len;
+  char* ptr;
   
+  ptr = tmp;
   switch (outbuffer[0]) {
   case 0: status = '+'; break;
   case CVME_PERMFAIL: status = '-'; break;
   default: status = '?'; break;
   }
-  account_len = strlen(cvm_account_name);
-  tmp[0] = status;
-  tmp[1] = ' ';
-  memcpy(tmp+2, cvm_account_name, account_len);
-  tmp[account_len+2] = '\n';
-  tmp[account_len+3] = 0;
-  write(1, tmp, strlen(tmp));
+  *ptr++ = status;
+
+  *ptr++ = ' ';
+  memcpy(ptr, cvm_account_name.s, cvm_account_name.len);
+  ptr += cvm_account_name.len;
+
+  *ptr++ = '@';
+  memcpy(ptr, cvm_account_domain.s, cvm_account_domain.len);
+  ptr += cvm_account_domain.len;
+  
+  *ptr++ = '\n';
+  *ptr = 0;
+  write(1, tmp, ptr-tmp);
 }
