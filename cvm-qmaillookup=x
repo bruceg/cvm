@@ -1,0 +1,5 @@
+getpwnam.o
+module.a
+qmail.a
+-lbg
+crypt.lib
