@@ -25,7 +25,7 @@
 
 #include "module.h"
 
-#ifdef HASGETSPNAM
+#ifdef HASSPNAM
 #include <shadow.h>
 static struct spwd* spw;
 #endif
@@ -68,7 +68,7 @@ int cvm_getpwnam(const char* account, struct passwd** pwp)
     pw->pw_passwd = upw->upw_passwd;
 #endif
 
-#ifdef HASGETSPNAM
+#ifdef HASSPNAM
   if ((spw = getspnam(account)) == 0) {
     if (errno == ETXTBSY) return CVME_IO;
   }

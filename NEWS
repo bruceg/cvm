@@ -1,6 +1,7 @@
 -------------------------------------------------------------------------------
 Changes in version 0.15
 
+- Fixed cvm-unix to properly handle shadow passwords.
 
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/
