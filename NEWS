@@ -1,6 +1,8 @@
 -------------------------------------------------------------------------------
 Changes in version 0.18
 
+- Fixed yet another typo in installer that put a header file in place of
+  a library.
 
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/

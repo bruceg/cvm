@@ -27,6 +27,6 @@ void insthier(void) {
   cf(dir, "libcvm-command.a",   -1, -1, 0644, "command.a");
   cf(dir, "libcvm-local.a",     -1, -1, 0644, "local.a");
   cf(dir, "libcvm-module.a",    -1, -1, 0644, "module.a");
-  cf(dir, "libcvm-sasl.a",      -1, -1, 0644, "sasl.h");
+  cf(dir, "libcvm-sasl.a",      -1, -1, 0644, "sasl.a");
   cf(dir, "libcvm-udp.a",       -1, -1, 0644, "udp.a");
 }
