@@ -8,7 +8,7 @@ Source: http://untroubled.org/cvm/cvm-@VERSION@.tar.gz
 BuildRoot: %{_tmppath}/cvm-buildroot
 URL: http://untroubled.org/cvm/
 Packager: Bruce Guenter <bruceg@em.ca>
-BuildRequires: bglibs >= 1.009
+BuildRequires: bglibs >= 1.015
 BuildRequires: mysql-devel
 BuildRequires: postgresql-devel
 Obsoletes: cvm-vmailmgr

@@ -1,8 +1,7 @@
 cvm-mysql.o
 local.a
 sql.a
--lbg-net
--lbg-str
+-lbg
 -lpwcmp
 crypt.lib
 -L/usr/lib/mysql -lmysqlclient

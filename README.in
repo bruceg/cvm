@@ -26,7 +26,7 @@ Development versions of @PACKAGE@ are available via Subversion at:
 
 Requirements:
 
-- bglibs library package version 1.009 or later.
+- bglibs library package version 1.015 or later.
 - The vmailmgr modules should work with all versions of vmailmgr that
   use CDB password tables, introduced in vmailmgr version 0.89 (only
   tested with version 0.96.9)
@@ -46,9 +46,6 @@ vmailmgr Configuration:
 
 - If your virtual domain password tables are stored in a file other than
   passwd.cdb, set $VMAILMGR_PWFILE to that file name.
-
-- If you want to protect lookups, set $VMLOOKUP_SECRET to an arbitrary
-  string before invoking cvm-vmlookup.
 
 - Set $QMAIL_ROOT to the base qmail directory (defaults to "/var/qmail").
 

@@ -1,6 +1,6 @@
 getpwnam.o
 module.a
--lbg-net
+-lbg
 crypt.lib
 shadow.lib
 s.lib

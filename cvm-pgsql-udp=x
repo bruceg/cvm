@@ -1,8 +1,7 @@
 cvm-pgsql.o
 udp.a
 sql.a
--lbg-net
--lbg-str
+-lbg
 -lpwcmp
 crypt.lib
 -lpq

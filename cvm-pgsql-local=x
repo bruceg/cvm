@@ -1,8 +1,7 @@
 cvm-pgsql.o
 local.a
 sql.a
--lbg-net
--lbg-str
+-lbg
 -lpwcmp
 crypt.lib
 -lpq

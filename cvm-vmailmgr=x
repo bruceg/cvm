@@ -3,13 +3,6 @@ vmlookup.o
 getpwnam.o
 module.a
 qmail.a
--lbg-crypto
--lvmailmgr
--lbg-net
--lbg-cdb
--lbg-dict
--lbg-iobuf
--lbg-path
--lbg-str
--lbg-misc
+-lbg
+socket.lib
 crypt.lib
