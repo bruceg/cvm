@@ -1,4 +1,10 @@
 -------------------------------------------------------------------------------
+Changes in version 0.15
+
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
+-------------------------------------------------------------------------------
 Changes in version 0.12
 
 - Fixed a buffer mis-allocation bug in the getpwnam code.
