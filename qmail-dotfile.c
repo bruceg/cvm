@@ -1,5 +1,5 @@
 /* qmail-dotfile.c - qmail dotfile ($HOME/.qmail*) lookup routines
- * Copyright (C) 2004  Bruce Guenter <bruceg@em.ca>
+ * Copyright (C) 2005  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,6 +16,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 #include <sysdeps.h>
+#include <ctype.h>
 #include <errno.h>
 #include <sys/stat.h>
 
@@ -39,8 +40,13 @@ int qmail_dotfile_exists(const struct qmail_user* user, const char* ext)
   baselen = path.len;
   if (!str_catc(&path, user->dash)) return -1;
   if (!str_cat(&path, &user->ext)) return -1;
-  if (ext != 0)
+  if (ext != 0) {
+    split = path.len;
     if (!str_cats(&path, ext)) return -1;
+    for (; split < (int)path.len; ++split)
+      if (isupper(path.s[split]))
+	path.s[split] = tolower(path.s[split]);
+  }
 
   split = path.len;
   for (;;) {
