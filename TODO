@@ -1,10 +1,6 @@
 - Write a module to do lookups from a CDB file, as well as a tool to
   manipulate that file "cdbpasswd".
 
-- Add some method for modules to signal a "fatal" error to the library,
-  such that the module will exit after the error is reported to the
-  client.  Use this in the SQL modules when the queries can't complete.
-
 - Document the second protocol as either CVM2 or XCVM.
   - See http://lists.em.ca/?command=monthbythread&list=bgware&month=200105
 
