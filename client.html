@@ -11,8 +11,8 @@
 credentials)</tt> <dd><p>This is the main entry point to the library.
 Simply set up the account name and credentials as an array with a
 trailing NULL pointer and call <tt>authenticate</tt>.  The function
-will return 0 if authentication succeeded and 100 for permanent
-failure.  Anything else is a temporary failure.</p>
+will return 0 if authentication succeeded and an <a
+href="errors.html">error code</a> otherwise.</p>
 
 <p>If authentication succeeds, this routine automatically retrieves
 <tt>fact_username</tt>, <tt>fact_userid</tt>, <tt>fact_groupid</tt>,

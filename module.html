@@ -5,21 +5,38 @@
 
 <h1>CVM Module Library</h1>
 
-<p>To write a module using the CVM module library, you must provide a
-single routine, <tt>void authenticate(void)</tt>.  Before this routine
-is called, the input data stream is read and the account name is
-parsed into <tt>account_name</tt>.  The service name is also available
-as <tt>service_name</tt>.  To retrieve the next credential from the
-input data, call <tt>const char* cred_string(void)</tt>.  This routine
-will terminate the module if no more credentials are available.</p>
+<p>To write a module using the CVM module library, you must provide
+three items:<dl>
 
-<p>If authentication fails, the module must exit 100.  If there was a
-temporary error, exit 111.  Otherwise, set <tt>fact_username</tt>,
+<dt><tt>const unsigned credential_count</tt> <dd>Set this global to
+the number of credentials required from the client.
+
+<dt><tt>const char* credentials[X]</tt>, where X is the same as
+<tt>credential_count</tt> above <dd>Pointers to the credentials read
+from the client are stored in this array.
+
+<dt><tt>int authenticate(void)</tt> <dd>The main authentication
+verification routine.
+
+</dl>
+Before <tt>authenticate()</tt> is called, the input data stream is
+read and the account name is parsed into <tt>account_name</tt> and the
+credentials are parsed into <tt>credentials</tt>.  The service name is
+also available as <tt>service_name</tt>.</p>
+
+<p>If authentication fails, the module must return
+<tt>CVME_PERMFAIL</tt> (value 100).  If there was a temporary error,
+return any other non-zero number <a href="errors.html">error code</a>.
+Otherwise, return zero after setting <tt>fact_username</tt>,
 <tt>fact_userid</tt>, <tt>fact_groupid</tt>, <tt>fact_directory</tt>,
 and <tt>fact_shell</tt>, which will be automatically sent to the
-client when <tt>authenticate</tt> completes.  <tt>fact_realname</tt>,
-<tt>fact_groupname</tt>, <tt>fact_sys_username</tt>, and
-<tt>fact_sys_directory</tt> will also be sent if they are set.  If any
-other facts are to be returned to the client, send them with
-<tt>fact_str(int number, const char* data)</tt> or <tt>fact_uint(int
-number, unsigned data)</tt>.</p>
+client when <tt>authenticate()</tt> completes.
+<tt>fact_realname</tt>, <tt>fact_groupname</tt>,
+<tt>fact_sys_username</tt>, and <tt>fact_sys_directory</tt> will also
+be sent if they are set.  If any other facts are to be returned to the
+client, send them with <tt>fact_str(int number, const char* data)</tt>
+or <tt>fact_uint(int number, unsigned data)</tt>.</p>
+
+<p><b>NOTE:</b> <tt>authenticate()</tt> must never exit except on
+fatal errors.  If it allocates any memory, it must either be freed, or
+reallocated on the next invocation.</p>

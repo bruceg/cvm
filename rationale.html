@@ -9,7 +9,7 @@
 
 <dl>
 
-<dt>Single credential type <dd>Eliminating the choice of credential
+<dt>Single credential type. <dd>Eliminating the choice of credential
 types from the logic required by the modules simplifies the support
 code required by those modules.  In fact, it should also simplify the
 code required by the invoking code, since the invoker will necessarily
@@ -17,37 +17,49 @@ have different handling for reading and parsing different credential
 types from a client.  Servers that only handle one type of credentials
 do not have to deal with this detail.
 
-<dt>Variable fact format <dd>There is no one list of facts that must
+<dt>Variable fact format. <dd>There is no one list of facts that must
 be reported by such an authenticator.  This list that is reported may
 be extended to include more optional facts.
 
-<dt>Single-byte fact identifiers <dd>Simplifying identifier names into
-a single byte greatly simplifies parsing code, without making the
+<dt>Single-byte fact identifiers. <dd>Simplifying identifier names
+into a single byte greatly simplifies parsing code, without making the
 output code any more complex, and without significantly reducing the
 range of facts that can be expressed.
 
-<dt>No chaining <dd>Chaining of authentication modules is the
-responsibility of the invoking code rather than that of the
-authentication module.  This eliminates most of the coding headaches
-associated with chaining Courier IMAP authentication modules, without
-adding significant additional code to the invoker.
+<dt>No chaining. <dd>What was accomplished by chaining with Courier's
+authentication modules can be better accomplished through other means.
+If multiple types of authentication for the same credentials can
+occur, run seperate services on seperate IPs that use different CVM
+modules.  If multiple types of credentials are used, they will each
+invoke a seperate CVM module.  This eliminates all of the coding and
+design headaches associated with chaining Courier IMAP authentication
+modules.
 
-<dt>No execution by the module <dd>With the checkpassword interface,
+<dt>No execution by the module. <dd>With the checkpassword interface,
 the authentication module drops root priviledges before executing the
 unpriviledged code.  This however greatly reduces or eliminates the
 feasability of executing the unpriviledged module in a chroot
 environment for additional security.
 
-<dt>Limited input and output size <dd>Limiting the total input and
+<dt>Limited input and output size. <dd>Limiting the total input and
 output and output size to reasonable values eliminates one class of
 denial of service attacks by limiting the amount of memory required
 for buffers and parsing on both the part of the module and the
 invoker.
 
-<dt>512 byte request and 511 byte response maximum sizes <dd>A single
-UDP frame is limited to 512 bytes without introducing serious
-transmission reliability problems.  The UDP response also contains a
-single byte indicating success/failure that the executable-mode
-programs transmit out-of-bad through the program's exit code.
+<dt>512 byte request and response maximum sizes. <dd>A single UDP
+frame is limited to 512 bytes without introducing serious transmission
+reliability problems.  The UDP response also contains a single byte
+indicating success/failure that the executable-mode programs transmit
+out-of-bad through the program's exit code.
+
+<dt>Options for long-running server modules. <dd>Long-running server
+modules provide opportunities for caching of credential information
+that may otherwise take significant amounts of time to fetch.
+
+<dt>Options for both UNIX domain and UDP server modules. <dd>Through
+the standard UNIX permission model, system administrators can restrict
+access to UNIX domain servers.  Administrators of clusters can use UDP
+modules to provide centralized authentication services.
 
 </dl>

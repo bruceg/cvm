@@ -1,0 +1,24 @@
+<html>
+<body>
+
+<h2><a href="cvm.html">CVM</a></h2>
+
+<h1>CVM Error Values</h1>
+
+<p>The following errors are defined:<ul>
+
+<li><tt>CVME_GENERAL</tt> (value 1): Unspecified error.
+
+<li><tt>CVME_BAD_CLIDATA</tt> (value 2): Invalid data from the client.
+
+<li><tt>CVME_BAD_MODDATA</tt> (value 3): Invalid data from the CVM.
+
+<li><tt>CVME_IO</tt> (value 4): Input or output error while
+communicating with the CVM.
+
+<li><tt>CVME_PERMFAIL</tt> (value 100): The credentials were accepted
+by the module but are incorrect.
+
+</ul>
+Any value other than <tt>CVME_PERMFAIL</tt> (100) should be considered
+a temporary error.</p>

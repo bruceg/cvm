@@ -41,32 +41,28 @@ PAM modules to determine which configuration file to load.
 
 </dl></p>
 
-<h2>Program Return Values</h2>
-
-<p>An authenticator will report a list of facts and exit 0 if
-authentication succeeds.  If this module cannot handle the given
-credentials, the module will exit 111 (temporary failure).  If the
-credentials are accepted by this module, but are not valid, the module
-will exit 100 (permanent failure).  Any other exit code is
-undefined.</p>
-
 <h2>Output</h2>
 
-<p>If authentication succeeds, the output from the module is a list of
-facts about the authenticator.  Each fact consists of a single byte
-identifying what type of fact is being reported, followed by a
-sequence of zero or more non-zero bytes, terminated by a single NUL
-byte.  A second NUL byte follows the last fact and indicates the end
-of the list.  The total size of the output must not exceed 511
-bytes.</p>
+<p>If authentication succeeds, the output from the module is a single
+byte success code followed by a list of facts about the authenticator.
+The total size of the output must not exceed 512 bytes.</p>
+
+<p>If authentication succeeded, the code byte will be 0.  If the
+credentials are accepted by this module, but are not valid, the code
+will be 100 (permanent failure).  Any other code indicates a temporary
+error.</p>
+
+<p>Each fact consists of a single byte identifying what type of fact
+is being reported, followed by a sequence of zero or more non-zero
+bytes, terminated by a single NUL byte.  A second NUL byte follows the
+last fact and indicates the end of the list.</p>
 
 <p>All predefined facts use values less than 128.  All other fact
 values are reserved for local or experimental use.  Facts marked as
 "required" must be present at least once in the result.  Facts marked
 as "multiple" may be present more than once; all other facts must be
 present at most once.  Facts may be reported in any order, and that
-order carries no significance.  All numbers are expressed in ASCII
-decimal.</p>
+order carries no significance.</p>
 
 <p><ul>
 
@@ -101,21 +97,17 @@ system tables (ie <tt>getpwuid</tt>).
 
 <h2>Code Considerations</h2>
 
-<p>The module must exit 111 if it detects malformed input (too few
-credentials, etc.).  Extra input is a fault in the invoking code, and
-may produce undefined results.</p>
+<p>The module must report a temporary error if it detects malformed
+input (too few credentials, etc.).  Extra input is a fault in the
+invoking code, and may produce undefined results.</p>
 
-<p>The invoker must assume a temporary error if the module either
-fails to completely read its input or produces incomplete output, even
-if the module exits without error.</p>
+<p>An executable module must exit 0 if authentication succeeds.
+Non-zero exit codes from an executable module should be treated as a
+temporary error.</p>
 
-<p>All error codes other than 100 should be treated as temporary
-errors.</p>
-
-<p>If multiple authentication types are part of the scheme (ex POP3
-allows plain and APOP logins, and requires seperate modules for each),
-the invoking code should be configured to execute a list of modules
-until one either succeeds or exits 100.</p>
+<p>The invoker of an executable module must assume a temporary error
+if the module either fails to completely read its input or produces
+incomplete output, even if the module exits without error.</p>
 
 <p>The invoking code should change directory to the named home
 directory and drop root priviledges as soon as possible after
