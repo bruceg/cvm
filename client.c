@@ -40,8 +40,9 @@ static int parse_buffer(void)
   if (cvm_fact_str(CVM_FACT_USERNAME, &cvm_fact_username) ||
       cvm_fact_uint(CVM_FACT_USERID, &cvm_fact_userid) ||
       cvm_fact_uint(CVM_FACT_GROUPID, &cvm_fact_groupid) ||
-      cvm_fact_str(CVM_FACT_DIRECTORY, &cvm_fact_directory) ||
-      cvm_fact_str(CVM_FACT_SHELL, &cvm_fact_shell)) return CVME_BAD_MODDATA;
+      cvm_fact_str(CVM_FACT_DIRECTORY, &cvm_fact_directory))
+    return CVME_BAD_MODDATA;
+  cvm_fact_str(CVM_FACT_SHELL, &cvm_fact_shell);
   cvm_fact_str(CVM_FACT_REALNAME, &cvm_fact_realname);
   cvm_fact_str(CVM_FACT_GROUPNAME, &cvm_fact_groupname);
   cvm_fact_str(CVM_FACT_SYS_USERNAME, &cvm_fact_sys_username);
