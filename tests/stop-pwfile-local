@@ -2,7 +2,7 @@
 kill `cat $tmp/pid`
 rm -f $tmp/pid
 sleep 1
-tail -1 $tmp/log
+tail -n 1 $tmp/log
 echo `cat $tmp/log | wc`
 rm -f $tmp/log
 test -e $tmp/socket || echo Socket was removed.

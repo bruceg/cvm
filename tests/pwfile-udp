@@ -1,7 +1,7 @@
 <requires pwfile-udp>
 make_pwfile
 ./cvm-testclient cvm-udp:127.1.2.3:12345 pwfuser '' testpass
-tail -1 $tmp/log
+tail -n 1 $tmp/log
 <result>
 user name:        pwfuser
 user ID:          123
