@@ -21,8 +21,8 @@
 
 int cvm_setugid(void)
 {
-  if (chdir(cvm_fact_directory) == -1) return 0;
   if (setgid(cvm_fact_groupid) == -1) return 0;
   if (setuid(cvm_fact_userid) == -1) return 0;
+  if (chdir(cvm_fact_directory) == -1) return 0;
   return 1;
 }

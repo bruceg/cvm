@@ -1,6 +1,9 @@
 -------------------------------------------------------------------------------
 Changes in version 0.18
 
+- Changed the order of the chdir in cvm_setugid, to avoid problems with
+  NFS mounted file shares.
+
 - Fixed yet another typo in installer that put a header file in place of
   a library.
 
