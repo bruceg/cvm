@@ -1,5 +1,5 @@
 udp.a
-./bglibs/net
-./bglibs/pwcmp
+-lbg-net
+-lpwcmp
 crypt.lib
 socket.lib

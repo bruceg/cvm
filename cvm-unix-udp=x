@@ -1,6 +1,6 @@
 getpwnam.o
 udp.a
-./bglibs/net
+-lbg-net
 crypt.lib
 shadow.lib
 s.lib
