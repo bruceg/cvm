@@ -6,6 +6,7 @@
 #define CVM_CRED_PASSWORD 3
 #define CVM_CRED_CHALLENGE 4
 #define CVM_CRED_RESPONSE 5
+#define CVM_CRED_SECRET 6
 
 #if 0
 extern const char* cvm_cred_account;
