@@ -21,26 +21,26 @@ the stored pass phrase with the given one using <tt>crypt</tt>.</p>
 
 <h2>Configuration Variables:</h2>
 
-<ul>
+<p>The server hostname, port, database, username, password, and
+additional options can be controlled by setting <tt>$PGHOST</tt>,
+<tt>$PGPORT</tt>, <tt>$PGDATABASE</tt>, <tt>$PGUSER</tt>,
+<tt>$PGPASSWORD</tt>, and <tt>$PGOPTIONS</tt> respectively, which are
+parsed by the PgSQL client library.</p>
 
-<li>The server hostname, port, database, username, password, and
-additional options can be controlled by setting <tt>PGHOST</tt>,
-<tt>PGPORT</tt>, <tt>PGDATABASE</tt>, <tt>PGUSER</tt>,
-<tt>PGPASSWORD</tt>, and <tt>PGOPTIONS</tt> respectively, which are
-parsed by the PgSQL client library.
+<dl>
 
-<li><tt>CVM_MYSQL_POSTQ</tt> (optional): The <a
-href="sql.html">SQL</a> query to execute after the credentials have
-been validated.
+<dt><tt>$CVM_MYSQL_POSTQ</tt> (optional)</dt> <dd>The <a
+href="sql.html">SQL</a> query to execute after the credentials have been
+validated.</dd>
 
-<li><tt>CVM_PGSQL_PWCMP</tt> (optional): The <a
-href="../pwcmp/pwcmp.html">password comparison module</a> to use.
+<dt><tt>$CVM_PGSQL_PWCMP</tt> (optional)</dt> <dd>The <a
+href="../pwcmp/pwcmp.html">password comparison module</a> to use.</dd>
 
-<li><tt>CVM_PGSQL_QUERY</tt> (optional): The <a
+<dt><tt>$CVM_PGSQL_QUERY</tt> (optional)</dt> <dd>The <a
 href="sql.html">SQL</a> query to issue to retrieve the row containing
-the account information from the database.
+the account information from the database.</dd>
 
-</ul>
+</dl>
 
 </body>
 </html>

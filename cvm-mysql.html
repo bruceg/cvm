@@ -21,44 +21,45 @@ the stored pass phrase with the given one using <tt>crypt</tt>.</p>
 
 <h2>Configuration Variables:</h2>
 
-<ul>
+<dl>
 
-<li><tt>CVM_MYSQL_DEFAULT_FILE</tt>: The full path of the defaults
-file to read if the following variable is set.  If not set, the file
-<tt>$HOME/.my.cnf</tt> will be read (the MySQL default).
+<dt><tt>$CVM_MYSQL_DEFAULT_FILE</tt></dt> <dd>The full path of the
+defaults file to read if the following variable is set.  If not set, the
+file <tt>$HOME/.my.cnf</tt> will be read (the MySQL default).</dd>
 
-<li><tt>CVM_MYSQL_DEFAULT_GROUP</tt>: If set, the module will read
-connection default options from the named group in the defaults file
-as above.
+<dt><tt>$CVM_MYSQL_DEFAULT_GROUP</tt></dt> <dd>If set, the module will
+read connection default options from the named group in the defaults
+file as above.</dd>
 
-<li><tt>CVM_MYSQL_HOST</tt>: The hostname or IP of the MySQL server.
-If not set, a connection to the local host is assumed.
+<dt><tt>$CVM_MYSQL_HOST</tt></dt> <dd>The hostname or IP of the MySQL
+server.  If not set, a connection to the local host is assumed.</dd>
 
-<li><tt>CVM_MYSQL_USER</tt>: The MySQL login ID to connect as.  If not
-set, the invoking user is assumed.
+<dt><tt>$CVM_MYSQL_USER</tt></dt> <dd>The MySQL login ID to connect as.
+If not set, the invoking user is assumed.</dd>
 
-<li><tt>CVM_MYSQL_PASS</tt>: The password for the above user.
+<dt><tt>$CVM_MYSQL_PASS</tt></dt> <dd>The password for the above
+user.</dd>
 
-<li><tt>CVM_MYSQL_DB</tt>: The database name, must be set.
+<dt><tt>$CVM_MYSQL_DB</tt></dt> <dd>The database name, must be set.</dd>
 
-<li><tt>CVM_MYSQL_PORT</tt>: The port number for the TCP/IP connection
-(only used if the server is not local).
+<dt><tt>$CVM_MYSQL_PORT</tt></dt> <dd>The port number for the TCP/IP
+connection (only used if the server is not local).</dd>
 
-<li><tt>CVM_MYSQL_POSTQ</tt> (optional): The <a
-href="sql.html">SQL</a> query to execute after the credentials have
-been validated.
+<dt><tt>$CVM_MYSQL_POSTQ</tt> (optional)</dt> <dd>The <a
+href="sql.html">SQL</a> query to execute after the credentials have been
+validated.</dd>
 
-<li><tt>CVM_MYSQL_PWCMP</tt> (optional): The <a
-href="../pwcmp/pwcmp.html">password comparison module</a> to use.
+<dt><tt>$CVM_MYSQL_PWCMP</tt> (optional)</dt> <dd>The <a
+href="../pwcmp/pwcmp.html">password comparison module</a> to use.</dd>
 
-<li><tt>CVM_MYSQL_SOCKET</tt>: The path to the socket that should be
-used for connections to a local server.
+<dt><tt>$CVM_MYSQL_SOCKET</tt></dt> <dd>The path to the socket that
+should be used for connections to a local server.</dd>
 
-<li><tt>CVM_MYSQL_QUERY</tt> (optional): The <a
+<dt><tt>$CVM_MYSQL_QUERY</tt> (optional)</dt> <dd>The <a
 href="sql.html">SQL</a> query to issue to retrieve the row containing
-the account information from the database.
+the account information from the database.</dd>
 
-</ul>
+</dl>
 
 </body>
 </html>
