@@ -28,18 +28,18 @@
 
 static int sock;
 static ipv4addr ip;
-static unsigned short port;
+static ipv4port port;
 
 static int read_input(void)
 {
-  inbuflen = socket_recv4(sock, inbuffer, BUFSIZE, ip, &port);
+  inbuflen = socket_recv4(sock, inbuffer, BUFSIZE, &ip, &port);
   if (inbuflen == (unsigned)-1) return CVME_IO;
   return 0;
 }
 
 static void write_output(void)
 {
-  socket_send4(sock, outbuffer, outbuflen, ip, port);
+  socket_send4(sock, outbuffer, outbuflen, &ip, port);
 }
 
 static void exitfn()
@@ -69,11 +69,11 @@ int main(int argc, char** argv)
   signal(SIGTERM, exitfn);
   
   if ((he = gethostbyname(argv[1])) == 0) usage();
-  memcpy(ip, he->h_addr_list[0], 4);
+  memcpy(&ip, he->h_addr_list[0], 4);
   if ((port = strtoul(argv[2], &tmp, 10)) == 0 ||
       port >= 0xffff || *tmp != 0) usage();
   if ((sock = socket_udp()) == -1) perror("socket");
-  if (!socket_bind4(sock, ip, port)) perror("bind");
+  if (!socket_bind4(sock, &ip, port)) perror("bind");
   if ((code = cvm_auth_init()) != 0) return code;
   log_startup();
 

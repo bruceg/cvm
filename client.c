@@ -232,7 +232,7 @@ static int cvm_command(const char* module)
 }
 
 /* UDP module invocation *****************************************************/
-static int udp_sendrecv(int sock, ipv4addr ip, unsigned short port)
+static int udp_sendrecv(int sock, ipv4addr* ip, ipv4port port)
 {
   int timeout;
   int try;
@@ -254,7 +254,7 @@ static int cvm_udp(const char* hostport)
 {
   static char* hostname;
   char* portstr;
-  unsigned short port;
+  ipv4port port;
   int sock;
   struct hostent* he;
   ipv4addr ip;
@@ -267,11 +267,11 @@ static int cvm_udp(const char* hostport)
   port = strtoul(portstr+1, &portstr, 10);
   if (*portstr != 0) return 1;
   if ((he = gethostbyname(hostname)) == 0) return 1;
-  memcpy(ip, he->h_addr_list[0], 4);
+  memcpy(&ip, he->h_addr_list[0], 4);
   
   if ((sock = socket_udp()) == -1) return CVME_IO;
-  if (!socket_connect4(sock, ip, port) ||
-      !udp_sendrecv(sock, ip, port)) {
+  if (!socket_connect4(sock, &ip, port) ||
+      !udp_sendrecv(sock, &ip, port)) {
     close(sock);
     return CVME_IO;
   }
