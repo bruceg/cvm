@@ -61,14 +61,14 @@ int cvm_authenticate(void)
   if (pw && pw->pw_passwd)
     cpw = pw->pw_passwd;
   else
-    return (errno == ETXTBSY) ? 111 : 100;
+    return (errno == ETXTBSY) ? CVME_IO : CVME_PERMFAIL;
 
 #ifdef HASUSERPW
   upw = getuserpw(cvm_account_name);
   if (upw && upw->upw_passwd)
     cpw = upw->upw_passwd;
   else
-    if (errno == ETXTBSY) return 111;
+    if (errno == ETXTBSY) return CVME_IO;
 #endif
 
 #ifdef HASGETSPNAM
@@ -76,11 +76,11 @@ int cvm_authenticate(void)
   if (spw && spw->sp_pwdp)
     cpw = spw->sp_pwdp;
   else
-    if (errno == ETXTBSY) return 111;
+    if (errno == ETXTBSY) return CVME_IO;
 #endif
 
-  if (!cpw) return 100;
-  if (strcmp(crypt(cvm_credentials[0], cpw), cpw)) return 100;
+  if (!cpw) return CVME_PERMFAIL;
+  if (strcmp(crypt(cvm_credentials[0], cpw), cpw)) return CVME_PERMFAIL;
 
   if ((tmp = strchr(pw->pw_gecos, ',')) != 0)
     *tmp = 0;
