@@ -64,7 +64,7 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %doc COPYING NEWS README *.html
-%{_prefix}/bin/cvm-[bctvu]*
+%{_prefix}/bin/cvm-[^mp]*
 %{_prefix}/bin/cvm-pwfile
 
 %files devel
