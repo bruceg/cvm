@@ -5,12 +5,6 @@ void insthier(void) {
   int bin = opendir(conf_bin);
   c(bin, "cvm-benchclient",     -1, -1, 0755);
   c(bin, "cvm-checkpassword",   -1, -1, 0755);
-  c(bin, "cvm-mysql",           -1, -1, 0755);
-  c(bin, "cvm-mysql-local",     -1, -1, 0755);
-  c(bin, "cvm-mysql-udp",       -1, -1, 0755);
-  c(bin, "cvm-pgsql",           -1, -1, 0755);
-  c(bin, "cvm-pgsql-local",     -1, -1, 0755);
-  c(bin, "cvm-pgsql-udp",       -1, -1, 0755);
   c(bin, "cvm-pwfile",          -1, -1, 0755);
   c(bin, "cvm-pwfile-local",    -1, -1, 0755);
   c(bin, "cvm-pwfile-udp",      -1, -1, 0755);
