@@ -21,7 +21,7 @@
 #include <string.h>
 #include <unistd.h>
 #include "client.h"
-#include "hassetenv.h"
+#include "setenv.h"
 
 static char buffer[513];
 static char* pass;
