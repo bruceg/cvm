@@ -7,6 +7,8 @@ Changes in version 0.11
 - Bugfix: cvm-unix did not lowercase the account name before calling
   getpwnam.
 
+- Added some convenience functions to the client library.
+
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/
 -------------------------------------------------------------------------------
