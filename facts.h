@@ -11,6 +11,9 @@
 #define FACT_SUPP_GROUPID 8
 #define FACT_SYS_USERNAME 9
 #define FACT_SYS_DIRECTORY 10
+#define FACT_OFFICE_LOCATION 11
+#define FACT_WORK_PHONE 12
+#define FACT_HOME_PHONE 13
 
 extern const char* fact_username;
 extern unsigned long fact_userid;
