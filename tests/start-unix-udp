@@ -1,0 +1,7 @@
+<asserts unix-udp>
+cvm-unix-udp 127.1.2.3 12345 >$tmp/log &
+echo $! >$tmp/pid
+sleep 1
+cat $tmp/log
+<result>
+Starting.

@@ -1,0 +1,14 @@
+cvm-testclient cvm-unix cvmtest '' cvmpass
+<result>
+user name:        cvmtest
+user ID:          99
+group ID:         99
+real name:        CVM Test User
+directory:        /dev/null
+shell:            /bin/false
+group name:       nobody
+system user name: (null)
+system directory: (null)
+domain:           (null)
+supp. group ID:   99
+supp. group ID:   98

@@ -1,0 +1,10 @@
+<retracts unix-udp>
+kill `cat $tmp/pid`
+rm -f $tmp/pid
+sleep 1
+tail -1 $tmp/log
+echo `cat $tmp/log | wc`
+rm -f $tmp/log
+<result>
+Stopping.
+4 6 42

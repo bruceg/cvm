@@ -1,0 +1,3 @@
+cvm-testclient cvm-unix cxmtest '' cvmpass
+<result>
+Authentication failed, error #100
