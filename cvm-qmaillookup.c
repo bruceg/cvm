@@ -31,9 +31,7 @@ static const char* secret;
 
 int cvm_auth_init(void)
 {
-  if (qmail_init() == -1
-      || qmail_domains_init() == -1
-      || qmail_users_init() == -1)
+  if (qmail_lookup_init() == -1)
     return CVME_IO;
   secret = getenv("QMAILLOOKUP_SECRET");
   return 0;

@@ -68,7 +68,6 @@ int cvm_auth_init(void)
 {
   const char* tmp;
   memset(&vpw, 0, sizeof vpw);
-  qmail_init();
   if ((pwfile = getenv("VMAILMGR_PWFILE")) == 0) pwfile = "passwd.cdb";
   if ((tmp = getenv("VMAILMGR_DEFAULT")) == 0) tmp = "+";
   secret = getenv("VMLOOKUP_SECRET");
