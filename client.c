@@ -152,7 +152,7 @@ int fact_uint(int number, unsigned* data)
   const char* tmp;
   char* end;
   if (!fact_str(number, &tmp)) return 0;
-  *data = strtol(tmp, &end, 10);
+  *data = strtoul(tmp, &end, 10);
   if (*end) return 0;
   return 1;
 }
