@@ -3,5 +3,6 @@ sql.a
 local.a
 socket/socket.a
 str/str.a
+pwcmp/client.a
 crypt.lib
 -L/usr/lib/mysql -lmysqlclient

@@ -2,5 +2,6 @@ cvm-pgsql.o
 sql.a
 command.a
 str/str.a
+pwcmp/client.a
 crypt.lib
 -lpq

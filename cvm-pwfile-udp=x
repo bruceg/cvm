@@ -1,3 +1,4 @@
 udp.a
 socket/socket.a
+pwcmp/client.a
 crypt.lib
