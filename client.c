@@ -81,7 +81,7 @@ static unsigned build_buffer(const char* account, const char* domain,
     while (i-- > 0) {
       if (strchr(sc, account[i]) != 0) {
 	domain = account + i + 1;
-	actlen = i - 1;
+	actlen = i;
 	break;
       }
     }
