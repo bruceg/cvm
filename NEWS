@@ -7,6 +7,9 @@ Changes in version 0.25
 - Added new cvm-qmaillookup module, which can be used to verify validity
   of recipient addresses on qmail systems.
 
+- Significantly factorized the qmail code underlying the vmailmgr
+  modules, making them more conformant to qmail's delivery process.
+
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/
 -------------------------------------------------------------------------------
