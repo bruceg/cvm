@@ -15,27 +15,57 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-#include <string.h>
 #include "client.h"
 #include "setenv.h"
 
+static char* utoa_rec(unsigned i, char* buf)
+{
+  if (i < 10)
+    *buf = i + '0';
+  else {
+    buf = utoa_rec(i / 10, buf);
+    *buf = (i % 10) + '0';
+  }
+  *++buf = 0;
+  return buf;
+}
+
+static char utoa_buf[32];
+
 static char* utoa(unsigned i)
 {
-  static char buf[32];
-  char* ptr;
-  
-  ptr = buf + sizeof buf - 1;
+  utoa_rec(i, utoa_buf);
+  return utoa_buf;
+}
 
-  *ptr-- = 0;
-  if (!i)
-    *ptr-- = '0';
-  else {
-    while (i) {
-      *ptr-- = (i % 10) + '0';
-      i /= 10;
-    }
+static int utoa_len(unsigned i)
+{
+  return utoa_rec(i, utoa_buf) - utoa_buf;
+}
+
+static int set_gids(void)
+{
+  unsigned long gid;
+  long len;
+  char* str;
+  char* ptr;
+  int result;
+  
+  len = 0;
+  while (cvm_fact_uint(CVM_FACT_SUPP_GROUPID, &gid) == 0)
+    len += utoa_len(gid) + 1;
+  /* Don't set $GIDS if no supplementary group IDs were listed */
+  if (len == 0) return 1;
+  /* Reset to the start of facts list */
+  cvm_fact_uint(-1, &gid);
+  ptr = str = malloc(len);
+  while (cvm_fact_uint(CVM_FACT_SUPP_GROUPID, &gid) == 0) {
+    if (ptr > str) *ptr++ = ',';
+    ptr = utoa_rec(gid, ptr);
   }
-  return strdup(ptr + 1);
+  result = setenv("GIDS", str, 1) == 0;
+  free(str);
+  return result;
 }
 
 int cvm_setenv(void)
@@ -54,5 +84,6 @@ int cvm_setenv(void)
       setenv("DOMAIN", cvm_fact_domain, 1) != 0) return 0;
   if (cvm_fact_mailbox &&
       setenv("MAILBOX", cvm_fact_mailbox, 1) != 0) return 0;
+  if (!set_gids()) return 0;
   return 1;
 }
