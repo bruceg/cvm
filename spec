@@ -7,7 +7,7 @@ Group: Utilities/System
 Source: http://em.ca/~bruceg/@PACKAGE@/@VERSION@/@PACKAGE@-@VERSION@.tar.gz
 BuildRoot: %{_tmppath}/@PACKAGE@-buildroot
 BuildRequires: mysql-devel
-BuildRequires: pgsql-devel
+BuildRequires: postgresql-devel
 URL: http://em.ca/~bruceg/@PACKAGE@/
 Packager: Bruce Guenter <bruceg@em.ca>
 
