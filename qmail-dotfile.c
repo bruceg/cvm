@@ -30,15 +30,12 @@ int qmail_dotfile_exists(const struct qmail_user* user, const char* ext)
   int split;
   int baselen;
 
+  /* System users are not required to have a .qmail file */
+  if (user->dash == 0)
+    return ext == 0 || *ext == 0;
+
   if (!str_copy(&path, &user->homedir)) return -1;
   if (!str_cats(&path, "/.qmail")) return -1;
-
-  if (!user->dash) {
-    if (stat(path.s, &st) == 0)
-      return 1;
-    return (errno == ENOENT) ? 0 : -1;
-  }
-
   baselen = path.len;
   if (!str_catc(&path, user->dash)) return -1;
   if (!str_cat(&path, &user->ext)) return -1;
