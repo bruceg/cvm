@@ -30,7 +30,6 @@ void insthier(void) {
   c(dir, "cvm-vmailmgr",        -1, -1, 0755);
   c(dir, "cvm-vmailmgr-local",  -1, -1, 0755);
   c(dir, "cvm-vmailmgr-udp",    -1, -1, 0755);
-  c(dir, "cvm-vmlookup",        -1, -1, 0755);
   c(dir, "cvm-unix",            -1, -1, 0755);
 
   dir = d(home, "include",      -1, -1, 0755);

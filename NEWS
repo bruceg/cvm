@@ -12,6 +12,8 @@ Changes in version 0.30
 - Significantly factorized the qmail code underlying the vmailmgr
   modules, making them more conformant to qmail's delivery process.
 
+- Removed the now obsoleted cvm-vmlookup lookup-only module.
+
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/
 -------------------------------------------------------------------------------
