@@ -13,19 +13,19 @@ gid=`id -g`
 rem() { echo; echo --- "$@"; }
 
 rem Testing command module with prefix
-$src/cvm-testclient cvm-command:$src/cvm-unix cvmtest cvmpass
+$src/cvm-testclient cvm-command:$src/cvm-unix cvmtest '' cvmpass
 
 rem Testing command module no prefix
-$src/cvm-testclient $src/cvm-unix cvmtest cvmpass
+$src/cvm-testclient $src/cvm-unix cvmtest '' cvmpass
 
 rem Testing command module bad password
-$src/cvm-testclient $src/cvm-unix cvmtest cvmpassx
+$src/cvm-testclient $src/cvm-unix cvmtest '' cvmpassx
 
 rem Testing command module bad username
-$src/cvm-testclient $src/cvm-unix cvmtestx cvmpass
+$src/cvm-testclient $src/cvm-unix cvmtestx '' cvmpass
 
 rem Testing command module different case username
-$src/cvm-testclient $src/cvm-unix cvmtest cvmpass
+$src/cvm-testclient $src/cvm-unix cvmtest '' cvmpass
 
 rem Starting up local server
 $src/cvm-unix-local $tmp/socket &
@@ -33,10 +33,10 @@ pid=$!
 sleep 1
 
 rem Testing local module
-$src/cvm-testclient cvm-local:$tmp/socket cvmtest cvmpass
+$src/cvm-testclient cvm-local:$tmp/socket cvmtest '' cvmpass
 
 rem Testing local module, bad password
-$src/cvm-testclient cvm-local:$tmp/socket cvmtest cvmpassx
+$src/cvm-testclient cvm-local:$tmp/socket cvmtest '' cvmpassx
 
 rem Stopping local server
 kill $pid
@@ -51,10 +51,10 @@ pid=$!
 sleep 1
 
 rem Testing UDP module
-$src/cvm-testclient cvm-udp:127.1.2.3:12345 cvmtest cvmpass
+$src/cvm-testclient cvm-udp:127.1.2.3:12345 cvmtest '' cvmpass
 
 rem Testing UDP module, bad password
-$src/cvm-testclient cvm-udp:127.1.2.3:12345 cvmtest cvmpassx
+$src/cvm-testclient cvm-udp:127.1.2.3:12345 cvmtest '' cvmpassx
 
 rem Stopping UDP server
 kill $pid
@@ -62,21 +62,21 @@ sleep 1
 
 rem Testing various SQL query substitutions
 sqt() { env - var1=1 var_2=2 $src/sql-query-test "$@"; }
-sqt 'one two' act
-sqt '$account one two' act
-sqt 'one $account two' act
-sqt 'one two $account' act
-sqt '$var1 one two' act
-sqt 'one $var1 two' act
-sqt 'one two $var1' act
-sqt '$var_2 one two' act
-sqt 'one $var_2 two' act
-sqt 'one two $var_2' act
-sqt '$var1one two' act
-sqt 'one $var1two' act
-sqt '${var1} one two' act
-sqt 'one ${var1} two' act
-sqt 'one two ${var1}' act
+sqt 'one two' act dom
+sqt '$account $domain one two' act dom
+sqt 'one $account two' act dom
+sqt 'one two $account' act dom
+sqt '$var1 one two' act dom
+sqt 'one $var1 two' act dom
+sqt 'one two $var1' act dom
+sqt '$var_2 one two' act dom
+sqt 'one $var_2 two' act dom
+sqt 'one two $var_2' act dom
+sqt '$var1one two' act dom
+sqt 'one $var1two' act dom
+sqt '${var1} one two' act dom
+sqt 'one ${var1} two' act dom
+sqt 'one two ${var1}' act dom
 
 # Cleanup
 rm -rf $tmp

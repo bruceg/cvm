@@ -9,6 +9,7 @@ shell:            /bin/false
 group name:       nobody
 system user name: (null)
 system directory: (null)
+domain:           (null)
 supp. group ID:   99
 supp. group ID:   98
 
@@ -22,6 +23,7 @@ shell:            /bin/false
 group name:       nobody
 system user name: (null)
 system directory: (null)
+domain:           (null)
 supp. group ID:   99
 supp. group ID:   98
 
@@ -41,6 +43,7 @@ shell:            /bin/false
 group name:       nobody
 system user name: (null)
 system directory: (null)
+domain:           (null)
 supp. group ID:   99
 supp. group ID:   98
 
@@ -48,7 +51,7 @@ supp. group ID:   98
 Starting.
 
 --- Testing local module
-+ cvmtest
++ cvmtest@
 user name:        cvmtest
 user ID:          99
 group ID:         99
@@ -58,11 +61,12 @@ shell:            /bin/false
 group name:       nobody
 system user name: (null)
 system directory: (null)
+domain:           (null)
 supp. group ID:   99
 supp. group ID:   98
 
 --- Testing local module, bad password
-- cvmtest
+- cvmtest@
 Authentication failed, error #100
 
 --- Stopping local server
@@ -75,7 +79,7 @@ ls: /tmp/rts-tmp/socket: No such file or directory
 Starting.
 
 --- Testing UDP module
-+ cvmtest
++ cvmtest@
 user name:        cvmtest
 user ID:          99
 group ID:         99
@@ -85,11 +89,12 @@ shell:            /bin/false
 group name:       nobody
 system user name: (null)
 system directory: (null)
+domain:           (null)
 supp. group ID:   99
 supp. group ID:   98
 
 --- Testing UDP module, bad password
-- cvmtest
+- cvmtest@
 Authentication failed, error #100
 
 --- Stopping UDP server
@@ -97,7 +102,7 @@ Stopping.
 
 --- Testing various SQL query substitutions
 one two
-'act' one two
+'act' 'dom' one two
 one 'act' two
 one two 'act'
 '1' one two
