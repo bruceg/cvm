@@ -7,13 +7,19 @@
 
 <h2>Input</h2>
 
-<p>Input to the authenticator is as follows.  All items are
-NUL-terminated strings.  The total length of the input must not exceed
-512 bytes.<ol>
+<p>Input to the authenticator is as follows.  All items except the
+first, which is a single byte, are NUL-terminated strings.  The total
+length of the input must not exceed 512 bytes. <ol>
 
-<li>Account identifier (ie user name).
+<li>Protocol number, 1.
+
+<li>Account name base (ie user name).
+
+<li>Account domain name.
 
 <li>List of credentials.
+
+<li>An empty string (ie a single NUL byte).
 
 </ol></p>
 
