@@ -286,9 +286,6 @@ static int cvm_local(const char* path)
   int result;
   unsigned io;
   unsigned done;
-  void (*oldsig)(int);
-  
-  oldsig = signal(SIGPIPE, SIG_IGN);
   result = CVME_IO;
   if ((sock = socket_unixstr()) != -1 &&
       socket_connectu(sock, path)) {
@@ -309,7 +306,6 @@ static int cvm_local(const char* path)
     }
   }
   close(sock);
-  signal(SIGPIPE, oldsig);
   return result;
 }
 
@@ -319,9 +315,12 @@ int cvm_authenticate(const char* module, const char* account,
 		     int parse_domain)
 {
   int result;
+  void (*oldsig)(int);
   if (domain == 0) domain = "";
   if (!build_buffer(account, domain, credentials, parse_domain))
     return CVME_GENERAL;
+  
+  oldsig = signal(SIGPIPE, SIG_IGN);
   if (!memcmp(module, "cvm-udp:", 8))
     result = cvm_udp(module+8);
   else if (!memcmp(module, "cvm-local:", 10))
@@ -330,6 +329,7 @@ int cvm_authenticate(const char* module, const char* account,
     if (!memcmp(module, "cvm-command:", 12)) module += 12;
     result = cvm_command(module);
   }
+  signal(SIGPIPE, oldsig);
   if (result != 0) return result;
   if (buffer[0]) return buffer[0];
   return parse_buffer();
