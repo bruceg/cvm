@@ -25,13 +25,13 @@ implement on both sides than the authmod framework.</p>
 
 <p>CVM modules may be contacted by one of three modes:<ol>
 
-<li>Command execution:  Use a module name of
-<tt>cvm-command:/path/to/command</tt>.  <tt>cvm-command:</tt> is
-optional.
+<li>Command execution: Use a module name of
+<tt>cvm-command:/path/to/command</tt>.  The <tt>cvm-command:</tt>
+prefix is optional.
 
 <li>UNIX (or local) domain socket:  Use a module name of
-<tt>cvm-unix:/path/to/socket</tt>.
+<tt>cvm-local:/path/to/socket</tt>.
 
-<li>UDP:  Use a module name of <tt>cvm-unix:hostname:port</tt>.
+<li>UDP:  Use a module name of <tt>cvm-udp:hostname:port</tt>.
 
 </ol></p>
