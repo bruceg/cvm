@@ -2,13 +2,14 @@ cvm
 Credential Validation Modules
 Bruce Guenter <bruceg@em.ca>
 Version 0.7
-2001-06-29
+2001-07-03
 
 This package contains:
 - The reference source for the CVM interface.
-- A UNIX/POSIX system CVM module (uses getpwnam).
 - Diagnostic and benchmark CVM clients.
 - A checkpassword interface CVM client.
+- A UNIX/POSIX system module (uses getpwnam).
+- A flat-file module (uses fgetpwent).
 - A library for client writers.
 - A set of libraries for module writers.
 
@@ -21,6 +22,9 @@ A mailing list archive is available at:
 Development versions of cvm are available via anonymous CVS.
 Set your CVSROOT to ":pserver:cvs@bruce-guenter.dyndns.org:/CVS",
 login with an empty password, and check out the "cvm" module.
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
 
 This program is Copyright(C) 2001 Bruce Guenter, and may be copied
 according to the GNU GENERAL PUBLIC LICENSE (GPL) Version 2 or a later
