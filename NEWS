@@ -4,6 +4,9 @@ Changes in version 0.7
 - Modified the client and module APIs to add "cvm_" in front of all
   exported symbols.
 
+- Added a required function "cvm_auth_init" to the module API, which is
+  called once at program startup.
+
 - Modified cvm-unix to output the group name and the supplemental group
   list.
 
@@ -14,6 +17,9 @@ Changes in version 0.7
 
 - Fixed use of iopoll to properly support systems with a missing or broken
   poll syscall.
+
+Note: This release doesn't make any of the protocol changes discussed in
+the mailing lists.
 -------------------------------------------------------------------------------
 Changes in version 0.6
 
