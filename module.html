@@ -15,39 +15,46 @@ to the number of credentials required from the client.
 <tt>credential_count</tt> above <dd>Pointers to the credentials read
 from the client are stored in this array.
 
-<dt><tt>int cvm_auth_init(void)</tt> <dd>This routine is called once
+<dt><tt>int cvm_auth_init(void)</tt> <dd>This function is called once
 when the CVM starts up.
 
-<dt><tt>int cvm_lookup(void)</tt> <dd>This routine is used to look up
-the stored credentials for the named user.
+<dt><tt>int cvm_lookup(void)</tt> <dd>This function is used to retrieve
+the stored credentials for the named user.  If the named user does not
+exist, this function must return <tt>CVME_PERMFAIL</tt> (value 100).
+Before this function is called, the input request is read and the
+account name is parsed into <tt>cvm_account_name</tt>, the domain name
+into <tt>cvm_account_domain</tt>, and the credentials are parsed into
+<tt>cvm_credentials</tt>.
 
 <dt><tt>int cvm_authenticate(void)</tt> <dd>The main authentication
-verification routine.  This routine is not called when the module is
-operating in lookup mode.
+verification function.  This function is not called when the module is
+operating in lookup mode.  If authentication fails, this function must
+return <tt>CVME_PERMFAIL</tt> (value 100).
+
+<dt><tt>int cvm_results(void)</tt> <dd>This function is used to provide
+the lookup results to the client.  All required facts must be set by
+this function: <tt>cvm_fact_username</tt>, <tt>cvm_fact_userid</tt>,
+<tt>cvm_fact_groupid</tt>, <tt>cvm_fact_directory</tt>, and
+<tt>cvm_fact_shell</tt>.  The following facts may optional be set as
+well: <tt>cvm_fact_realname</tt>, <tt>cvm_fact_groupname</tt>,
+<tt>cvm_fact_sys_username</tt>, <tt>cvm_fact_sys_directory</tt>, and
+<tt>cvm_fact_domain</tt>.  All of these will be sent to the client
+automatically by the invoking module framework, with the optional facts
+being sent only if they have been set.  If any other facts are to be
+returned to the client, send them in this function with
+<tt>cvm_fact_str(int number, const char* data)</tt> or
+<tt>cvm_fact_uint(int number, unsigned data)</tt>.</p>
+
 
 <dt><tt>void cvm_auth_stop(void)</tt> <dd>This routine is called once
 when the CVM is shut down.
 
 </dl>
 
-Before <tt>cvm_lookup()</tt> is called, the input data stream is read
-and the account name is parsed into <tt>cvm_account_name</tt>, the
-domain name into <tt>cvm_account_domain</tt>, and the credentials are
-parsed into <tt>cvm_credentials</tt>.</p>
-
-<p>If authentication fails, the module must return
-<tt>CVME_PERMFAIL</tt> (value 100).  If there was a temporary error,
-return any other non-zero number <a href="errors.html">error code</a>.
-Otherwise, return zero after setting <tt>cvm_fact_username</tt>,
-<tt>cvm_fact_userid</tt>, <tt>cvm_fact_groupid</tt>,
-<tt>cvm_fact_directory</tt>, and <tt>cvm_fact_shell</tt>, which will
-be automatically sent to the client when <tt>authenticate()</tt>
-completes.  <tt>cvm_fact_realname</tt>, <tt>cvm_fact_groupname</tt>,
-<tt>cvm_fact_sys_username</tt>, <tt>cvm_fact_sys_directory</tt>, and
-<tt>cvm_fact_domain</tt> will also be sent if they are set.  If any
-other facts are to be returned to the client, send them with
-<tt>cvm_fact_str(int number, const char* data)</tt> or
-<tt>cvm_fact_uint(int number, unsigned data)</tt>.</p>
+If any function fails due to a temporary error (read error, out of
+memory, connection failed, etc), it must return a non-zero <a
+href="errors.html">error code</a> (other than <tt>CVME_PERMFAIL</tt>).
+Otherwise, return zero.</p>
 
 <p><b>NOTE:</b> The functions supplied by the module must never exit
 except on fatal errors.  If any memory is allocated in the course of
