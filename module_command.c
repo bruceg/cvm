@@ -43,7 +43,9 @@ static int write_output(void)
   return 0;
 }
 
-int main(void)
+extern void usage(void);
+
+int command_main(void)
 {
   int code;
   if ((code = cvm_auth_init()) != 0) return code;

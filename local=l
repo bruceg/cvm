@@ -1,4 +1,5 @@
 module_local.o
+module_local_main.o
 module_request.o
 module_output.o
 module_log.o

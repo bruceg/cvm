@@ -1,4 +1,4 @@
-/* cvm/module_udp.c - UDP CVM server module main routine
+/* cvm/module_udp.c - UDP CVM server module loop
  * Copyright (C) 2001  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -48,29 +48,20 @@ static void exitfn()
   exit(0);
 }
 
-static const char usagestr[] =
-"usage: cvm-module-udp IP PORT\n";
+extern void usage(void);
 
-static void usage(void)
-{
-  write(2, usagestr, sizeof usagestr);
-  exit(1);
-}
-
-int main(int argc, char** argv)
+int udp_main(const char* hostname, const char* portname)
 {
   int code;
   struct hostent* he;
   char* tmp;
   
-  if (argc != 3) usage();
-
   signal(SIGINT, exitfn);
   signal(SIGTERM, exitfn);
   
-  if ((he = gethostbyname(argv[1])) == 0) usage();
+  if ((he = gethostbyname(hostname)) == 0) usage();
   memcpy(&ip, he->h_addr_list[0], 4);
-  if ((port = strtoul(argv[2], &tmp, 10)) == 0 ||
+  if ((port = strtoul(portname, &tmp, 10)) == 0 ||
       port >= 0xffff || *tmp != 0) usage();
   if ((sock = socket_udp()) == -1) perror("socket");
   if (!socket_bind4(sock, &ip, port)) perror("bind");

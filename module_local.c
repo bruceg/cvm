@@ -1,4 +1,4 @@
-/* cvm/module_local.c - Local CVM server module main routine
+/* cvm/module_local.c - Local CVM server module loop
  * Copyright (C) 2001  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -62,22 +62,14 @@ static void exitfn()
   exit(0);
 }
 
-static const char usagestr[] =
-"usage: cvm-module-unix /PATH/TO/SOCKET\n";
+extern void usage(void);
 
-static void usage(void)
-{
-  write(2, usagestr, sizeof usagestr);
-  exit(1);
-}
-
-int main(int argc, char** argv)
+int local_main(const char* p)
 {
   int code;
   mode_t old_umask;
   
-  if (argc != 2) usage();
-  path = argv[1];
+  path = p;
   
   signal(SIGPIPE, SIG_IGN);
   signal(SIGINT, exitfn);
