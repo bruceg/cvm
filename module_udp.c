@@ -19,6 +19,7 @@
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 #include "socket/socket.h"
 #include "module.h"
@@ -71,8 +72,9 @@ int main(int argc, char** argv)
       port >= 0xffff || *tmp != 0) usage();
   if ((sock = socket_udp()) == -1) perror("socket");
   if (!socket_bind4(sock, ip, port)) perror("bind");
-
+  if ((code = cvm_auth_init()) != 0) return code;
   log_startup();
+
   for (;;) {
     if ((code = read_input()) != 0) continue;
     code = handle_request();

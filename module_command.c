@@ -46,6 +46,7 @@ static int write_output(void)
 int main(void)
 {
   int code;
+  if ((code = cvm_auth_init()) != 0) return code;
   if ((code = read_input()) != 0) return code;
   if ((code = handle_request()) != 0) return code;
   cvm_fact_end(code);

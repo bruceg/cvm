@@ -38,6 +38,11 @@ const char* cvm_credentials[1];
 
 extern char* crypt(const char* key, const char* salt);
 
+int cvm_auth_init(void)
+{
+  return 0;
+}
+
 int cvm_authenticate(void)
 {
   struct passwd* pw;

@@ -78,6 +78,7 @@ int main(int argc, char** argv)
   if ((sock = socket_unixstr()) == -1) perror("socket");
   if (!socket_bindu(sock, path)) perror("bind");
   if (!socket_listen(sock, 1)) perror("listen");
+  if ((code = cvm_auth_init()) != 0) return code;
   log_startup();
   
   for (;;) {

@@ -31,6 +31,7 @@ extern void log_shutdown(void);
  * The "credentials" global is filled by the input handling code. */
 extern const unsigned cvm_credential_count;
 extern const char* cvm_credentials[];
+extern int cvm_auth_init(void);
 extern int cvm_authenticate(void);
 
 #endif
