@@ -2,3 +2,4 @@ module.a
 -lbg-net
 -lpwcmp
 crypt.lib
+socket.lib

@@ -4,3 +4,4 @@ module.a
 crypt.lib
 shadow.lib
 s.lib
+socket.lib
