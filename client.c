@@ -108,7 +108,8 @@ int authenticate(const char* module, const char** credentials)
   unsigned len;
   char* ptr;
   int pipes[2];
-
+  int result;
+  
   ptr = buffer;
   for (i = 0; credentials[i]; i++) {
     len = strlen(credentials[i])+1;
@@ -128,7 +129,8 @@ int authenticate(const char* module, const char** credentials)
       close(pipes[1]) == -1 ||
       !parse_buffer()) {
     killit();
-    return waitforit();
+    if ((result = waitforit()) != 0) return result;
+    return 111;
   }
   
   return waitforit();
@@ -150,9 +152,12 @@ int fact_str(int number, const char** data)
 int fact_uint(int number, unsigned* data)
 {
   const char* tmp;
-  char* end;
+  unsigned i;
+  
   if (!fact_str(number, &tmp)) return 0;
-  *data = strtoul(tmp, &end, 10);
-  if (*end) return 0;
+  for (i = 0; *tmp >= '0' && *tmp <= '9'; ++tmp)
+    i = i * 10 + *tmp - '0';
+  if (*tmp) return 0;
+  *data = i;
   return 1;
 }
