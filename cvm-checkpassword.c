@@ -48,7 +48,7 @@ void get_data(void)
 int main(int argc, char** argv)
 {
   int i;
-  const char* tokens[3];
+  const char* tokens[2];
   
   if (argc < 3) {
     printf("usage: cvm-checkpassword cvmodule program [args ...]\n");
@@ -56,10 +56,10 @@ int main(int argc, char** argv)
   }
 
   get_data();
-  tokens[0] = buffer;
-  tokens[1] = pass;
-  tokens[2] = 0;
-  if ((i = cvm_authenticate(argv[1], tokens)) != 0) return i;
+  tokens[0] = pass;
+  tokens[1] = 0;
+  if ((i = cvm_authenticate(argv[1], buffer, getenv("TCPLOCALHOST"),
+			    tokens, 1)) != 0) return i;
 
   if (setenv("HOME", cvm_fact_directory, 1) != 0 ||
       setenv("USER", cvm_fact_username, 1) != 0 ||
