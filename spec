@@ -29,7 +29,7 @@ building CVM clients or modules.
 echo gcc "%{optflags}" >conf-cc
 echo gcc -s >conf-ld
 echo %{_bindir} >conf-bin
-make programs
+make libraries programs
 
 %install
 rm -fr %{buildroot}
