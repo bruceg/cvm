@@ -1,4 +1,14 @@
-- Write tests for cvm_ucspi_domain and cvm_setugid (?)
+- Write tests for:
+  - parse_domain in client.c
+  - cvm_ucspi_domain and cvm_setugid (?)
+
+- Build a caching CVM proxy
+  - Two hash tables keyed on binary request string.
+  - First hash table for positive responses, holds raw response binary.
+  - Second hash table for negative responses, holds only response code.
+  - Caches positive response for $TTL seconds.
+  - Caches negative response for $TTL_BAD seconds.
+  - Do not cache temporary errors.
 
 - Write up and implement CVM client->server protocol 2, which adds tags
   to the input format the same way the output has tags.

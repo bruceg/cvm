@@ -1,5 +1,5 @@
 To get the pieces not included in this CVS tree, you need to run:
-	cvs co -d socket lib/socket
+	cvs co -d net lib/net
 	cvs co -d str lib/str
 You will also need a copy of SPAC in the path, available at:
 	http://em.ca/~bruceg/spac/
