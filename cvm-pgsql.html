@@ -28,24 +28,9 @@ additional options can be controlled by setting <tt>PGHOST</tt>,
 <tt>PGPASSWORD</tt>, and <tt>PGOPTIONS</tt> respectively, which are
 parsed by the PgSQL client library.
 
-<li><tt>CVM_PGSQL_QUERY</tt> (optional): The query to issue to
+<li><tt>CVM_PGSQL_QUERY</tt> (optional): The <a
+href="sql-query.html">SQL query</a> to issue to
 retrieve the row containing the account information from the database.
-The first occurrence of the percent symbol (<tt>%</tt>) is replaced
-with the quoted value of the account name.  The query must produce the
-following fields exactly in order:
-
-<ol>
-<li>Password, encrypted with <tt>crypt</tt>.
-<li>Actual account name.  Must not be null.
-<li>User ID (integer).  Must not be null.
-<li>Group ID (integer).  Must not be null.
-<li>Real name.  Optional.
-<li>Directory.  Must not be null.
-<li>Login shell.  Optional.
-</ol>
-
-Defaults to "<tt>SELECT password, username, userid, groupid, realname,
-directory, shell FROM accounts WHERE username=%</tt>".
 
 <li><tt>CVM_PGSQL_PWCMP</tt> (optional): The <a
 href="../pwcmp/pwcmp.html">password comparison module</a> to use.
