@@ -85,7 +85,7 @@ static int lookup_userscdb(struct qmail_user* u,
 
   if (!str_copys(&tmp, "!")
       || !str_cats(&tmp, name)
-      || !str_catc(&tmp, dash)) {
+      || (*name != 0 && !str_catc(&tmp, dash))) {
     errno = ENOMEM;
     return -1;
   }
@@ -124,6 +124,8 @@ static int lookup_passwd(struct qmail_user* u, const char* name, char dash)
 {
   const struct passwd* pw;
 
+  if (*name == 0)
+    name = "alias";
   if ((pw = getpwnam(name)) == 0)
     return (errno == ETXTBSY) ? -1 : 0;
 
@@ -153,8 +155,8 @@ int qmail_users_lookup_split(struct qmail_user* u, const char* name,
   int i;
 
   /* Check if the name is a base UNIX user. */
-  str_copys(local, name);
-  str_copys(ext, "");
+  if (!str_copys(local, name)) return -1;
+  if (!str_copys(ext, "")) return -1;
   switch (qmail_users_lookup(u, name, 0)) {
   case -1: return -1;
   case 0:  break;
@@ -162,11 +164,11 @@ int qmail_users_lookup_split(struct qmail_user* u, const char* name,
   }
 
   /* Now, look for increasingly shorter base-ext pairs */
-  str_copy(&account, local);
+  if (!str_copy(&account, local)) return -1;
   i = account.len;
   while (i > 0 && (i = str_findprev(&account, '-', i-1)) != -1) {
-    str_copyb(local, account.s, i);
-    str_copyb(ext, account.s+i+1, account.len-i-1);
+    if (!str_copyb(local, account.s, i)) return -1;
+    if (!str_copyb(ext, account.s+i+1, account.len-i-1)) return -1;
     switch (qmail_users_lookup(u, local->s, '-')) {
     case -1: return -1;
     case 0: continue;
@@ -174,5 +176,11 @@ int qmail_users_lookup_split(struct qmail_user* u, const char* name,
     }
   }
 
-  return 0;
+  switch (qmail_users_lookup(u, "", '-')) {
+  case -1: return -1;
+  case 0: return 0;
+  }
+  str_copyb(local, "", 0);
+  if (!str_copy(ext, &account)) return -1;
+  return 1;
 }
