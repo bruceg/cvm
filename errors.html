@@ -5,20 +5,28 @@
 
 <h1>CVM Error Values</h1>
 
-<p>The following errors are defined:<ul>
+<p>The following errors are defined:
 
-<li><tt>CVME_GENERAL</tt> (value 1): Unspecified error.
+<table border=1>
 
-<li><tt>CVME_BAD_CLIDATA</tt> (value 2): Invalid data from the client.
+<tr> <th>#</th> <th>Name</th> <th>Description</th> </tr>
 
-<li><tt>CVME_BAD_MODDATA</tt> (value 3): Invalid data from the CVM.
+<tr> <td><tt>1</tt></td> <td><tt>CVME_GENERAL</tt></td>
+<td>Unspecified error.</td> </tr>
 
-<li><tt>CVME_IO</tt> (value 4): Input or output error while
-communicating with the CVM.
+<tr> <td><tt>2</tt></td> <td><tt>CVME_BAD_CLIDATA</tt></td>
+<td>Invalid data from the client.
 
-<li><tt>CVME_PERMFAIL</tt> (value 100): The credentials were accepted
-by the module but are incorrect.
+<tr> <td><tt>3</tt></td> <td><tt>CVME_BAD_MODDATA</tt></td>
+<td>Invalid data from the CVM.</td> </tr>
 
-</ul>
+<tr> <td><tt>4</tt></td> <td><tt>CVME_IO</tt></td> <td>Input or output
+error while communicating with the CVM.</td> </tr>
+
+<tr> <td><tt>100</tt></td> <td><tt>CVME_PERMFAIL</tt></td> <td>The
+credentials were accepted by the module but are incorrect.</td> </tr>
+
+</table>
+
 Any value other than <tt>CVME_PERMFAIL</tt> (100) should be considered
 a temporary error.</p>

@@ -3,45 +3,126 @@
 
 <h2><a href="cvm.html">CVM</a></h2>
 
-<h1>CVM Fact Numbers</h1>
+<h1>CVM Fact Definitions</h1>
+
+<h2>Types</h2>
+
+<p>Facts may have one of two types:<ul>
+
+<li><tt>string</tt>: An arbitrary length series of ASCII characters not
+containing <tt>NUL</tt>.
+
+<li><tt>integer</tt>: A series of ASCII digits interpreted as an
+unsigned decimal value.</tt>
+
+</ul></p>
+
+<h2>Numbers</h2>
 
 <p>All predefined facts numbers will have values less than 128.  All
 other fact numbers are reserved for local or experimental use.  Facts
 marked as "required" must be present at least once in the result.
 Facts marked as "multiple" may be present more than once; all other
-facts must be present at most once.  Facts may be reported in any
-order, and that order carries no significance.</p>
+facts are optional and must be present at most once.  Facts may be
+reported in any order, and that order carries no significance.</p>
 
-<p><ul>
+<p><table border=1>
 
-<li><tt>1</tt> (required) The login user name.
+<tr>
+ <th>#</th>
+ <th>Name</th>
+ <th>Type</th>
+ <th>Required/<br>Optional/<br>Multiple</th>
+ <th>Description</th>
+</tr>
 
-<li><tt>2</tt> (required) The user numerical ID.
+<tr>
+ <td><tt>1</tt></td>
+ <td><tt>FACT_USERNAME</tt></td>
+ <td>string</td>
+ <td>Required</td>
+ <td>The login user name.</td>
+</tr>
 
-<li><tt>3</tt> (required) The group numerical ID.
+<tr>
+ <td><tt>2</tt></td>
+ <td><tt>FACT_USERID</tt></td>
+ <td><tt>integer</tt></td>
+ <td>Required</td>
+ <td>The user numerical ID.</td>
+</tr>
 
-<li><tt>4</tt> (optional) The user's real name.
+<tr>
+ <td><tt>3</tt></td>
+ <td><tt>FACT_GROUPID</tt></td>
+ <td><tt>integer</tt></td>
+ <td>Required</td>
+ <td>The group numerical ID.</td>
+</tr>
 
-<li><tt>5</tt> (required) The "home" directory.
+<tr>
+ <td><tt>4</tt></td> 
+ <td><tt>FACT_REALNAME</tt></td>
+ <td><tt>string</tt></td>
+ <td>Optional</td>
+ <td>The user's real name.</td>
+</tr>
 
-<li><tt>6</tt> (required) The login shell.
+<tr>
+ <td><tt>5</tt></td> 
+ <td><tt>FACT_DIRECTORY</tt></td>
+ <td><tt>string</tt></td>
+ <td>Required</td>
+ <td>The "home" directory.</td>
+</tr>
 
-<li><tt>7</tt> (optional) The login group name, as reported by the
-system tables.
+<tr>
+ <td><tt>6</tt></td> 
+ <td><tt>FACT_SHELL</tt></td>
+ <td><tt>string</tt></td>
+ <td>Required</td>
+ <td>The login shell.</td>
+</tr>
 
-<li><tt>8</tt> (multiple) One supplemental group ID.
+<tr>
+ <td><tt>7</tt></td> 
+ <td><tt>FACT_GROUPNAME</tt></td>
+ <td><tt>string</tt></td>
+ <td>Optional</td>
+ <td>The login group name, as reported by the system tables.</td>
+</tr>
 
-<li><tt>9</tt> (optional) The system user name.  For virtual login
-systems, this may differ from fact #1.  Where present, this should be
-the user name associated with the user ID as reported by the system
-tables (ie <tt>getpwuid</tt>).
+<tr>
+ <td><tt>8</tt></td> 
+ <td><tt>FACT_SUPP_GROUPID</tt></td>
+ <td><tt>integer</tt></td>
+ <td>Optional<br>Multiple</td>
+ <td>Supplemental group ID list, must contain the primary group ID.</td>
+</tr>
 
-<li><tt>10</tt> (optional) The base "home" directory.  For virtual
-login systems, this may differ from fact #5.  Where present, this
-should be the directory associated with the user ID as reported by the
-system tables (ie <tt>getpwuid</tt>).
+<tr>
+ <td><tt>9</tt></td> 
+ <td><tt>FACT_SYS_USERNAME</tt></td>
+ <td><tt>string</tt></td>
+ <td>Optional</td>
+ <td>The system user name.  For virtual login systems, this may differ
+ from fact #1.  Where present, this should be the user name associated
+ with the user ID as reported by the system tables (ie
+ <tt>getpwuid</tt>).</td>
+</tr>
 
-</ul></p>
+<tr>
+ <td><tt>10</tt></td> 
+ <td><tt>FACT_SYS_DIRECTORY</tt></td>
+ <td><tt>string</tt></td>
+ <td>Optional</td>
+ <td>The base "home" directory.  For virtual login systems, this may
+ differ from fact #5.  Where present, this should be the directory
+ associated with the user ID as reported by the system tables (ie
+ <tt>getpwuid</tt>).</td>
+</tr>
+
+</table></p>
 
 </body>
 </html>
