@@ -1,8 +1,16 @@
 -------------------------------------------------------------------------------
 Changes in version 0.7
 
+- Modified the client and module APIs to add "cvm_" in front of all
+  exported symbols.
+
+- Modified cvm-unix to output the group name and the supplemental group
+  list.
+
 - Fixed the APIs to use "unsigned long" for the integer type instead of
   just "unsigned".
+
+- Fixed the client library to properly handle lists of facts.
 
 - Fixed use of iopoll to properly support systems with a missing or broken
   poll syscall.
