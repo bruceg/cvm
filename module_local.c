@@ -15,10 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+#include <sys/types.h>
+#include <grp.h>
+#include <pwd.h>
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
@@ -62,24 +64,72 @@ static void exitfn()
   exit(0);
 }
 
+static int make_socket(void)
+{
+  mode_t old_umask;
+  mode_t mode = 0777;
+  uid_t owner = -1;
+  gid_t group = -1;
+  const char* tmp;
+  char* end;
+  struct passwd* pw;
+  struct group* gr;
+
+  if ((tmp = getenv("CVM_SOCKET_MODE")) != 0)
+    mode = strtoul(tmp, 0, 8);
+  if ((tmp = getenv("CVM_SOCKET_OWNER")) != 0) {
+    owner = strtoul(tmp, &end, 10);
+    if (*end != 0) {
+      if ((pw = getpwnam(tmp)) == 0) {
+	perror("getpwnam");
+	return CVME_IO;
+      }
+      owner = pw->pw_uid;
+      group = pw->pw_gid;
+    }
+  }
+  if ((tmp = getenv("CVM_SOCKET_GROUP")) != 0) {
+    group = strtoul(tmp, &end, 10);
+    if (*end != 0) {
+      if ((gr = getgrnam(tmp)) == 0) {
+	perror("getgrnam");
+	return CVME_IO;
+      }
+      group = gr->gr_gid;
+    }
+  }
+
+  old_umask = umask((mode & 0777) ^ 0777);
+  if ((sock = socket_unixstr()) == -1)
+    perror("socket");
+  else if (!socket_bindu(sock, path))
+    perror("bind");
+  else if (chmod(path, mode) == -1)
+    perror("chmod");
+  else if (chown(path, owner, group) == -1)
+    perror("chown");
+  else if (!socket_listen(sock, 1))
+    perror("listen");
+  else {
+    umask(old_umask);
+    return 0;
+  }
+  return CVME_IO;
+}
+
 extern void usage(void);
 
 int local_main(const char* p)
 {
   int code;
-  mode_t old_umask;
   
   path = p;
   
   signal(SIGPIPE, SIG_IGN);
   signal(SIGINT, exitfn);
   signal(SIGTERM, exitfn);
-  
-  if ((sock = socket_unixstr()) == -1) perror("socket");
-  old_umask = umask(0);
-  if (!socket_bindu(sock, path)) perror("bind");
-  umask(old_umask);
-  if (!socket_listen(sock, 1)) perror("listen");
+
+  if ((code = make_socket()) != 0) return code;
   if ((code = cvm_auth_init()) != 0) return code;
   log_startup();
   

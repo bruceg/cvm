@@ -10,6 +10,10 @@ Changes in version 0.16
   authentication failed.  This allows command mode to be used with a
   UCSPI server to provide other modes of servers.
 
+- The module library now allows for setting the ownership of the created
+  local socket by setting $CVM_SOCKET_MODE, $CVM_SOCKET_OWNER, and
+  $CVM_SOCKET_GROUP.
+
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/
 -------------------------------------------------------------------------------

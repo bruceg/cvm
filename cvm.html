@@ -59,7 +59,11 @@ prefix is optional.
 <p>CVM modules are invoked using a similar syntax to the above:<ol>
 
 <li>UNIX (or local) domain server: Use a command-line argument of
-<tt>cvm-local:/path/to/socket</tt>.
+<tt>cvm-local:/path/to/socket</tt>.  If <tt>$CVM_SOCKET_MODE</tt> is
+set, the created socket will have this mode (in octal, defaults to
+<tt>777</tt>).  If <tt>$CVM_SOCKET_OWNER</tt> or
+<tt>$CVM_SOCKET_GROUP</tt> are set, the created socket will have its
+UID/GID set appropriately.
 
 <li>UDP socket server: Use a command-line argument of
 <tt>cvm-udp:hostname:port</tt>.  The <tt>hostname</tt> argument
