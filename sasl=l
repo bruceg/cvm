@@ -1,0 +1,6 @@
+sasl_authenticate.o
+sasl_cram_md5.o
+sasl_init.o
+sasl_login.o
+sasl_plain.o
+sasl_start.o
