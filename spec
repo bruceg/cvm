@@ -6,12 +6,28 @@ Copyright: GPL
 Group: Utilities/System
 Source: http://em.ca/~bruceg/@PACKAGE@/@VERSION@/@PACKAGE@-@VERSION@.tar.gz
 BuildRoot: %{_tmppath}/@PACKAGE@-buildroot
+BuildRequires: mysql-devel
+BuildRequires: pgsql-devel
 URL: http://em.ca/~bruceg/@PACKAGE@/
 Packager: Bruce Guenter <bruceg@em.ca>
 
 %description
 This package implements the CVM interface as a client (testcvmclient)
 and as a module (cvm_unix).
+
+%package mysql
+Group: Utilities/System
+Summary: MySQL Credential Validation Modules
+
+%description mysql
+Credential Validation Modules that authenticate against a MySQL server.
+
+%package pgsql
+Group: Utilities/System
+Summary: PostgreSQL Credential Validation Modules
+
+%description mysql
+Credential Validation Modules that authenticate against a PostgreSQL server.
 
 %prep
 %setup
@@ -38,4 +54,16 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %doc COPYING NEWS README *.html
-%{_bindir}/*
+%{_bindir}/cvm-benchclient
+%{_bindir}/cvm-checkpassword
+%{_bindir}/cvm-pwfile*
+%{_bindir}/cvm-testclient
+%{_bindir}/cvm-unix*
+
+%files mysql
+%defattr(-,root,root)
+%{_bindir}/cvm-mysql*
+
+%files pgsql
+%defattr(-,root,root)
+%{_bindir}/cvm-pgsql*
