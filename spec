@@ -43,7 +43,7 @@ Credential Validation Modules that authenticate against a PostgreSQL server.
 %setup
 
 %build
-echo gcc "%{optflags}" >conf-cc
+echo gcc "%{optflags}" -I/usr/include/pgsql >conf-cc
 echo gcc -s >conf-ld
 echo %{_bindir} >conf-bin
 make libraries programs mysql pgsql
