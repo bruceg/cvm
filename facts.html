@@ -20,11 +20,12 @@ unsigned decimal value.</tt>
 <h2>Numbers</h2>
 
 <p>All predefined facts numbers will have values less than 128.  All
-other fact numbers are reserved for local or experimental use.  Facts
-marked as "required" must be present at least once in the result.
-Facts marked as "multiple" may be present more than once; all other
-facts are optional and must be present at most once.  Facts may be
-reported in any order, and that order carries no significance.</p>
+other fact numbers (from 128 to 255) are reserved for local or
+experimental use.  Facts marked as "required" must be present at least
+once in the result.  Facts marked as "multiple" may be present more
+than once; all other facts are optional and must be present at most
+once.  Facts may be reported in any order, and that order carries no
+significance.</p>
 
 <p><table border=1>
 
@@ -80,7 +81,7 @@ reported in any order, and that order carries no significance.</p>
  <td><tt>6</tt></td> 
  <td><tt>CVM_FACT_SHELL</tt></td>
  <td><tt>string</tt></td>
- <td>Required</td>
+ <td>Optional</td>
  <td>The login shell.</td>
 </tr>
 
