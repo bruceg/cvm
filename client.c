@@ -8,6 +8,7 @@
 #include "socket/socket.h"
 #include "fork.h"
 #include "client.h"
+#include "iopoll.h"
 
 #define BUFSIZE 512
 static char buffer[BUFSIZE];
@@ -54,7 +55,7 @@ int fact_str(int number, const char** data)
 {
   char* ptr;
   
-  for (ptr = buffer; *ptr; ptr += strlen(ptr)+1) {
+  for (ptr = buffer+1; *ptr; ptr += strlen(ptr)+1) {
     if (*ptr == (char)number) {
       *data = ptr + 1;
       return 1;
@@ -97,7 +98,7 @@ static int pipefork(const char* cmd, int pipes[2])
     dup2(pipe2[1], 1);
     close(pipe2[1]);
     execlp(cmd, cmd, 0);
-    exit(111);
+    exit(1);
   default:
     close(pipe1[0]);
     pipes[0] = pipe1[1];
@@ -119,9 +120,9 @@ static int waitforit(void)
   pid_t tmp;
   while ((tmp = wait(&status)) != -1) {
     if (tmp == pid)
-      return WIFEXITED(status) ? WEXITSTATUS(status) : 111;
+      return WIFEXITED(status) ? WEXITSTATUS(status) : 1;
   }
-  return 111;
+  return 1;
 }
 
 static int write_buffer(int fd)
@@ -141,7 +142,7 @@ static int read_buffer(int fd)
   char* ptr;
   size_t rd;
 
-  for (ptr = buffer+1, buflen = 1; buflen < BUFSIZE; ptr += rd, buflen += rd) {
+  for (ptr = buffer, buflen = 0; buflen < BUFSIZE; ptr += rd, buflen += rd) {
     rd = read(fd, ptr, BUFSIZE-buflen);
     if (rd == (unsigned)-1) return 0;
     if (rd == 0) break;
@@ -154,7 +155,7 @@ static int cvm_command(const char* module)
   int pipes[2];
   int result;
 
-  if (!pipefork(module, pipes)) return 111;
+  if (!pipefork(module, pipes)) return 1;
   
   if (!write_buffer(pipes[0]) ||
       close(pipes[0]) == -1 ||
@@ -162,14 +163,31 @@ static int cvm_command(const char* module)
       close(pipes[1]) == -1) {
     killit();
     if ((result = waitforit()) != 0) return result;
-    return 111;
+    return 1;
   }
 
-  buffer[0] = waitforit();
-  return buffer[0];
+  return waitforit() ? 1 : 0;
 }
 
 /* UDP module invocation *****************************************************/
+static int udp_sendrecv(int sock, ipv4addr ip, unsigned short port)
+{
+  int timeout;
+  int try;
+  iopoll_fd ifd;
+
+  ifd.fd = sock;
+  ifd.events = IOPOLL_READ;
+  for (timeout = 2, try = 0; try < 4; timeout *= 2, ++try) {
+    if ((unsigned)socket_send4(sock, buffer, buflen, ip, port) != buflen)
+      return 0;
+    if (iopoll(&ifd, 1, timeout*1000) != 0)
+      return (buflen = socket_recv4(sock, buffer, BUFSIZE, ip, &port)) !=
+	(unsigned)-1;
+  }
+  return 0;
+}
+
 static int cvm_udp(const char* hostport)
 {
   static char* hostname;
@@ -177,33 +195,76 @@ static int cvm_udp(const char* hostport)
   unsigned short port;
   int sock;
   struct hostent* he;
+  ipv4addr ip;
   
-  if ((portstr = strchr(hostport, ':')) == 0) return 111;
+  if ((portstr = strchr(hostport, ':')) == 0) return 1;
   if (hostname) free(hostname);
   hostname = malloc(portstr-hostport+1);
   memcpy(hostname, hostport, portstr-hostport);
   hostname[portstr-hostport] = 0;
   port = strtoul(portstr+1, &portstr, 10);
-  if (*portstr != 0) return 111;
-  if ((he = gethostbyname(hostname)) == 0) return 111;
-  if ((sock = socket_udp()) == -1) return 111;
-  if ((unsigned)socket_send4(sock, buffer, buflen, he->h_addr_list[0], port) !=
-      buflen) return 111;
-  if ((buflen = socket_recv4(sock, buffer, buflen, he->h_addr_list[0], &port))
-      == (unsigned)-1) return 111;
+  if (*portstr != 0) return 1;
+  if ((he = gethostbyname(hostname)) == 0) return 1;
+  memcpy(ip, he->h_addr_list[0], 4);
+  
+  if ((sock = socket_udp()) == -1) return CVME_IO;
+  if (!socket_connect4(sock, ip, port) ||
+      !udp_sendrecv(sock, ip, port)) {
+    close(sock);
+    return CVME_IO;
+  }
+  close(sock);
   return buffer[0];
+}
+
+/* UNIX local-domain socket module invocation ********************************/
+static int cvm_local(const char* path)
+{
+  int sock;
+  int result;
+  unsigned io;
+  unsigned done;
+  void (*oldsig)(int);
+  
+  oldsig = signal(SIGPIPE, SIG_IGN);
+  result = CVME_IO;
+  if ((sock = socket_unixstr()) != -1 &&
+      socket_connectu(sock, path)) {
+    for (done = 0; done < buflen; done += io) {
+      if ((io = write(sock, buffer+done, buflen-done)) == 0) break;
+      if (io == (unsigned)-1) break;
+    }
+    socket_shutdown(sock, 0, 1);
+    if (done >= buflen) {
+      for (done = 0; done < BUFSIZE; done += io) {
+	if ((io = read(sock, buffer+done, BUFSIZE-done)) == 0) break;
+	if (io == (unsigned)-1) done = BUFSIZE+1;
+      }
+      if (done <= BUFSIZE) {
+	buflen = done;
+	result = 0;
+      }
+    }
+  }
+  close(sock);
+  signal(SIGPIPE, oldsig);
+  return result;
 }
 
 /* Top-level wrapper *********************************************************/
 int authenticate(const char* module, const char** credentials)
 {
   int result;
-  if (!build_buffer(credentials)) return 111;
+  if (!build_buffer(credentials)) return 1;
   if (!memcmp(module, "cvm-udp:", 8))
     result = cvm_udp(module+8);
-  else
+  else if (!memcmp(module, "cvm-local:", 10))
+    result = cvm_local(module+10);
+  else {
+    if (!memcmp(module, "cvm-command:", 12)) module += 12;
     result = cvm_command(module);
+  }
   if (result != 0) return result;
-  if (!parse_buffer()) return 111;
+  if (!parse_buffer()) return 1;
   return 0;
 }

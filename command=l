@@ -1,0 +1,4 @@
+module_command.o
+module_request.o
+module_output.o
+facts.o

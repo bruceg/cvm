@@ -1,4 +1,5 @@
-command.a
+local.a
+socket/socket.a
 crypt.lib
 shadow.lib
 s.lib

@@ -10,7 +10,7 @@ int main(int argc, char** argv)
     return 1;
   }
   
-  i = authenticate(argv[1], argv+2);
+  i = authenticate(argv[1], (const char**)(argv+2));
   if (i) {
     printf("Authentication failed, error #%d\n", i);
     return i;
