@@ -27,6 +27,12 @@ const char* cvm_credentials[1];
 
 static const char* query;
 
+static const char sql_query_default[] =
+"SELECT password,username,userid,groupid,directory,realname,shell,groupname,"
+"       sys_username,sys_directory "
+"FROM accounts "
+"WHERE username=$account";
+
 int cvm_auth_init(void)
 {
   const char* tmp;
