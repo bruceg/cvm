@@ -5,6 +5,7 @@
 #define CVME_BAD_CLIDATA 2
 #define CVME_BAD_MODDATA 3
 #define CVME_IO 4
+#define CVME_NOFACT 5
 #define CVME_PERMFAIL 100
 
 #endif
