@@ -1,3 +1,5 @@
+- Write tests for cvm_ucspi_domain and cvm_setugid (?)
+
 - Write up and implement CVM client->server protocol 2, which adds tags
   to the input format the same way the output has tags.
 
