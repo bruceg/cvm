@@ -1,0 +1,23 @@
+<html>
+<body>
+
+<h2><a href="cvm.html">CVM</a></h2>
+
+<h1>The cvm-benchclient Program</h1>
+
+<p><tt>cvm-benchclient</tt> provides a method of testing the
+performance of a CV module.</p>
+
+<h2>Interface</h2>
+
+<pre>
+     cvm-benchclient <i>count</i> <i>CVM</i> <i>account</i> <i>credential</i> [<i>credential ...</i>]
+</pre>
+
+<p><tt>cvm-benchclient</tt> will invoke the named CV module
+<i>count</i> times without pausing.  If the module fails to
+validate the credentials, <tt>cvm-benchclient</tt> exits immediately
+with a non-zero exit code, as reported by the module.</p>
+
+</body>
+</html>
