@@ -22,6 +22,7 @@ when the CVM starts up.
 verification routine.
 
 </dl>
+
 Before <tt>cvm_authenticate()</tt> is called, the input data stream is
 read and the account name is parsed into <tt>cvm_account_name</tt>,
 the domain name into <tt>cvm_account_domain</tt>, and the credentials
@@ -44,3 +45,10 @@ other facts are to be returned to the client, send them with
 <p><b>NOTE:</b> <tt>cvm_authenticate()</tt> must never exit except on
 fatal errors.  If it allocates any memory, it must either be freed or
 reallocated on the next invocation.</p>
+
+<p>Each module will implement at least one type of credential
+validation (ie plain text, CRAM, etc).  Modules are not obligated to
+implement multiple types of validation, but may do so by examinimg
+which credentials are present in the input.  The invoker will choose
+which modules to invoke depending on what type of credentials it needs
+validated.</p>
