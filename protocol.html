@@ -44,8 +44,9 @@ PAM modules to determine which configuration file to load.
 <h2>Output</h2>
 
 <p>If authentication succeeds, the output from the module is a single
-byte success code followed by a list of facts about the authenticator.
-The total size of the output must not exceed 512 bytes.</p>
+byte success code followed by a list of <a href="facts.html">facts</a>
+about the authenticator.  The total size of the output must not exceed
+512 bytes.</p>
 
 <p>If authentication succeeded, the code byte will be 0.  If the
 credentials are accepted by this module, but are not valid, the code
@@ -56,44 +57,6 @@ error.</p>
 is being reported, followed by a sequence of zero or more non-zero
 bytes, terminated by a single NUL byte.  A second NUL byte follows the
 last fact and indicates the end of the list.</p>
-
-<p>All predefined facts use values less than 128.  All other fact
-values are reserved for local or experimental use.  Facts marked as
-"required" must be present at least once in the result.  Facts marked
-as "multiple" may be present more than once; all other facts must be
-present at most once.  Facts may be reported in any order, and that
-order carries no significance.</p>
-
-<p><ul>
-
-<li><tt>1</tt> (required) The login user name.
-
-<li><tt>2</tt> (required) The user numerical ID.
-
-<li><tt>3</tt> (required) The group numerical ID.
-
-<li><tt>4</tt> (optional) The user's real name.
-
-<li><tt>5</tt> (required) The "home" directory.
-
-<li><tt>6</tt> (required) The login shell.
-
-<li><tt>7</tt> (optional) The login group name, as reported by the
-system tables.
-
-<li><tt>8</tt> (multiple) One supplemental group ID.
-
-<li><tt>9</tt> (optional) The system user name.  For virtual login
-systems, this may differ from fact #1.  Where present, this should be
-the user name associated with the user ID as reported by the system
-tables (ie <tt>getpwuid</tt>).
-
-<li><tt>10</tt> (optional) The base "home" directory.  For virtual
-login systems, this may differ from fact #5.  Where present, this
-should be the directory associated with the user ID as reported by the
-system tables (ie <tt>getpwuid</tt>).
-
-</ul></p>
 
 <h2>Code Considerations</h2>
 

@@ -1,0 +1,47 @@
+<html>
+<body>
+
+<h2><a href="cvm.html">CVM</a></h2>
+
+<h1>CVM Fact Numbers</h1>
+
+<p>All predefined facts numbers will have values less than 128.  All
+other fact numbers are reserved for local or experimental use.  Facts
+marked as "required" must be present at least once in the result.
+Facts marked as "multiple" may be present more than once; all other
+facts must be present at most once.  Facts may be reported in any
+order, and that order carries no significance.</p>
+
+<p><ul>
+
+<li><tt>1</tt> (required) The login user name.
+
+<li><tt>2</tt> (required) The user numerical ID.
+
+<li><tt>3</tt> (required) The group numerical ID.
+
+<li><tt>4</tt> (optional) The user's real name.
+
+<li><tt>5</tt> (required) The "home" directory.
+
+<li><tt>6</tt> (required) The login shell.
+
+<li><tt>7</tt> (optional) The login group name, as reported by the
+system tables.
+
+<li><tt>8</tt> (multiple) One supplemental group ID.
+
+<li><tt>9</tt> (optional) The system user name.  For virtual login
+systems, this may differ from fact #1.  Where present, this should be
+the user name associated with the user ID as reported by the system
+tables (ie <tt>getpwuid</tt>).
+
+<li><tt>10</tt> (optional) The base "home" directory.  For virtual
+login systems, this may differ from fact #5.  Where present, this
+should be the directory associated with the user ID as reported by the
+system tables (ie <tt>getpwuid</tt>).
+
+</ul></p>
+
+</body>
+</html>
