@@ -4,6 +4,9 @@ Changes in version 0.17
 - Corrected typo in installer code that left out the all-important "lib"
   prefix on files installed in /usr/lib
 
+- Fixed cvm-testclient to work with modules that accept zero credentials
+  (ie unprotected lookup modules).
+
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/
 -------------------------------------------------------------------------------

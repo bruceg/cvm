@@ -23,8 +23,8 @@ int main(int argc, char** argv)
   int i;
   unsigned long u;
 
-  if (argc < 5) {
-    printf("usage: cvm-testclient cvmodule account domain credential [credential ...]\n");
+  if (argc < 4) {
+    printf("usage: cvm-testclient cvmodule account domain [credential [credential ...]]\n");
     return 1;
   }
   
