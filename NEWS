@@ -4,6 +4,9 @@ Changes in version 0.11
 - Removed the MySQL and PgSQL modules from this package, and bundled
   them into a seperate cvm-sql package.
 
+- Bugfix: cvm-unix did not lowercase the account name before calling
+  getpwnam.
+
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/
 -------------------------------------------------------------------------------

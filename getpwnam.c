@@ -15,8 +15,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+#include <ctype.h>
 #include <errno.h>
 #include <pwd.h>
+#include <stdlib.h>
+#include <string.h>
 #include "module.h"
 #include "hasspnam.h"
 #include "hasuserpw.h"
@@ -31,32 +34,43 @@ static struct spwd* spw;
 static struct userpw* uwp;
 #endif
 
+static char* actbuf = 0;
+static unsigned actlen = 0;
+
+static const char* copyact(const char* account)
+{
+  unsigned len;
+  char *ptr;
+  if ((len = strlen(account)) > actlen)
+    if ((actbuf = realloc(actbuf, actlen+1)) == 0) return 0;
+  for (ptr = actbuf; *account != 0; ++ptr, ++account)
+    *ptr = isupper(*account) ? tolower(*account) : *account;
+  *ptr = 0;
+  return actbuf;
+}
+    
 int cvm_getpwnam(const char* account, struct passwd** pwp)
 {
   struct passwd* pw;
-  
-  pw = getpwnam(account);
-  if (!pw)
+
+  account = copyact(account);
+  if ((pw = getpwnam(account)) == 0)
     return (errno == ETXTBSY) ? CVME_IO : CVME_PERMFAIL;
 
 #ifdef HASUSERPW
-  upw = getuserpw(account);
-  if (upw) {
-    if (upw->upw_passwd)
-      pw->pw_passwd = upw->upw_passwd;
-  }
-  else
+  if ((upw = getuserpw(account)) == 0) {
     if (errno == ETXTBSY) return CVME_IO;
+  }
+  else if (upw->upw_passwd)
+    pw->pw_passwd = upw->upw_passwd;
 #endif
 
 #ifdef HASGETSPNAM
-  spw = getspnam(account);
-  if (spw) {
-    if (spw->sp_pwdp)
-      pw->pw_passwd = spw->sp_pwdp;
-  }
-  else
+  if ((spw = getspnam(account)) == 0) {
     if (errno == ETXTBSY) return CVME_IO;
+  }
+  else if (spw->sp_pwdp)
+    pw->pw_passwd = spw->sp_pwdp;
 #endif
 
   *pwp = pw;
