@@ -6,8 +6,6 @@ Copyright: GPL
 Group: Utilities/System
 Source: http://untroubled.org/cvm/cvm-@VERSION@.tar.gz
 BuildRoot: %{_tmppath}/cvm-buildroot
-BuildRequires: mysql-devel
-BuildRequires: postgresql-devel
 URL: http://untroubled.org/cvm/
 Packager: Bruce Guenter <bruceg@em.ca>
 
