@@ -24,6 +24,8 @@
 #include <pwcmp/client.h>
 #include "module.h"
 
+const char program[] = "cvm-pwfile";
+
 const unsigned cvm_credential_count = 1;
 const char* cvm_credentials[1];
 

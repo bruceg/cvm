@@ -26,16 +26,10 @@
 
 #include "module.h"
 
+const char program[] = "cvm-unix";
+
 const unsigned cvm_credential_count = 1;
 const char* cvm_credentials[1];
-
-#ifdef HASGETSPNAM
-#include <shadow.h>
-#endif
-
-#ifdef HASUSERPW
-#include <userpw.h>
-#endif
 
 extern char* crypt(const char* key, const char* salt);
 
