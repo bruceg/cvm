@@ -1,6 +1,7 @@
 #ifndef CVM__MODULE__H__
 #define CVM__MODULE__H__
 
+#include "str/str.h"
 #include "facts.h"
 #include "errors.h"
 
@@ -10,10 +11,14 @@
 #define LOG_FAIL 'n'
 #define LOG_ERROR '?'
 
-extern const char* cvm_account_name;
+#define CVM_PROTOCOL 1
+
+extern str cvm_account_name;
+extern str cvm_account_domain;
+
 extern char outbuffer[BUFSIZE];
 extern unsigned outbuflen;
-extern char inbuffer[BUFSIZE];
+extern char inbuffer[BUFSIZE+1];
 extern unsigned inbuflen;
 
 extern void cvm_fact_start(void);
@@ -27,10 +32,12 @@ extern void log_startup(void);
 extern void log_request(void);
 extern void log_shutdown(void);
 
+extern int cvm_parse_domain(const char* seperators);
+
 /* The following need to be provided by the module.
  * The "credentials" global is filled by the input handling code. */
 extern const unsigned cvm_credential_count;
-extern const char* cvm_credentials[];
+extern str cvm_credentials[];
 extern int cvm_auth_init(void);
 extern int cvm_authenticate(void);
 extern void cvm_auth_stop(void);

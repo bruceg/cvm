@@ -18,8 +18,10 @@
 #include <string.h>
 #include "module.h"
 
-const char* cvm_account_name;
-char inbuffer[BUFSIZE];
+str cvm_account_name;
+str cvm_account_domain;
+
+char inbuffer[BUFSIZE+1];
 unsigned inbuflen;
 
 #define ADVANCE do{ \
@@ -31,20 +33,33 @@ unsigned inbuflen;
   buf = tmp; \
 } while (0)
 
+#define COPY_ADVANCE(STR) do{ \
+  if (!str_copys(STR, buf)) return CVME_IO; \
+  if ((STR)->len >= len) return CVME_BAD_CLIDATA; \
+  len -= (STR)->len+1; \
+  buf += (STR)->len+1; \
+} while (0)
+
 static int parse_input(void)
 {
   unsigned i;
   char* buf;
   unsigned len;
+
+  if (inbuffer[0] != CVM_PROTOCOL) return CVME_BAD_CLIDATA;
   
-  buf = inbuffer;
-  len = inbuflen;
-  cvm_account_name = buf;
-  ADVANCE;
-  for (i = 0; i < cvm_credential_count; ++i) {
-    cvm_credentials[i] = buf;
-    ADVANCE;
-  }
+  /* Prevent buffer run-off by ensuring there is at least one NUL byte */
+  inbuffer[BUFSIZE] = 0;
+  buf = inbuffer + 1;
+  len = inbuflen - 1;
+
+  COPY_ADVANCE(&cvm_account_name);
+  COPY_ADVANCE(&cvm_account_domain);
+
+  for (i = 0; i < cvm_credential_count; ++i)
+    COPY_ADVANCE(&cvm_credentials[i]);
+  
+  if (*buf != 0) return CVME_BAD_CLIDATA;
   return 0;
 }
 
@@ -67,5 +82,7 @@ int handle_request(void)
     cvm_fact_str(CVM_FACT_SYS_USERNAME, cvm_fact_sys_username);
   if (cvm_fact_sys_directory)
     cvm_fact_str(CVM_FACT_SYS_DIRECTORY, cvm_fact_sys_directory);
+  if (cvm_fact_domain)
+    cvm_fact_str(CVM_FACT_DOMAIN, cvm_fact_domain);
   return 0;
 }
