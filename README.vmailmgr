@@ -1,0 +1,62 @@
+cvm-vmailmgr
+CVM modules for use with vmailmgr
+Bruce Guenter <bruceg@em.ca>
+Version 0.6
+2003-05-23
+
+This package contains CVMs for authenticating against vmailmgr password
+tables.
+
+A mailing list has been set up to discuss vmailmgr.
+To subscribe, send an email to:
+	vmailmgr-subscribe@lists.untroubled.org
+A mailing list archive is available at:
+	http://lists.untroubled.org/?list=vmailmgr
+
+Development versions of @PACKAGE@ are available via Subversion at:
+	svn://bruce-guenter.dyndns.org/@PACKAGE@/trunk
+
+Requirements:
+
+- Should work with all versions of vmailmgr that use CDB password
+  tables, introduced in version 0.89 (only tested with version 0.96.9).
+- bglibs library package version 1.009 or later.
+- cvm version 0.17 or later.
+
+Configuration:
+
+- If your virtual domain password tables are stored in a file other than
+  passwd.cdb, set $VMAILMGR_PWFILE to that file name.
+
+- If you want to protect lookups, set $VMLOOKUP_SECRET to an arbitrary
+  string before invoking cvm-vmlookup.
+
+- Set $QMAIL_ROOT to the base qmail directory (defaults to "/var/qmail").
+
+- Set $VMAILMGR_DEFAULT to the vmailmgr default username (defaults to "+").
+
+- Set $DEBUG (to anything) to see debugging output.
+
+- See http://untroubled.org/cvm/cvm.html for information on running
+  local or UDP server modules.
+
+Security Notes:
+
+- This CVM will typically need to run as root.
+
+This project was initiated at FutureQuest, Inc.  We are releasing it
+as an open-source project because we felt it would be useful to others,
+as well as to repay our debt of gratitude to the larger open-source
+community for the excellent packages we have enjoyed.
+
+For more details, you may contact FutureQuest, Inc. at:
+FutureQuest, Inc.
+PO BOX 623127
+Oviedo FL 32762-3127 USA
+http://www.FutureQuest.net/
+ossi@FutureQuest.net
+
+This package is Copyright(C) 2001-2003 Bruce Guenter or FutureQuest, Inc.,
+and may be copied according to the GNU GENERAL PUBLIC LICENSE (GPL)
+Version 2 or a later version.  A copy of this license is included with
+this package.  This package comes with no warranty of any kind.
