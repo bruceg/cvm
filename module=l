@@ -1,0 +1,4 @@
+module_input.o
+module_main.o
+module_output.o
+facts.o
