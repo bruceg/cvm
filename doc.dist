@@ -1,1 +1,2 @@
 files(glob('README.v*'))
+files(glob('*.html'))
