@@ -5,9 +5,13 @@
 
 <h1>CVM SQL Queries</h1>
 
-<p><b>Substitution:</b> All occurrences of the percent symbol
-(<tt>%</tt>) are replaced with the quoted value of the account name.
-Do not include quotes in the query.</p>
+<p><b>Substitution:</b> All occurrences of <tt>$account</tt> are
+replaced with the quoted value of the account name.  <tt>$$</tt> is
+replaced with a single dollar sign.  <tt>$VAR</tt> and <tt>${VAR}</tt>
+are replaced with the quoted value of the environment variable named
+<tt>VAR</tt>.  Use the second form when <tt>VAR</tt> contains anything
+other than alpha-numeric or underscore (<tt>_</tt>) characters.  Do
+not include quotes in the query.</p>
 
 <p><b>Results:</b> The query must produce the following fields exactly
 in order.  All required fields must not be null or empty.
@@ -17,14 +21,14 @@ in order.  All required fields must not be null or empty.
 <li>Actual account name (required)
 <li>User ID (integer) (required)
 <li>Group ID (integer) (required)
-<li>Real name (optional)
 <li>Directory (required)
+<li>Real name (optional)
 <li>Login shell (optional)
 </ol></p>
 
 <p><b>Default:</b> The default query is "<tt>SELECT password,
-username, userid, groupid, realname, directory, shell FROM accounts
-WHERE username=%</tt>".</p>
+name, userid, groupid, directory, realname, shell FROM accounts
+WHERE name=$account</tt>".</p>
 
 </body>
 </html>

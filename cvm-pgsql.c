@@ -34,6 +34,7 @@ int cvm_auth_init(void)
   const char* tmp;
   
   query = ((tmp = getenv("CVM_PGSQL_QUERY")) != 0) ? tmp : sql_query_default;
+  if (!sql_query_validate(query)) return CVME_CONFIG;
 
   if ((pg = PQconnectdb("")) == 0) return CVME_IO;
   if (PQstatus(pg) == CONNECTION_BAD) return CVME_IO;
@@ -80,8 +81,8 @@ int cvm_authenticate(void)
   cvm_fact_username = PQgetvalue(result, 0, 1);
   cvm_fact_userid = strtol(PQgetvalue(result, 0, 2), 0, 10);
   cvm_fact_groupid = strtol(PQgetvalue(result, 0, 3), 0, 10);
-  cvm_fact_realname = PQgetvnull(result, 0, 4);
-  cvm_fact_directory = PQgetvalue(result, 0, 5);
+  cvm_fact_directory = PQgetvalue(result, 0, 4);
+  cvm_fact_realname = PQgetvnull(result, 0, 5);
   cvm_fact_shell = PQgetvnull(result, 0, 6);
   cvm_fact_groupname = 0;
   

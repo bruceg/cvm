@@ -47,6 +47,7 @@ int cvm_auth_init(void)
   port = tmp ? atoi(tmp) : 0;
   unix_socket = getenv("CVM_MYSQL_SOCKET");
   query = ((tmp = getenv("CVM_MYSQL_QUERY")) != 0) ? tmp : sql_query_default;
+  if (!sql_query_validate(query)) return CVME_CONFIG;
   
   mysql_init(&mysql);
   if (!mysql_real_connect(&mysql, host, user, pass, db,
@@ -87,8 +88,8 @@ int cvm_authenticate(void)
   cvm_fact_username = row[1];
   cvm_fact_userid = strtol(row[2], 0, 10);
   cvm_fact_groupid = strtol(row[3], 0, 10);
-  cvm_fact_realname = row[4];
-  cvm_fact_directory = row[5];
+  cvm_fact_directory = row[4];
+  cvm_fact_realname = row[5];
   cvm_fact_shell = row[6];
   cvm_fact_groupname = 0;
   
