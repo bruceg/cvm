@@ -7,9 +7,15 @@ Changes in version 0.8
 
 - Added a PgSQL module.
 
+- Added a required function "cvm_auth_stop" to the module API, which is
+  called once at module shutdown.
+
 - Minor bug fix in the cvm-unix module from Paul Jarc to make the
   supplemental group id list reported by cvm-unix actually follow the
   fact specification.
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
 -------------------------------------------------------------------------------
 Changes in version 0.7
 
