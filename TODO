@@ -1,3 +1,11 @@
+- Add support for allow/deny tables
+
+  - File based: if $CVM_ACCESS/deny/$USER exists, or if
+    $CVM_ACCESS/allow exists and $CVM_ACCESS/allow/$USER does not
+    exist, deny the user.  Call a common function to test.
+
+  - SQL modules: add an extra required boolean column to the query.
+
 - Write a module to do lookups from a CDB file, as well as a tool to
   manipulate that file "cdbpasswd".
 
