@@ -1,0 +1,5 @@
+sql.a
+command.a
+str/str.a
+crypt.lib
+-lpq
