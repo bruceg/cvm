@@ -1,6 +1,12 @@
 -------------------------------------------------------------------------------
 Changes in version 0.31
 
+- Changed error code in the qmail code from EBADMSG to EDOM to allow
+  compilation on *BSD systems.
+
+This is strictly a compile-fix version.  If the previous version
+compiled for you, there is no reason to upgrade.
+
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/
 -------------------------------------------------------------------------------

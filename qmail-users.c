@@ -96,7 +96,7 @@ static int lookup_userscdb(struct qmail_user* u,
   /* tmp now contains:
    * user NUL uid NUL gid NUL home NUL dash NUL ext
    */
-  errno = EBADMSG;
+  errno = EDOM;
   ptr = tmp.s;
   end = tmp.s + tmp.len;
   user = ptr;
