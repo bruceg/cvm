@@ -6,9 +6,11 @@ group ID:         99
 real name:        CVM Test User
 directory:        /dev/null
 shell:            /bin/false
-group name:       (null)
+group name:       nobody
 system user name: (null)
 system directory: (null)
+supp. group ID:   99
+supp. group ID:   98
 
 --- Testing command module no prefix
 user name:        cvmtest
@@ -17,9 +19,11 @@ group ID:         99
 real name:        CVM Test User
 directory:        /dev/null
 shell:            /bin/false
-group name:       (null)
+group name:       nobody
 system user name: (null)
 system directory: (null)
+supp. group ID:   99
+supp. group ID:   98
 
 --- Testing command module bad password
 Authentication failed, error #100
@@ -34,9 +38,11 @@ group ID:         99
 real name:        CVM Test User
 directory:        /dev/null
 shell:            /bin/false
-group name:       (null)
+group name:       nobody
 system user name: (null)
 system directory: (null)
+supp. group ID:   99
+supp. group ID:   98
 
 --- Starting up local server
 Starting.
@@ -49,9 +55,11 @@ group ID:         99
 real name:        CVM Test User
 directory:        /dev/null
 shell:            /bin/false
-group name:       (null)
+group name:       nobody
 system user name: (null)
 system directory: (null)
+supp. group ID:   99
+supp. group ID:   98
 
 --- Testing local module, bad password
 - cvmtest
@@ -74,9 +82,11 @@ group ID:         99
 real name:        CVM Test User
 directory:        /dev/null
 shell:            /bin/false
-group name:       (null)
+group name:       nobody
 system user name: (null)
 system directory: (null)
+supp. group ID:   99
+supp. group ID:   98
 
 --- Testing UDP module, bad password
 - cvmtest
@@ -84,3 +94,20 @@ Authentication failed, error #100
 
 --- Stopping UDP server
 Stopping.
+
+--- Testing various SQL query substitutions
+one two
+'act' one two
+one 'act' two
+one two 'act'
+'1' one two
+one '1' two
+one two '1'
+'2' one two
+one '2' two
+one two '2'
+ two
+one 
+'1' one two
+one '1' two
+one two '1'

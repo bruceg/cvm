@@ -10,7 +10,7 @@ uid=`id -u`
 gid=`id -g`
 
 # Support functions
-rem() { echo; echo --- "$@" }
+rem() { echo; echo --- "$@"; }
 
 rem Testing command module with prefix
 $src/cvm-testclient cvm-command:$src/cvm-unix cvmtest cvmpass
@@ -40,6 +40,7 @@ $src/cvm-testclient cvm-local:$tmp/socket cvmtest cvmpassx
 
 rem Stopping local server
 kill $pid
+sleep 1
 
 rem Does local server remove its socket on exit?
 ls -1 $tmp/socket
@@ -57,6 +58,25 @@ $src/cvm-testclient cvm-udp:127.1.2.3:12345 cvmtest cvmpassx
 
 rem Stopping UDP server
 kill $pid
+sleep 1
+
+rem Testing various SQL query substitutions
+sqt() { env - var1=1 var_2=2 $src/sql-query-test "$@"; }
+sqt 'one two' act
+sqt '$account one two' act
+sqt 'one $account two' act
+sqt 'one two $account' act
+sqt '$var1 one two' act
+sqt 'one $var1 two' act
+sqt 'one two $var1' act
+sqt '$var_2 one two' act
+sqt 'one $var_2 two' act
+sqt 'one two $var_2' act
+sqt '$var1one two' act
+sqt 'one $var1two' act
+sqt '${var1} one two' act
+sqt 'one ${var1} two' act
+sqt 'one two ${var1}' act
 
 # Cleanup
 rm -rf $tmp
