@@ -10,7 +10,6 @@ This package contains:
 - A checkpassword interface CVM client.
 - A UNIX/POSIX system module (uses getpwnam).
 - A flat-file module (uses fgetpwent).
-- MySQL and PgSQL modules.
 - A library for client writers.
 - A set of libraries for module writers.
 

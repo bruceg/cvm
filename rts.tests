@@ -60,23 +60,5 @@ rem Stopping UDP server
 kill $pid
 sleep 1
 
-rem Testing various SQL query substitutions
-sqt() { env - var1=1 var_2=2 $src/sql-query-test "$@"; }
-sqt 'one two' act dom
-sqt '$account $domain one two' act dom
-sqt 'one $account two' act dom
-sqt 'one two $account' act dom
-sqt '$var1 one two' act dom
-sqt 'one $var1 two' act dom
-sqt 'one two $var1' act dom
-sqt '$var_2 one two' act dom
-sqt 'one $var_2 two' act dom
-sqt 'one two $var_2' act dom
-sqt '$var1one two' act dom
-sqt 'one $var1two' act dom
-sqt '${var1} one two' act dom
-sqt 'one ${var1} two' act dom
-sqt 'one two ${var1}' act dom
-
 # Cleanup
 rm -rf $tmp

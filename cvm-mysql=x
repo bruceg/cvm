@@ -1,6 +1,0 @@
-command.a
-sql.a
-str/str.a
-pwcmp/client.a
-crypt.lib
--L/usr/lib/mysql -lmysqlclient
