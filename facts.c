@@ -26,3 +26,4 @@ const char* cvm_fact_shell = 0;
 const char* cvm_fact_groupname = 0;
 const char* cvm_fact_sys_username = 0;
 const char* cvm_fact_sys_directory = 0;
+const char* cvm_fact_domain = 0;
