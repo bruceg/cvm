@@ -43,7 +43,7 @@ int cvm_auth_init(void)
   return 0;
 }
 
-extern int cvm_getpwnam(const char*, struct passwd*);
+extern int cvm_getpwnam(const char*, struct passwd**);
 
 int cvm_authenticate(void)
 {
