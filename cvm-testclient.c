@@ -43,12 +43,13 @@ int main(int argc, char** argv)
 	 "group name:       %s\n"
 	 "system user name: %s\n"
 	 "system directory: %s\n"
-	 "domain:           %s\n",
+	 "domain:           %s\n"
+	 "mailbox path:     %s\n",
 	 cvm_fact_username, cvm_fact_userid, cvm_fact_groupid,
 	 cvm_fact_realname, cvm_fact_directory,
 	 cvm_fact_shell, cvm_fact_groupname,
 	 cvm_fact_sys_username, cvm_fact_sys_directory,
-	 cvm_fact_domain);
+	 cvm_fact_domain, cvm_fact_mailbox);
   while (cvm_fact_uint(CVM_FACT_SUPP_GROUPID, &u) == 0)
     printf("supp. group ID:   %ld\n", u);
   return 0;
