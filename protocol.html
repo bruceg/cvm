@@ -5,7 +5,73 @@
 
 <h1>CVM Protocol</h1>
 
-<h2>Input</h2>
+<h2>Protocol Version 2</h2>
+
+<p>Input to and output from the module follows the same format: a
+single flag byte followed by a series of tagged strings, and completed
+with a single NUL byte.  The total size of both the input and output
+must not exceed 512 bytes.</p>
+
+<p>A tagged string consists of a tag byte, a length byte, and that
+many bytes of data.  The tag byte identifies what <a
+href="credentials.html">credential</a> (in the input) or what <a
+href="facts.html">fact</a> (in the output) is represented by the
+string.</p>
+
+<h3>Input</h3>
+
+<p>The flag byte in the input contains the protocol number, which is
+always 2.</p>
+
+<h3>Output</h3>
+
+<p>The flag byte in the version 2 protocol output contains the
+authentication success code.  If authentication succeeded, the code
+byte will be 0.  If the credentials are accepted by this module, but
+are not valid, the code will be 100 (permanent failure).  Any other
+code indicates a temporary <a href="errors.html">error</a>.  The list
+of <a href="facts.html">facts</a> will follow the flag byte only if
+authentication succeeded.</p>
+
+<h2>Environment Variables</h2>
+
+<p>The following environment variables may be set by the invoker:<dl>
+
+<dt><tt>SERVICE</tt> <dd>The service name, to be used (for example) by
+PAM modules to determine which configuration file to load.
+
+</dl>
+
+<b>Note:</b> for non-command modules, the invoker is NOT the CVM
+client.  The CVM client has no control over the environment variables
+of non-command modules.</p>
+
+<h2>Code Considerations</h2>
+
+<p>Each module will implement a single type of credential validation.
+The invoker will choose which modules to invoke depending on what type
+of credentials it needs validated.</p>
+
+<p>The module must report a temporary error if it detects malformed
+input (too few credentials, etc.).  Extra input is a fault in the
+invoking code, and may produce undefined results.</p>
+
+<p>An executable module must exit 0 if authentication succeeds.
+Non-zero exit codes from an executable module should be treated as a
+temporary error.</p>
+
+<p>The invoker of an executable module must assume a temporary error
+if the module either fails to completely read its input or produces
+incomplete output, even if the module exits without error.</p>
+
+<p>The invoking code should change directory to the named home
+directory and drop root priviledges as soon as possible after
+successful authentication.  Where reasonable, the invoking code should
+also chroot to the directory for added protection.</p>
+
+<h2>Protocol Version 1</h2>
+
+<h3>Input</h3>
 
 <p>Input to the authenticator is as follows.  All items except the
 first, which is a single byte, are NUL-terminated strings.  The total
@@ -34,20 +100,7 @@ challenge and MD5 digest.
 
 </ul></p>
 
-<p>Each module will implement a single type of credential validation.
-The invoker will choose which modules to invoke depending on what type
-of credentials it needs validated.</p>
-
-<h2>Environment Variables</h2>
-
-<p>The following environment variables may be set by the invoker:<dl>
-
-<dt><tt>SERVICE</tt> <dl>The service name, to be used (for example) by
-PAM modules to determine which configuration file to load.
-
-</dl></p>
-
-<h2>Output</h2>
+<h3>Output</h3>
 
 <p>If authentication succeeds, the output from the module is a single
 byte success code followed by a list of <a href="facts.html">facts</a>
@@ -60,25 +113,9 @@ will be 100 (permanent failure).  Any other code indicates a temporary
 error.</p>
 
 <p>Each fact consists of a single byte identifying what type of fact
-is being reported, followed by a sequence of zero or more non-zero
+is being reported, followed by a sequence of zero or more non-NUL
 bytes, terminated by a single NUL byte.  A second NUL byte follows the
 last fact and indicates the end of the list.</p>
 
-<h2>Code Considerations</h2>
-
-<p>The module must report a temporary error if it detects malformed
-input (too few credentials, etc.).  Extra input is a fault in the
-invoking code, and may produce undefined results.</p>
-
-<p>An executable module must exit 0 if authentication succeeds.
-Non-zero exit codes from an executable module should be treated as a
-temporary error.</p>
-
-<p>The invoker of an executable module must assume a temporary error
-if the module either fails to completely read its input or produces
-incomplete output, even if the module exits without error.</p>
-
-<p>The invoking code should change directory to the named home
-directory and drop root priviledges as soon as possible after
-successful authentication.  Where reasonable, the invoking code should
-also chroot to the directory for added protection.</p>
+</body>
+</html>
