@@ -21,18 +21,18 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
+#include "pwcmp/client.h"
 #include "module.h"
 
 const unsigned cvm_credential_count = 1;
 const char* cvm_credentials[1];
-
-extern char* crypt(const char* key, const char* salt);
 
 static const char* pwfilename;
 
 int cvm_auth_init(void)
 {
   if ((pwfilename = getenv("CVM_PWFILE_PATH")) == 0) return CVME_CONFIG;
+  if (!pwcmp_start(getenv("CVM_PWFILE_PWCMP"))) return CVME_GENERAL;
   return 0;
 }
 
@@ -49,8 +49,11 @@ int cvm_authenticate(void)
   fclose(pwfile);
   
   if (pw == 0 || pw->pw_passwd == 0) return CVME_PERMFAIL;
-  if (strcmp(crypt(cvm_credentials[0], pw->pw_passwd), pw->pw_passwd) != 0)
-    return CVME_PERMFAIL;
+  switch (pwcmp_check(cvm_credentials[0], pw->pw_passwd)) {
+  case 0: break;
+  case -1: return CVME_IO | CVME_FATAL;
+  default: return CVME_PERMFAIL;
+  }
 
   if ((tmp = strchr(pw->pw_gecos, ',')) != 0)
     *tmp = 0;
@@ -64,4 +67,9 @@ int cvm_authenticate(void)
   cvm_fact_groupname = 0;
   
   return 0;
+}
+
+void cvm_auth_stop(void)
+{
+  pwcmp_stop();
 }
