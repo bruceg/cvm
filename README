@@ -6,8 +6,8 @@ Version 0.5
 
 This package contains:
 - The reference source for the CVM interface.
-- A UNIX system CVM module (uses getpwnam).
-- A test CVM client.
+- A UNIX/POSIX system CVM module (uses getpwnam).
+- A diagnostic CVM client.
 - A library for client writers.
 - A set of libraries for module writers.
 
@@ -21,7 +21,7 @@ Development versions of cvm are available via anonymous CVS.
 Set your CVSROOT to ":pserver:cvs@bruce-guenter.dyndns.org:/CVS",
 login with an empty password, and check out the "cvm" module.
 
-This program is Copyright(C) 2000-2001 Bruce Guenter, and may be copied
+This program is Copyright(C) 2001 Bruce Guenter, and may be copied
 according to the GNU GENERAL PUBLIC LICENSE (GPL) Version 2 or a later
 version.  A copy of this license is included with this package.  This
 package comes with no warranty of any kind.
