@@ -1,3 +1,32 @@
+/*
+
+ cvm-vchkpw.c
+
+ for authentication against vpopmail from http://www.inter7.com
+
+ add to conf-cc:
+
+    -I/usr/local/vpopmail/include
+
+ add to conf-ld:
+
+     -L/usr/local/vpopmail/lib -L/usr/local/lib/mysql -R/usr/local/lib/mysql
+     (mysql if vpopmail is compiled with mysql)
+     
+ add to Makefile:
+ 
+   cvm-vchkpw: load cvm-vchkpw.o module.a crypt.lib shadow.lib s.lib socket.lib
+   	./load cvm-vchkpw getpwnam.o module.a at crypt.lib at shadow.lib at s.lib at socket.lib -lbg-net -lvpopmail -lmysqlclient
+
+   cvm-vchkpw.o: compile cvm-vchkpw.c module.h facts.h errors.h
+	./compile cvm-vchkpw.c
+
+ and add cvm-vchkpw to the programs rule:
+
+   programs: cvm-unix cvm-vchkpw cvm-pwfile cvm-benchclient cvm-testclient cvm-checkpassword
+
+*/
+
 #include <string.h>
 #include <stdlib.h>
 #include <pwd.h>
