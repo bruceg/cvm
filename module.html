@@ -24,6 +24,9 @@ the stored credentials for the named user.
 <dt><tt>int cvm_authenticate(void)</tt> <dd>The main authentication
 verification routine.
 
+<dt><tt>void cvm_auth_stop(void)</tt> <dd>This routine is called once
+when the CVM is shut down.
+
 </dl>
 
 In addition, a module <i>may</i> provide the following items.  If they
@@ -55,9 +58,10 @@ other facts are to be returned to the client, send them with
 <tt>cvm_fact_str(int number, const char* data)</tt> or
 <tt>cvm_fact_uint(int number, unsigned data)</tt>.</p>
 
-<p><b>NOTE:</b> <tt>cvm_authenticate()</tt> must never exit except on
-fatal errors.  If it allocates any memory, it must either be freed or
-reallocated on the next invocation.</p>
+<p><b>NOTE:</b> The functions supplied by the module must never exit
+except on fatal errors.  If any memory is allocated in the course of
+processing a request, it must either be freed or reallocated on the next
+invocation.</p>
 
 <p>Each module will implement at least one type of credential
 validation (ie plain text, CRAM, etc).  Modules are not obligated to
