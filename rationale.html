@@ -24,7 +24,9 @@ extended to include more optional facts.</p>
 <dt>Single-byte fact identifiers. <dd><p>Simplifying identifier names
 into a single byte greatly simplifies parsing code, without making the
 output code any more complex, and without significantly reducing the
-range of facts that can be expressed.</p>
+range of facts that can be expressed.  It also helps to avoid
+enlarging the datagram size, which is important due to the strict
+limits on total size (see below).</p>
 
 <dt>No chaining. <dd><p>What was accomplished by chaining with
 Courier's authentication modules can be better accomplished through
@@ -51,7 +53,7 @@ invoker.</p>
 frame is limited to 512 bytes without introducing serious transmission
 reliability problems.  The UDP response also contains a single byte
 indicating success/failure that the executable-mode programs transmit
-out-of-bad through the program's exit code.</p>
+out-of-band through the program's exit code.</p>
 
 <dt>Options for long-running server modules. <dd><p>Long-running
 server modules provide a method for transitioning permissions
