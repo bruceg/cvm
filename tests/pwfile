@@ -1,5 +1,5 @@
 CVM_PWFILE_PATH=$tmp/pwfile export CVM_PWFILE_PATH
-echo 'pwfuser:testpass:123:456:Gecos:/home/ftp:/bin/false' >$CVM_PWFILE_PATH
+echo 'pwfuser:testpass:123:456:Gecos,xyz:/home/ftp:/bin/false' >$CVM_PWFILE_PATH
 cvm-testclient cvm-pwfile pwfuser '' testpass
 <result>
 user name:        pwfuser

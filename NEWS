@@ -9,6 +9,8 @@ Changes in version 0.12
 
 - Switched to external bglibs.
 
+- Dropped use of non-portable fgetpwent in cvm-pwfile.
+
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/
 -------------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 /* cvm/cvm-pwfile.c - Alternate passwd file CVM module
- * Copyright (C) 2001  Bruce Guenter <bruceg@em.ca>
+ * Copyright (C) 2001,2003  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,36 +36,73 @@ int cvm_auth_init(void)
   return 0;
 }
 
+static int parse_rest(char* rest)
+{
+  /* Format: "UID:GID:NAME,other:DIR:SHELL" */
+  char* tmp;
+  cvm_fact_userid = strtoul(rest, &tmp, 10);
+  if (*tmp != ':') return 0;
+  rest = tmp + 1;
+
+  cvm_fact_groupid = strtoul(rest, &tmp, 10);
+  if (*tmp != ':') return 0;
+  rest = tmp + 1;
+
+  cvm_fact_realname = rest;
+  if ((tmp = strchr(rest, ',')) != 0) {
+    *tmp++ = 0;
+    rest = tmp;
+  }
+
+  if ((tmp = strchr(rest, ':')) == 0) return 0;
+  *tmp++ = 0;
+  cvm_fact_directory = rest = tmp;
+
+  if ((tmp = strchr(rest, ':')) == 0) return 0;
+  *tmp++ = 0;
+  cvm_fact_shell = rest = tmp;
+
+  cvm_fact_groupname = 0;
+  return 1;
+}
+
 int cvm_authenticate(void)
 {
   FILE* pwfile;
-  struct passwd* pw;
-  char* tmp;
+  char* passwd;
+  char* rest;
+  long namelen;
+  char line[1024];
+
+  passwd = 0;
+  namelen = strlen(cvm_account_name);
 
   if ((pwfile = fopen(pwfilename, "r")) == 0) return CVME_IO;
-  while ((pw = fgetpwent(pwfile)) != 0) {
-    if (strcasecmp(cvm_account_name, pw->pw_name) == 0) break;
+  while (fgets(line, sizeof line, pwfile) != 0) {
+    long len = strlen(line);
+    if (line[len-1] != '\n') continue;
+    line[len-1] = 0;
+    if (strncasecmp(cvm_account_name, line, namelen) == 0 &&
+	line[namelen] == ':') {
+      passwd = line + namelen;
+      *passwd++ = 0;
+      break;
+    }
   }
   fclose(pwfile);
-  
-  if (pw == 0 || pw->pw_passwd == 0) return CVME_PERMFAIL;
-  switch (pwcmp_check(cvm_credentials[0], pw->pw_passwd)) {
+  if (passwd == 0) return CVME_PERMFAIL;
+
+  if ((rest = strchr(passwd, ':')) == 0 || rest == passwd)
+    return CVME_PERMFAIL;
+  *rest++ = 0;
+  switch (pwcmp_check(cvm_credentials[0], passwd)) {
   case 0: break;
   case -1: return CVME_IO | CVME_FATAL;
   default: return CVME_PERMFAIL;
   }
 
-  if ((tmp = strchr(pw->pw_gecos, ',')) != 0)
-    *tmp = 0;
-
-  cvm_fact_username = pw->pw_name;
-  cvm_fact_userid = pw->pw_uid;
-  cvm_fact_groupid = pw->pw_gid;
-  cvm_fact_realname = pw->pw_gecos;
-  cvm_fact_directory = pw->pw_dir;
-  cvm_fact_shell = pw->pw_shell;
-  cvm_fact_groupname = 0;
-  
+  cvm_fact_username = line;
+  if (!parse_rest(rest)) return CVME_CONFIG;
   return 0;
 }
 
