@@ -48,7 +48,7 @@ int main(void)
   int code;
   if ((code = read_input()) != 0) return code;
   if ((code = handle_request()) != 0) return code;
-  fact_end(code);
+  cvm_fact_end(code);
   if ((code = write_output()) != 0) return code;
   return 0;
 }

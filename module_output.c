@@ -40,19 +40,19 @@ static int fact(int number, const char* data, unsigned len)
   return 1;
 }
 
-void fact_start(void)
+void cvm_fact_start(void)
 {
   outbuflen = 1;
   outbufptr = outbuffer + outbuflen;
 }
 
-int fact_str(int number, const char* data)
+int cvm_fact_str(int number, const char* data)
 {
   if (!data) return 0;
   return fact(number, data, strlen(data));
 }
 
-void fact_end(int code)
+void cvm_fact_end(int code)
 {
   if (outbuflen >= BUFSIZE) code = CVME_BAD_MODDATA;
   if (code) {
@@ -66,7 +66,7 @@ void fact_end(int code)
   }
 }
 
-int fact_uint(int number, unsigned long data)
+int cvm_fact_uint(int number, unsigned long data)
 {
   char buf[64];
   char* ptr;

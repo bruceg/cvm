@@ -8,35 +8,35 @@
 <p>To write a module using the CVM module library, you must provide
 three items:<dl>
 
-<dt><tt>const unsigned credential_count</tt> <dd>Set this global to
-the number of credentials required from the client.
+<dt><tt>const unsigned cvm_credential_count</tt> <dd>Set this global
+to the number of credentials required from the client.
 
-<dt><tt>const char* credentials[X]</tt>, where X is the same as
+<dt><tt>const char* cvm_credentials[X]</tt>, where X is the same as
 <tt>credential_count</tt> above <dd>Pointers to the credentials read
 from the client are stored in this array.
 
-<dt><tt>int authenticate(void)</tt> <dd>The main authentication
+<dt><tt>int cvm_authenticate(void)</tt> <dd>The main authentication
 verification routine.
 
 </dl>
-Before <tt>authenticate()</tt> is called, the input data stream is
-read and the account name is parsed into <tt>account_name</tt> and the
-credentials are parsed into <tt>credentials</tt>.  The service name is
-also available as <tt>service_name</tt>.</p>
+Before <tt>cvm_authenticate()</tt> is called, the input data stream is
+read and the account name is parsed into <tt>cvm_account_name</tt> and
+the credentials are parsed into <tt>cvm_credentials</tt>..</p>
 
 <p>If authentication fails, the module must return
 <tt>CVME_PERMFAIL</tt> (value 100).  If there was a temporary error,
 return any other non-zero number <a href="errors.html">error code</a>.
-Otherwise, return zero after setting <tt>fact_username</tt>,
-<tt>fact_userid</tt>, <tt>fact_groupid</tt>, <tt>fact_directory</tt>,
-and <tt>fact_shell</tt>, which will be automatically sent to the
-client when <tt>authenticate()</tt> completes.
-<tt>fact_realname</tt>, <tt>fact_groupname</tt>,
-<tt>fact_sys_username</tt>, and <tt>fact_sys_directory</tt> will also
-be sent if they are set.  If any other facts are to be returned to the
-client, send them with <tt>fact_str(int number, const char* data)</tt>
-or <tt>fact_uint(int number, unsigned data)</tt>.</p>
+Otherwise, return zero after setting <tt>cvm_fact_username</tt>,
+<tt>cvm_fact_userid</tt>, <tt>cvm_fact_groupid</tt>,
+<tt>cvm_fact_directory</tt>, and <tt>cvm_fact_shell</tt>, which will
+be automatically sent to the client when <tt>authenticate()</tt>
+completes.  <tt>cvm_fact_realname</tt>, <tt>cvm_fact_groupname</tt>,
+<tt>cvm_fact_sys_username</tt>, and <tt>cvm_fact_sys_directory</tt>
+will also be sent if they are set.  If any other facts are to be
+returned to the client, send them with <tt>cvm_fact_str(int number,
+const char* data)</tt> or <tt>cvm_fact_uint(int number, unsigned
+data)</tt>.</p>
 
-<p><b>NOTE:</b> <tt>authenticate()</tt> must never exit except on
+<p><b>NOTE:</b> <tt>cvm_authenticate()</tt> must never exit except on
 fatal errors.  If it allocates any memory, it must either be freed or
 reallocated on the next invocation.</p>

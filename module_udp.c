@@ -76,7 +76,7 @@ int main(int argc, char** argv)
   for (;;) {
     if ((code = read_input()) != 0) continue;
     code = handle_request();
-    fact_end(code);
+    cvm_fact_end(code);
     log_request();
     write_output();
   }

@@ -40,10 +40,10 @@ void log_request(void)
   case CVME_PERMFAIL: status = '-'; break;
   default: status = '?'; break;
   }
-  account_len = strlen(account_name);
+  account_len = strlen(cvm_account_name);
   tmp[0] = status;
   tmp[1] = ' ';
-  memcpy(tmp+2, account_name, account_len);
+  memcpy(tmp+2, cvm_account_name, account_len);
   tmp[account_len+2] = '\n';
   tmp[account_len+3] = 0;
   write(1, tmp, strlen(tmp));

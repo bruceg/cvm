@@ -10,17 +10,17 @@
 #define LOG_FAIL 'n'
 #define LOG_ERROR '?'
 
-extern const char* service_name;
-extern const char* account_name;
+extern const char* cvm_account_name;
 extern char outbuffer[BUFSIZE];
 extern unsigned outbuflen;
 extern char inbuffer[BUFSIZE];
 extern unsigned inbuflen;
 
-extern void fact_start(void);
-extern int fact_str(int number, const char* data);
-extern int fact_uint(int number, unsigned long data);
-extern void fact_end(int code);
+extern void cvm_fact_start(void);
+extern int cvm_fact_str(int number, const char* data);
+extern int cvm_fact_uint(int number, unsigned long data);
+extern void cvm_fact_end(int code);
+
 extern int handle_request(void);
 
 extern void log_startup(void);
@@ -29,8 +29,8 @@ extern void log_shutdown(void);
 
 /* The following need to be provided by the module.
  * The "credentials" global is filled by the input handling code. */
-extern const unsigned credential_count;
-extern const char* credentials[];
-extern int authenticate(void);
+extern const unsigned cvm_credential_count;
+extern const char* cvm_credentials[];
+extern int cvm_authenticate(void);
 
 #endif

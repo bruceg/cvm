@@ -18,7 +18,7 @@
 #include <string.h>
 #include "module.h"
 
-const char* account_name;
+const char* cvm_account_name;
 char inbuffer[BUFSIZE];
 unsigned inbuflen;
 
@@ -39,10 +39,10 @@ static int parse_input(void)
   
   buf = inbuffer;
   len = inbuflen;
-  account_name = buf;
+  cvm_account_name = buf;
   ADVANCE;
-  for (i = 0; i < credential_count; ++i) {
-    credentials[i] = buf;
+  for (i = 0; i < cvm_credential_count; ++i) {
+    cvm_credentials[i] = buf;
     ADVANCE;
   }
   return 0;
@@ -52,16 +52,20 @@ int handle_request(void)
 {
   int code;
   if ((code = parse_input()) != 0) return code;
-  fact_start();
-  if ((code = authenticate()) != 0) return code;
-  fact_str(FACT_USERNAME, fact_username);
-  fact_uint(FACT_USERID, fact_userid);
-  fact_uint(FACT_GROUPID, fact_groupid);
-  if (fact_realname) fact_str(FACT_REALNAME, fact_realname);
-  fact_str(FACT_DIRECTORY, fact_directory);
-  fact_str(FACT_SHELL, fact_shell);
-  if (fact_groupname) fact_str(FACT_GROUPNAME, fact_groupname);
-  if (fact_sys_username) fact_str(FACT_SYS_USERNAME, fact_sys_username);
-  if (fact_sys_directory) fact_str(FACT_SYS_DIRECTORY, fact_sys_directory);
+  cvm_fact_start();
+  if ((code = cvm_authenticate()) != 0) return code;
+  cvm_fact_str(CVM_FACT_USERNAME, cvm_fact_username);
+  cvm_fact_uint(CVM_FACT_USERID, cvm_fact_userid);
+  cvm_fact_uint(CVM_FACT_GROUPID, cvm_fact_groupid);
+  if (cvm_fact_realname)
+    cvm_fact_str(CVM_FACT_REALNAME, cvm_fact_realname);
+  cvm_fact_str(CVM_FACT_DIRECTORY, cvm_fact_directory);
+  cvm_fact_str(CVM_FACT_SHELL, cvm_fact_shell);
+  if (cvm_fact_groupname)
+    cvm_fact_str(CVM_FACT_GROUPNAME, cvm_fact_groupname);
+  if (cvm_fact_sys_username)
+    cvm_fact_str(CVM_FACT_SYS_USERNAME, cvm_fact_sys_username);
+  if (cvm_fact_sys_directory)
+    cvm_fact_str(CVM_FACT_SYS_DIRECTORY, cvm_fact_sys_directory);
   return 0;
 }
