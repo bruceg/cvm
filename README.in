@@ -1,15 +1,15 @@
-cvm
+@PACKAGE@
 Credential Validation Modules
 Bruce Guenter <bruceg@em.ca>
-Version 0.12
-2001-09-12
+Version @VERSION@
+@TODAY@
 
 This package contains:
 - The reference source for the CVM interface.
 - Diagnostic and benchmark CVM clients.
 - A checkpassword interface CVM client.
 - A UNIX/POSIX system module (uses getpwnam).
-- A flat-file module (uses fgetpwent).
+- A flat-file module.
 - A library for client writers.
 - A set of libraries for module writers.
 
@@ -18,6 +18,9 @@ To subscribe, send an email to:
 	bgware-subscribe@lists.em.ca
 A mailing list archive is available at:
 	http://lists.em.ca/?list=bgware
+
+Development versions of @PACKAGE@ are available via Subversion at:
+	svn://bruce-guenter.dyndns.org/@PACKAGE@/trunk
 
 Installation:
 
@@ -33,7 +36,7 @@ Installation:
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/
 
-This program is Copyright(C) 2001 Bruce Guenter, and may be copied
+This program is Copyright(C) 2001-2003 Bruce Guenter, and may be copied
 according to the GNU GENERAL PUBLIC LICENSE (GPL) Version 2 or a later
 version.  A copy of this license is included with this package.  This
 package comes with no warranty of any kind.
