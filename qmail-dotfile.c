@@ -30,8 +30,8 @@ int qmail_dotfile_exists(const struct qmail_user* user, const char* ext)
   int split;
   int baselen;
 
-  str_copy(&path, &user->homedir);
-  str_cats(&path, "/.qmail");
+  if (!str_copy(&path, &user->homedir)) return -1;
+  if (!str_cats(&path, "/.qmail")) return -1;
 
   if (!user->dash) {
     if (stat(path.s, &st) == 0)
@@ -40,10 +40,10 @@ int qmail_dotfile_exists(const struct qmail_user* user, const char* ext)
   }
 
   baselen = path.len;
-  str_catc(&path, user->dash);
-  str_cat(&path, &user->ext);
+  if (!str_catc(&path, user->dash)) return -1;
+  if (!str_cat(&path, &user->ext)) return -1;
   if (ext != 0)
-    str_cats(&path, ext);
+    if (!str_cats(&path, ext)) return -1;
 
   split = path.len;
   for (;;) {
@@ -54,11 +54,8 @@ int qmail_dotfile_exists(const struct qmail_user* user, const char* ext)
     if ((split = str_findprev(&path, '-', split - 1)) == -1
 	|| split < baselen)
       break;
-    // homedir/.qmail-a-b
-    //                 ^ split
-    // homedir/.qmail-a-default
     path.len = split + 1;
-    str_cats(&path, "default");
+    if (!str_cats(&path, "default")) return -1;
   }
   return 0;
 }
