@@ -34,8 +34,8 @@ int main(int argc, char** argv)
   }
 
   printf("user name:        %s\n"
-	 "user ID:          %d\n"
-	 "group ID:         %d\n"
+	 "user ID:          %ld\n"
+	 "group ID:         %ld\n"
 	 "real name:        %s\n"
 	 "directory:        %s\n"
 	 "shell:            %s\n"

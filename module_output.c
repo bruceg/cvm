@@ -66,7 +66,7 @@ void fact_end(int code)
   }
 }
 
-int fact_uint(int number, unsigned data)
+int fact_uint(int number, unsigned long data)
 {
   char buf[64];
   char* ptr;

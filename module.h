@@ -19,7 +19,7 @@ extern unsigned inbuflen;
 
 extern void fact_start(void);
 extern int fact_str(int number, const char* data);
-extern int fact_uint(int number, unsigned data);
+extern int fact_uint(int number, unsigned long data);
 extern void fact_end(int code);
 extern int handle_request(void);
 

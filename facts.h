@@ -13,8 +13,8 @@
 #define FACT_SYS_DIRECTORY 10
 
 extern const char* fact_username;
-extern unsigned fact_userid;
-extern unsigned fact_groupid;
+extern unsigned long fact_userid;
+extern unsigned long fact_groupid;
 extern const char* fact_realname;
 extern const char* fact_directory;
 extern const char* fact_shell;
