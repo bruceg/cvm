@@ -40,6 +40,7 @@ extern int cvm_parse_domain(const char* seperators);
 extern const unsigned cvm_credential_count;
 extern const char* cvm_credentials[];
 extern int cvm_auth_init(void);
+extern int cvm_preauth(void);
 extern int cvm_lookup(void);
 extern int cvm_authenticate(void);
 extern int cvm_results(void);

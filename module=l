@@ -4,5 +4,6 @@ module_local.o
 module_log.o
 module_main.o
 module_output.o
+module_preauth.o
 module_request.o
 module_udp.o

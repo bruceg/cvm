@@ -1,5 +1,6 @@
 module_command.o
 module_command_main.o
+module_preauth.o
 module_request.o
 module_output.o
 facts.o

@@ -23,6 +23,15 @@ verification routine.
 
 </dl>
 
+In addition, a module <i>may</i> provide the following items.  If they
+are not present in the module, default no-op stubs are used.<dl>
+
+<dt><tt>int cvm_preauth(void)</tt> <dd>This function is called before
+<tt>cvm_lookup</tt> to validate credentials not based on the account
+name.
+
+</dl>
+
 Before <tt>cvm_authenticate()</tt> is called, the input data stream is
 read and the account name is parsed into <tt>cvm_account_name</tt>,
 the domain name into <tt>cvm_account_domain</tt>, and the credentials

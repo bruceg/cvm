@@ -65,6 +65,7 @@ int handle_request(void)
   int code;
   if ((code = parse_input()) != 0) return code;
   cvm_fact_start();
+  if ((code = cvm_preauth()) != 0) return code;
   if ((code = cvm_lookup()) != 0) return code;
   if ((code = cvm_authenticate()) != 0) return code;
   if ((code = cvm_results()) != 0) return code;
