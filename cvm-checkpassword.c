@@ -38,6 +38,7 @@ void get_data(void)
     if (rd == (unsigned)-1) exit(111);	/* Read error */
     if (rd == 0) break;
   }
+  close(3);
   if (buflen >= sizeof buffer) exit(2); /* Buffer too long */
   if ((pass = memchr(buffer, 0, buflen)) == 0) exit(2);	/* No password */
   ++pass;
