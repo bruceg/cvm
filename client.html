@@ -52,5 +52,45 @@ unsigned integer.  Successive calls to this function with the same
 <tt>number</tt> return subsequent facts if more than one instance of
 the fact was present.</p>
 
+<dt><tt>const char* cvm_ucspi_domain(void)</tt> <dd><p>Retrieves the
+UCSPI local domain from the environment variable named
+<tt>${PROTO}LOCALHOST</tt>.  Use this as the <tt>domain</tt>
+paramenter to <tt>cvm_authenticate</tt> in all UCSPI servers that have
+no other means of determining the domain name.</p>
+
+<dt><tt>int cvm_setenv(void)</tt> <dd><p>Exports the following
+environment variables based on their associated CVM fact.  If the fact
+was optional and was not present in the results from the module, the
+environment variable will not be set or unset.</p>
+
+<table border=1>
+
+<tr> <th>Variable</th> <th>CVM Fact</th> </tr>
+
+<tr> <td><tt>USER</tt></td> <td><tt>CVM_FACT_USERNAME</tt></td> </tr>
+
+<tr> <td><tt>UID</tt></td> <td><tt>CVM_FACT_USERID</tt></td> </tr>
+
+<tr> <td><tt>GID</tt></td> <td><tt>CVM_FACT_GROUPID</tt></td> </tr>
+
+<tr> <td><tt>NAME</tt></td> <td><tt>CVM_FACT_REALNAME</tt></td> </tr>
+
+<tr> <td><tt>HOME</tt></td> <td><tt>CVM_FACT_DIRECTORY</tt></td> </tr>
+
+<tr> <td><tt>SHELL</tt></td> <td><tt>CVM_FACT_SHELL</tt></td> </tr>
+
+<tr> <td><tt>GROUP</tt></td> <td><tt>CVM_FACT_GROUPNAME</tt></td> </tr>
+
+<tr> <td><tt>DOMAIN</tt></td> <td><tt>CVM_FACT_DOMAIN</tt></td> </tr>
+
+<tr> <td><tt>MAILBOX</tt></td> <td><tt>CVM_FACT_MAILBOX</tt></td> </tr>
+
+</table>
+
+<dt><tt>int cvm_setugid(void)</tt> <dd><p>Calls <tt>chdir</tt>,
+<tt>setgid</tt> and <tt>setuid</tt> with appropriate values based on
+the data returned from the authentication.  Returns zero if any of the
+calls failed.</p>
+
 </dl></p>
 
