@@ -7,7 +7,7 @@
 
 <p>The CVM client library defines the following functions:<dl>
 
-<dt><tt>int authenticate(const char* module, const char**
+<dt><tt>int cvm_authenticate(const char* module, const char**
 credentials)</tt> <dd><p>This is the main entry point to the library.
 Simply set up the account name and credentials as an array with a
 trailing NULL pointer and call <tt>authenticate</tt>.  The function
@@ -15,25 +15,28 @@ will return 0 if authentication succeeded and an <a
 href="errors.html">error code</a> otherwise.</p>
 
 <p>If authentication succeeds, this routine automatically retrieves
-<tt>fact_username</tt>, <tt>fact_userid</tt>, <tt>fact_groupid</tt>,
-<tt>fact_directory</tt>, and <tt>fact_shell</tt>.
-<tt>fact_realname</tt>, <tt>fact_groupname</tt>,
-<tt>fact_sys_username</tt>, and <tt>fact_sys_directory</tt> are also
-set if they were present in the results.</p>
+<tt>cvm_fact_username</tt>, <tt>cvm_fact_userid</tt>,
+<tt>cvm_fact_groupid</tt>, <tt>cvm_fact_directory</tt>, and
+<tt>cvm_fact_shell</tt>.  <tt>cvm_fact_realname</tt>,
+<tt>cvm_fact_groupname</tt>, <tt>cvm_fact_sys_username</tt>, and
+<tt>cvm_fact_sys_directory</tt> are also set if they were present in
+the results.</p>
 
-<dt><tt>int fact_str(int number, const char** data)</tt>
+<dt><tt>int cvm_fact_str(int number, const char** data)</tt>
 <dd><p>Retrieves a <a href="facts.html">fact</a> from the data
-returned by the module as a NUL-terminated string.  Returns non-zero
-if the fact was present.  Successive calls to this function with the
-same <tt>number</tt> return subsequent facts if more than one instance
-of the fact was present.</p>
+returned by the module as a NUL-terminated string.  Returns zero if
+the fact was present, and <tt>CVME_NOFACT</tt> otherwise.  Successive
+calls to this function with the same <tt>number</tt> return subsequent
+facts if more than one instance of the fact was present.</p>
 
-<dt><tt>int fact_uint(int number, unsigned long* data)</tt>
+<dt><tt>int cvm_fact_uint(int number, unsigned long* data)</tt>
 <dd><p>Retrieves a <a href="facts.html">fact</a> from the data
-returned by the module as an unsigned integer.  Returns non-zero if
-the fact was present and was an unsigned integer.  Successive calls to
-this function with the same <tt>number</tt> return subsequent facts if
-more than one instance of the fact was present.</p>
+returned by the module as an unsigned integer.  Returns zero if the
+fact was present and was an unsigned integer.  Returns
+<tt>CVME_BAD_MODDATA</tt> if the fact was present but was not an
+unsigned integer.  Successive calls to this function with the same
+<tt>number</tt> return subsequent facts if more than one instance of
+the fact was present.</p>
 
 </dl></p>
 

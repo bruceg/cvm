@@ -35,18 +35,18 @@ static pid_t pid = -1;
 /* Buffer management code ****************************************************/
 static int parse_buffer(void)
 {
-  if (buflen < 3) return 0;
-  if (buffer[buflen-1] != 0 || buffer[buflen-2] != 0) return 0;
-  if (!fact_str(FACT_USERNAME, &fact_username) ||
-      !fact_uint(FACT_USERID, &fact_userid) ||
-      !fact_uint(FACT_GROUPID, &fact_groupid) ||
-      !fact_str(FACT_DIRECTORY, &fact_directory) ||
-      !fact_str(FACT_SHELL, &fact_shell)) return 0;
-  fact_str(FACT_REALNAME, &fact_realname);
-  fact_str(FACT_GROUPNAME, &fact_groupname);
-  fact_str(FACT_SYS_USERNAME, &fact_sys_username);
-  fact_str(FACT_SYS_DIRECTORY, &fact_sys_directory);
-  return 1;
+  if (buflen < 3) return CVME_BAD_MODDATA;
+  if (buffer[buflen-1] != 0 || buffer[buflen-2] != 0) return CVME_BAD_MODDATA;
+  if (cvm_fact_str(CVM_FACT_USERNAME, &cvm_fact_username) ||
+      cvm_fact_uint(CVM_FACT_USERID, &cvm_fact_userid) ||
+      cvm_fact_uint(CVM_FACT_GROUPID, &cvm_fact_groupid) ||
+      cvm_fact_str(CVM_FACT_DIRECTORY, &cvm_fact_directory) ||
+      cvm_fact_str(CVM_FACT_SHELL, &cvm_fact_shell)) return CVME_BAD_MODDATA;
+  cvm_fact_str(CVM_FACT_REALNAME, &cvm_fact_realname);
+  cvm_fact_str(CVM_FACT_GROUPNAME, &cvm_fact_groupname);
+  cvm_fact_str(CVM_FACT_SYS_USERNAME, &cvm_fact_sys_username);
+  cvm_fact_str(CVM_FACT_SYS_DIRECTORY, &cvm_fact_sys_directory);
+  return 0;
 }
 
 static unsigned build_buffer(const char** credentials)
@@ -67,7 +67,7 @@ static unsigned build_buffer(const char** credentials)
   return 1;
 }
 
-int fact_str(int number, const char** data)
+int cvm_fact_str(int number, const char** data)
 {
   static char* ptr = 0;
   static int last_number = -1;
@@ -81,23 +81,29 @@ int fact_str(int number, const char** data)
     ptr += strlen(ptr) + 1;
     if (*tmp == (char)number) {
       *data = tmp + 1;
-      return 1;
+      return 0;
     }
   }
-  return 0;
+  return CVME_NOFACT;
 }
 
-int fact_uint(int number, unsigned long* data)
+int cvm_fact_uint(int number, unsigned long* data)
 {
-  const char* tmp;
+  const char* str;
   unsigned long i;
+  int err;
   
-  if (!fact_str(number, &tmp)) return 0;
-  for (i = 0; *tmp >= '0' && *tmp <= '9'; ++tmp)
-    i = i * 10 + *tmp - '0';
-  if (*tmp) return 0;
+  if ((err = cvm_fact_str(number, &str)) != 0) return err;
+
+  for (i = 0; *str >= '0' && *str <= '9'; ++str) {
+    unsigned long tmp = i;
+    i *= 10;
+    if (i < tmp) return CVME_BAD_MODDATA;
+    i += *str - '0';
+  }
+  if (*str) return CVME_BAD_MODDATA;
   *data = i;
-  return 1;
+  return 0;
 }
 
 /* Command module execution **************************************************/
@@ -275,10 +281,10 @@ static int cvm_local(const char* path)
 }
 
 /* Top-level wrapper *********************************************************/
-int authenticate(const char* module, const char** credentials)
+int cvm_authenticate(const char* module, const char** credentials)
 {
   int result;
-  if (!build_buffer(credentials)) return 1;
+  if (!build_buffer(credentials)) return CVME_GENERAL;
   if (!memcmp(module, "cvm-udp:", 8))
     result = cvm_udp(module+8);
   else if (!memcmp(module, "cvm-local:", 10))
@@ -289,6 +295,5 @@ int authenticate(const char* module, const char** credentials)
   }
   if (result != 0) return result;
   if (buffer[0]) return buffer[0];
-  if (!parse_buffer()) return CVME_BAD_MODDATA;
-  return 0;
+  return parse_buffer();
 }
