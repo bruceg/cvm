@@ -4,6 +4,8 @@ Changes in version 0.6
 - Fixed some client library bugs.
 
 - Added a benchmarking client.
+
+- Added a checkpassword client.
 -------------------------------------------------------------------------------
 Changes in version 0.5
 
