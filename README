@@ -19,9 +19,16 @@ To subscribe, send an email to:
 A mailing list archive is available at:
 	http://lists.em.ca/?list=bgware
 
-Development versions of cvm are available via anonymous CVS.
-Set your CVSROOT to ":pserver:cvs@bruce-guenter.dyndns.org:/CVS",
-login with an empty password, and check out the "cvm" module.
+Installation:
+
+- Make sure the latest version of bglibs from
+  http://untroubled.org/bglibs/ is compiled and installed.
+- Build the sources by running "make"
+- Run the "instshow" command to see what will be installed (optional).
+- After the package has been compiled, run the following commands as root:
+	./installer
+	./instcheck
+  These commands will produce no output if there are no errors.
 
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/

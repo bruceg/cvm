@@ -1,4 +1,4 @@
-#include "installer.h"
+#include <installer.h>
 #include "conf_bin.c"
 
 void insthier(void) {

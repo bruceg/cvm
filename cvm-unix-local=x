@@ -1,6 +1,6 @@
 getpwnam.o
 local.a
-net/socket.a
+./bglibs/net
 crypt.lib
 shadow.lib
 s.lib

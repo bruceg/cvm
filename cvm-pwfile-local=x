@@ -1,5 +1,5 @@
 local.a
-net/socket.a
-pwcmp/client.a
+./bglibs/net
+./bglibs/pwcmp
 crypt.lib
 socket.lib
