@@ -15,10 +15,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+#include <stdlib.h>
 #include <str/str.h>
 
 #include "module.h"
 #include "qmail.h"
+
+static const char* missingdomain = 0;
+static const char* missinguser = "alias";
 
 int qmail_lookup_init(void)
 {
@@ -26,6 +30,13 @@ int qmail_lookup_init(void)
       || qmail_users_init() != 0
       || qmail_domains_init() != 0)
     return -1;
+
+  if ((missingdomain = getenv("CVM_QMAIL_MISSINGDOMAIN")) != 0)
+    if (*missingdomain == 0)
+      missingdomain = "localhost";
+  if ((missinguser = getenv("CVM_QMAIL_MISSINGUSER")) == 0
+      || *missinguser == 0)
+    missinguser = "alias";
 
   return 0;
 }
@@ -46,7 +57,12 @@ int qmail_lookup_cvm(struct qmail_user* user,
   case -1:
     return -1;
   case 0:
-    return 0;
+    if (missingdomain == 0)
+      return 0;
+    if (!str_copys(domain, missingdomain)
+	|| !str_copys(&fullname, missinguser))
+      return -1;
+    break;
   default:
     fullname.len = 0;
     if (prefix.len > 0)
