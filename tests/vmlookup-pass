@@ -1,16 +1,15 @@
-<requires qmail>
 VMLOOKUP_SECRET=lpass
 export VMLOOKUP_SECRET
 testl virt test.tld 'lpass'
 <result>
 user name:        virt
-user ID:          500
-group ID:         500
+user ID:          @UID@
+group ID:         @GID@
 real name:        (null)
-directory:        @SOURCE@/virt
+directory:        @TMPDIR@/virt
 shell:            (null)
 group name:       (null)
 system user name: user
-system directory: @SOURCE@
+system directory: @TMPDIR@
 domain:           test.tld
-mailbox path:     @SOURCE@/virt
+mailbox path:     @TMPDIR@/virt

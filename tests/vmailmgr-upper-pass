@@ -1,4 +1,3 @@
-<requires qmail>
 testc virt test.tld Pass
 <result>
 Authentication failed, error #100

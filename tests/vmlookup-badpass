@@ -1,4 +1,3 @@
-<requires qmail>
 VMLOOKUP_SECRET=lpass
 export VMLOOKUP_SECRET
 testl virt test.tld 'xpass'

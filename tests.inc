@@ -7,6 +7,34 @@ make_pwfile()
     echo 'cryptuser:tpzv1IkcX9.fE:234:567:Crypt:/home/crypt:/bin/true'
   ) >$CVM_PWFILE_PATH
 }
-export QMAIL_ROOT=$src
-testc() { cvm-testclient ./cvm-vmailmgr "$@"; }
-testl() { cvm-testclient ./cvm-vmlookup "$@"; }
+testc() { ./cvm-testclient ./cvm-vmailmgr "$@"; }
+testl() { ./cvm-testclient ./cvm-vmlookup "$@"; }
+testq() { ./cvm-testclient ./cvm-qmaillookup "$@" ''; }
+
+QMAIL_ROOT=$tmp
+export QMAIL_ROOT
+
+mkdir $tmp/users
+(
+  uid=`id -u`
+  gid=`id -g`
+  len=`echo $tmp $uid $gid | wc -c`
+  printf "+6,%d:!user\0->user\0000$uid\0000$gid\0000$tmp\0\0\n" $(($len+6))
+  printf "+6,%d:!user-->user\0000$uid\0000$gid\0000$tmp\0-\0\n" $(($len+7))
+  printf "+1,%d:!->alias\0000$uid\0000$gid\0000$tmp/alias\0-\0\n" $((len+14))
+  echo
+) | cdbmake $tmp/users/cdb $tmp/users/tmp
+
+mkdir $tmp/control
+echo local.dom >$tmp/control/locals
+echo test.tld:user >$tmp/control/virtualdomains
+mkdir $tmp/alias
+echo \# >$tmp/.qmail-wild-default
+echo \# >$tmp/.qmail-addr
+echo \# >$tmp/alias/.qmail-alias
+echo \# >$tmp/alias/.qmail-awild-default
+
+(
+  printf '+4,69:virt->\x2\x8\x1\0$1$aSoIrl/J$TmAwoxKzrPJ0IaW5UvX4A0\0./virt\0\0\0-\0-\0-\0-\00001016731358\0-\0\n'
+  echo
+) | cdbmake $tmp/passwd.cdb $tmp/passwd.tmp

@@ -1,5 +1,0 @@
-<retracts qmail>
-rm -rf users
-rm -rf control
-rm passwd.cdb
-<result>
