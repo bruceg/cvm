@@ -1,13 +1,29 @@
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #include <installer.h>
 #include "conf_home.c"
 
 void insthier(void) {
+  struct stat st;
+  const int do_mysql = stat("cvm-mysql", &st) != -1;
+  const int do_pgsql = stat("cvm-pgsql", &st) != -1;
   int home = opendir(conf_home);
   int dir;
 
   dir = d(home, "bin",          -1, -1, 0755);
   c(dir, "cvm-benchclient",     -1, -1, 0755);
   c(dir, "cvm-checkpassword",   -1, -1, 0755);
+  if (do_mysql) {
+    c(dir, "cvm-mysql",           -1, -1, 0755);
+    c(dir, "cvm-mysql-local",     -1, -1, 0755);
+    c(dir, "cvm-mysql-udp",       -1, -1, 0755);
+  }
+  if (do_pgsql) {
+    c(dir, "cvm-pgsql",           -1, -1, 0755);
+    c(dir, "cvm-pgsql-local",     -1, -1, 0755);
+    c(dir, "cvm-pgsql-udp",       -1, -1, 0755);
+  }
   c(dir, "cvm-pwfile",          -1, -1, 0755);
   c(dir, "cvm-testclient",      -1, -1, 0755);
   c(dir, "cvm-vmailmgr",        -1, -1, 0755);

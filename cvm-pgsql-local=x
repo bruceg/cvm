@@ -1,0 +1,8 @@
+cvm-pgsql.o
+local.a
+sql.a
+-lbg-net
+-lbg-str
+-lpwcmp
+crypt.lib
+-lpq

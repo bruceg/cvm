@@ -1,0 +1,7 @@
+module.a
+sql.a
+-lbg-str
+-lbg-net
+-lpwcmp
+crypt.lib
+-L/usr/lib/mysql -lmysqlclient

@@ -1,0 +1,46 @@
+<html>
+<body>
+
+<h2><a href="cvm.html">CVM</a></h2>
+<h2><a href="sql.html">CVM SQL Framework</a></h2>
+
+<h1>The cvm-pgsql Module</h1>
+
+<h2>Synopsis:</h2> <p>PgSQL module</p>
+
+<h2>Credentials:</h2>
+
+<ol>
+<li>Pass phrase
+</ol>
+
+<h2>Description:</h2>
+
+<p>This module queries a PgSQL database for the account name, compares
+the stored pass phrase with the given one using <tt>crypt</tt>.</p>
+
+<h2>Configuration Variables:</h2>
+
+<ul>
+
+<li>The server hostname, port, database, username, password, and
+additional options can be controlled by setting <tt>PGHOST</tt>,
+<tt>PGPORT</tt>, <tt>PGDATABASE</tt>, <tt>PGUSER</tt>,
+<tt>PGPASSWORD</tt>, and <tt>PGOPTIONS</tt> respectively, which are
+parsed by the PgSQL client library.
+
+<li><tt>CVM_MYSQL_POSTQ</tt> (optional): The <a
+href="sql.html">SQL</a> query to execute after the credentials have
+been validated.
+
+<li><tt>CVM_PGSQL_PWCMP</tt> (optional): The <a
+href="../pwcmp/pwcmp.html">password comparison module</a> to use.
+
+<li><tt>CVM_PGSQL_QUERY</tt> (optional): The <a
+href="sql.html">SQL</a> query to issue to retrieve the row containing
+the account information from the database.
+
+</ul>
+
+</body>
+</html>

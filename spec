@@ -9,6 +9,8 @@ BuildRoot: %{_tmppath}/cvm-buildroot
 URL: http://untroubled.org/cvm/
 Packager: Bruce Guenter <bruceg@em.ca>
 BuildRequires: bglibs >= 1.009
+BuildRequires: mysql-devel
+BuildRequires: postgresql-devel
 Obsoletes: cvm-vmailmgr
 
 %description
@@ -23,6 +25,20 @@ Group: Development/Libraries
 This package includes all the development libraries and headers for
 building CVM clients or modules.
 
+%package mysql
+Group: Utilities/System
+Summary: MySQL Credential Validation Modules
+
+%description mysql
+Credential Validation Modules that authenticate against a MySQL server.
+
+%package pgsql
+Group: Utilities/System
+Summary: PostgreSQL Credential Validation Modules
+
+%description pgsql
+Credential Validation Modules that authenticate against a PostgreSQL server.
+
 %prep
 %setup
 
@@ -30,7 +46,7 @@ building CVM clients or modules.
 echo gcc "%{optflags}" >conf-cc
 echo gcc -s >conf-ld
 echo %{_bindir} >conf-bin
-make libraries programs
+make libraries programs mysql pgsql
 
 %install
 rm -fr %{buildroot}
@@ -48,9 +64,18 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %doc COPYING NEWS README *.html
-%{_prefix}/bin/*
+%{_prefix}/bin/cvm-[bctvu]*
+%{_prefix}/bin/cvm-pwfile
 
 %files devel
 %defattr(-,root,root)
 %{_prefix}/include/*
 %{_prefix}/lib/*
+
+%files mysql
+%defattr(-,root,root)
+%{_bindir}/cvm-mysql*
+
+%files pgsql
+%defattr(-,root,root)
+%{_bindir}/cvm-pgsql*

@@ -1,0 +1,8 @@
+cvm-mysql.o
+udp.a
+sql.a
+-lbg-net
+-lbg-str
+-lpwcmp
+crypt.lib
+-L/usr/lib/mysql -lmysqlclient
