@@ -65,16 +65,20 @@ int cvm_authenticate(void)
 
 #ifdef HASUSERPW
   upw = getuserpw(cvm_account_name);
-  if (upw && upw->upw_passwd)
-    cpw = upw->upw_passwd;
+  if (upw) {
+    if (upw->upw_passwd)
+      cpw = upw->upw_passwd;
+  }
   else
     if (errno == ETXTBSY) return CVME_IO;
 #endif
 
 #ifdef HASGETSPNAM
   spw = getspnam(cvm_account_name);
-  if (spw && spw->sp_pwdp)
-    cpw = spw->sp_pwdp;
+  if (spw) {
+    if (spw->sp_pwdp)
+      cpw = spw->sp_pwdp;
+  }
   else
     if (errno == ETXTBSY) return CVME_IO;
 #endif
@@ -92,14 +96,13 @@ int cvm_authenticate(void)
   cvm_fact_directory = pw->pw_dir;
   cvm_fact_shell = pw->pw_shell;
 
+  cvm_fact_uint(CVM_FACT_SUPP_GROUPID, pw->pw_gid);
   if (cvm_fact_groupname) free((char*)cvm_fact_groupname);
   cvm_fact_groupname = 0;
   setgrent();
   while ((gr = getgrent()) != 0) {
-    if (gr->gr_gid == pw->pw_gid) {
+    if (gr->gr_gid == pw->pw_gid)
       cvm_fact_groupname = strdup(gr->gr_name);
-      cvm_fact_uint(CVM_FACT_SUPP_GROUPID, gr->gr_gid);
-    }
     else {
       unsigned i;
       for (i = 0; gr->gr_mem[i]; i++)
