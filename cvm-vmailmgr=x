@@ -2,6 +2,7 @@ vmmain.o
 vmlookup.o
 getpwnam.o
 module.a
+qmail.a
 -lbg-crypto
 -lvmailmgr
 -lbg-net

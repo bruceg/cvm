@@ -3,6 +3,7 @@ vmmain.o
 vmlookup.o
 getpwnam.o
 local.a
+qmail.a
 -lcrypto/md5
 -lvmailmgr/vpwentry
 -lcdb/cdb

@@ -1,0 +1,3 @@
+qmail-init.o
+qmail-users.o
+qmail-vdomains.o

@@ -34,6 +34,7 @@
 #include <vmailmgr/vpwentry.h>
 
 #include "module.h"
+#include "qmail.h"
 #include "cvm-vmailmgr.h"
 
 const char* secret;
@@ -43,8 +44,6 @@ int lock_disabled;
 str domain = {0,0,0};
 str virtuser = {0,0,0};
 str vpwdata = {0,0,0};
-
-const char* qmail_root = "/var/qmail";
 
 const char* pwfile = 0;
 
@@ -67,7 +66,7 @@ void debug(const char* func, int line,
 int cvm_auth_init(void)
 {
   const char* tmp;
-  if ((tmp = getenv("QMAIL_ROOT")) != 0) qmail_root = tmp;
+  qmail_init();
   if ((pwfile = getenv("VMAILMGR_PWFILE")) == 0) pwfile = "passwd.cdb";
   if ((tmp = getenv("VMAILMGR_DEFAULT")) == 0) tmp = "+";
   secret = getenv("VMLOOKUP_SECRET");
@@ -105,16 +104,16 @@ int cvm_authenticate(void)
 
 int cvm_results(void)
 {
-  if (!str_copys(&directory, pw_dir)) return CVME_IO;
+  if (!str_copy(&directory, &vmuser.homedir)) return CVME_IO;
   if (!path_merge(&directory, vpw.directory.s)) return CVME_IO;
   cvm_fact_username = vpw.name.s;
-  cvm_fact_userid = pw_uid;
-  cvm_fact_groupid = pw_gid;
+  cvm_fact_userid = vmuser.uid;
+  cvm_fact_groupid = vmuser.gid;
   cvm_fact_realname = 0;
   cvm_fact_directory = directory.s;
   cvm_fact_shell = 0;
-  cvm_fact_sys_username = pw_name;
-  cvm_fact_sys_directory = pw_dir;
+  cvm_fact_sys_username = vmuser.user.s;
+  cvm_fact_sys_directory = vmuser.homedir.s;
   cvm_fact_domain = domain.s;
   cvm_fact_mailbox = directory.s;
   return 0;

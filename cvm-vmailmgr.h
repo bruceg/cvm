@@ -5,10 +5,7 @@ extern str default_user;
 extern const char* secret;
 
 /* Results from looking up the user */
-extern const char* pw_dir;
-extern uid_t pw_uid;
-extern gid_t pw_gid;
-extern const char* pw_name;
+extern struct qmail_user vmuser;
 
 extern str domain;
 extern str virtuser;
