@@ -23,9 +23,8 @@
 
 void usage(void)
 {
-  fprintf(stderr,
-	  "usage: %s cvm-local:/path/to/socket\n"
-	  "or:    %s cvm-udp:hostname:port\n");
+  fprintf(stderr, "usage: %s cvm-local:/path/to/socket\n", program);
+  fprintf(stderr, "or:    %s cvm-udp:hostname:port\n", program);
   exit(1);
 }
 
