@@ -21,6 +21,7 @@
 int main(int argc, char** argv)
 {
   int i;
+  unsigned long u;
 
   if (argc < 4) {
     printf("usage: cvm-testclient cvmodule account credential [credential ...]\n");
@@ -45,5 +46,7 @@ int main(int argc, char** argv)
 	 fact_username, fact_userid, fact_groupid, fact_realname,
 	 fact_directory, fact_shell, fact_groupname,
 	 fact_sys_username, fact_sys_directory);
+  while (fact_uint(FACT_SUPP_GROUPID, &u))
+    printf("supp. group ID:   %ld\n", u);
   return 0;
 }
