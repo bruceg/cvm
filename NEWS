@@ -1,4 +1,10 @@
 -------------------------------------------------------------------------------
+Changes in version 0.9
+
+- Added support to the MySQL and PgSQL modules for executing a query
+  after credential validation, useful for updating a "last logged in at"
+  field or similar.
+-------------------------------------------------------------------------------
 Changes in version 0.8
 
 - Added additional error codes.
