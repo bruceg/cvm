@@ -85,9 +85,6 @@ int cvm_lookup(void)
 {
   int err;
 
-  if ((err = lookup_reinit()) != 0) return err;
-  if ((err = lookup_domain()) != 0) return err;
-  if ((err = lookup_baseuser()) != 0) return err;
   if ((err = lookup_virtuser()) != 0) return err;
 
   if (!vpwentry_import(&vpw, &virtuser, &vpwdata)) {

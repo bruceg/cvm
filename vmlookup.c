@@ -45,10 +45,6 @@ struct qmail_user vmuser;
 
 int lookup_reinit(void)
 {
-  if (qmail_users_reinit() != 0)
-    return CVME_IO;
-  if (qmail_vdomains_reinit() != 0)
-    return CVME_IO;
   return 0;
 }
 
@@ -68,42 +64,19 @@ int lookup_init(void)
   return 0;
 }
 
-int lookup_domain(void)
-{
-  static str prefix;
-
-  DEBUG("cvm_account_domain='", cvm_account_domain, "'");
-  switch (qmail_vdomains_lookup(cvm_account_domain, &domain, &prefix)) {
-  case -1: return CVME_GENERAL;
-  case 0:
-    if (!str_copys(&account, cvm_account_name))
-      return CVME_GENERAL;
-    break;
-  default:
-    if (!str_copy(&account, &prefix) ||
-	!str_catc(&account, '-') ||
-	!str_cats(&account, cvm_account_name))
-      return CVME_GENERAL;
-  }
-  return 0;
-}
-
-int lookup_baseuser(void)
-{
-  switch (qmail_users_lookup_split(&vmuser, account.s, &baseuser, &virtuser)) {
-  case -1: return CVME_GENERAL;
-  case 0: return CVME_PERMFAIL;
-  }
-  if (virtuser.len == 0)
-    return CVME_PERMFAIL;
-  return 0;
-}
-
 int lookup_virtuser(void)
 {
   int err;
   int fd;
   struct cdb cdb;
+
+  DEBUG("cvm_account_domain='", cvm_account_domain, "'");
+  switch (qmail_lookup_cvm(&vmuser, &domain, &baseuser, &virtuser)) {
+  case -1: return CVME_IO;
+  case 0:  return CVME_PERMFAIL;
+  }
+  if (virtuser.len == 0)
+    return CVME_PERMFAIL;
 
   memset(&cdb, 0, sizeof cdb);
   str_lower(&virtuser);

@@ -22,9 +22,6 @@ extern void debug(const char* func, int line,
 		  const char* a, const char* b, const char* c);
 
 extern int lookup_init(void);
-extern int lookup_reinit(void);
-extern int lookup_domain(void);
-extern int lookup_baseuser(void);
 extern int lookup_virtuser(void);
 
 #endif
