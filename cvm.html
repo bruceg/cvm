@@ -29,12 +29,13 @@ a set of credentials as input and writing a set of facts as output if
 those credentials are valid.  Optional input is given to the module
 through environment variables.</p>
 
-<p>Some of the ideas for CVM came from experience with the <a
+<p>Some of the ideas for CVM came from experience with PAM (pluggable
+authentication modules), the <a
 http="http://cr.yp.to/checkpwd.html">checkpassword</a> interface used
 by <tt>qmail-pop3d</tt>, and the "authmod" interface used by Courier
 IMAP and POP3.  This framework places fewer restrictions on the
 invoking client than checkpassword does, and is much simpler to
-implement on both sides than the authmod framework.</p>
+implement on both sides than PAM and the authmod framework.</p>
 
 <h2>Contact Modes</h2>
 
