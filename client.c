@@ -128,7 +128,7 @@ int authenticate(const char* module, const char** credentials)
       close(pipes[1]) == -1 ||
       !parse_buffer()) {
     killit();
-    return 111; 
+    return waitforit();
   }
   
   return waitforit();
