@@ -1,4 +1,4 @@
-<retracts unix-local>
+<retracts pwfile-local>
 kill `cat $tmp/pid`
 rm -f $tmp/pid
 sleep 1

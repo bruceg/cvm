@@ -1,14 +1,13 @@
-CVM_PWFILE_PATH=$tmp/pwfile export CVM_PWFILE_PATH
+make_pwfile
 CVM_PWFILE_PWCMP=crypt export CVM_PWFILE_PWCMP
-echo 'pwfuser:tpzv1IkcX9.fE:123:456:Gecos:/home/ftp:/bin/false' >$CVM_PWFILE_PATH
-./cvm-testclient ./cvm-pwfile pwfuser '' testpass
+./cvm-testclient ./cvm-pwfile cryptuser '' testpass
 <result>
-user name:        pwfuser
-user ID:          123
-group ID:         456
-real name:        Gecos
-directory:        /home/ftp
-shell:            /bin/false
+user name:        cryptuser
+user ID:          234
+group ID:         567
+real name:        Crypt
+directory:        /home/crypt
+shell:            /bin/true
 group name:       (null)
 system user name: (null)
 system directory: (null)

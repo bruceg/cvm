@@ -1,7 +1,0 @@
-<asserts unix-local>
-./cvm-unix cvm-local:$tmp/socket >$tmp/log &
-echo $! >$tmp/pid
-sleep 1
-cat $tmp/log
-<result>
-Starting.

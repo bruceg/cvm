@@ -1,0 +1,7 @@
+<asserts pwfile-local>
+./cvm-pwfile cvm-local:$tmp/socket >$tmp/log &
+echo $! >$tmp/pid
+sleep 1
+cat $tmp/log
+<result>
+Starting.
