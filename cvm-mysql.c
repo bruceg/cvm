@@ -27,6 +27,7 @@ const unsigned cvm_credential_count = 1;
 const char* cvm_credentials[1];
 
 static MYSQL mysql;
+static const char* query;
 
 int cvm_auth_init(void)
 {
@@ -37,7 +38,6 @@ int cvm_auth_init(void)
   unsigned port;
   const char* unix_socket;
   const char* tmp;
-  int i;
 
   host = getenv("CVM_MYSQL_HOST");
   user = getenv("CVM_MYSQL_USER");
@@ -46,8 +46,7 @@ int cvm_auth_init(void)
   tmp = getenv("CVM_MYSQL_PORT");
   port = tmp ? atoi(tmp) : 0;
   unix_socket = getenv("CVM_MYSQL_SOCKET");
-  if ((tmp = getenv("CVM_MYSQL_QUERY")) != 0)
-    if ((i = sql_query_setup(tmp)) != 0) return i;
+  query = ((tmp = getenv("CVM_MYSQL_QUERY")) != 0) ? tmp : sql_query_default;
   
   mysql_init(&mysql);
   if (!mysql_real_connect(&mysql, host, user, pass, db,
@@ -64,10 +63,9 @@ int cvm_authenticate(void)
   MYSQL_RES* result;
   MYSQL_ROW row;
   unsigned long* lengths;
-  int i;
   
   /* Query the database based on the custom query */
-  if ((i = sql_query_build(&q)) != 0) return i | CVME_FATAL;
+  if (!sql_query_build(query, &q)) return CVME_GENERAL | CVME_FATAL;
   if (mysql_real_query(&mysql, q.s, q.len)) return CVME_IO | CVME_FATAL;
   result = mysql_store_result(&mysql);
 

@@ -27,14 +27,13 @@ const unsigned cvm_credential_count = 1;
 const char* cvm_credentials[1];
 
 static PGconn* pg;
+static const char* query;
 
 int cvm_auth_init(void)
 {
   const char* tmp;
-  int i;
   
-  if ((tmp = getenv("CVM_PGSQL_QUERY")) != 0)
-    if ((i = sql_query_setup(tmp)) != 0) return i;
+  query = ((tmp = getenv("CVM_PGSQL_QUERY")) != 0) ? tmp : sql_query_default;
 
   if ((pg = PQconnectdb("")) == 0) return CVME_IO;
   if (PQstatus(pg) == CONNECTION_BAD) return CVME_IO;
@@ -54,10 +53,9 @@ int cvm_authenticate(void)
   static str q;
   PGresult* result;
   const char* cpw;
-  int i;
   
   /* Query the database based on the custom query */  
-  if ((i = sql_query_build(&q)) != 0) return i;
+  if (!sql_query_build(query, &q)) return CVME_GENERAL | CVME_FATAL;
   if ((result = PQexec(pg, q.s)) == 0) return CVME_IO | CVME_FATAL;
   switch (PQresultStatus(result)) {
   case PGRES_TUPLES_OK: break;

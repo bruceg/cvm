@@ -20,12 +20,10 @@
 #include "sql.h"
 #include "str/str.h"
 
-static const char* query =
+const char sql_query_default[] =
 "SELECT password,username,userid,groupid,realname,directory,shell "
 "FROM accounts "
 "WHERE username=%";
-static unsigned query_len1;
-static const char* query2;
 
 #define QUOTE '\''
 #define BACKSLASH '\\'
@@ -43,24 +41,18 @@ static int str_cats_quoted(str* s, const char* ptr)
   return str_catc(s, QUOTE);
 }
 
-int sql_query_setup(const char* q)
+int sql_query_build(const char* template, str* q)
 {
-  const char* tmp;
-  unsigned query_len;
-
-  query = q;
-  query_len = strlen(query);
-  if ((tmp = strchr(query, '%')) == 0) return CVME_CONFIG;
-  query_len1 = tmp - query;
-  query2 = tmp + 1;
-  return 0;
-}
-
-int sql_query_build(str* q)
-{
-  if (!str_copyb(q, query, query_len1) ||
-      !str_cats_quoted(q, cvm_account_name) ||
-      !str_cats(q, query2))
-    return CVME_GENERAL;
-  return 0;
+  unsigned long len = strlen(template);
+  const char* ptr;
+  if (!str_truncate(q, 0)) return 0;
+  while ((ptr = strchr(template, '%')) != 0) {
+    unsigned plen = ptr - template;
+    if (!str_catb(q, template, plen)) return 0;
+    if (!str_cats_quoted(q, cvm_account_name)) return 0;
+    len -= plen + 1;
+    template = ptr + 1;
+  }
+  if (!str_cats(q, template)) return 0;
+  return 1;
 }

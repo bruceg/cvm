@@ -2,7 +2,7 @@
 #define CVM__SQL__H__
 
 #include "str/str.h"
-extern int sql_query_setup(const char* q);
-extern int sql_query_build(str* q);
+extern const char sql_query_default[];
+extern int sql_query_build(const char* template, str* q);
 
 #endif
