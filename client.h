@@ -6,6 +6,6 @@
 
 int authenticate(const char* module, const char** credentials);
 int fact_str(int number, const char** data);
-int fact_uint(int number, unsigned* data);
+int fact_uint(int number, unsigned long* data);
 
 #endif

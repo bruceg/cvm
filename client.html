@@ -22,13 +22,18 @@ href="errors.html">error code</a> otherwise.</p>
 set if they were present in the results.</p>
 
 <dt><tt>int fact_str(int number, const char** data)</tt>
-<dd><p>Retrieves a fact from the data returned by the module as a
-NUL-terminated string.  Returns non-zero if the fact was present.</p>
+<dd><p>Retrieves a <a href="facts.html">fact</a> from the data
+returned by the module as a NUL-terminated string.  Returns non-zero
+if the fact was present.  Successive calls to this function with the
+same <tt>number</tt> return subsequent facts if more than one instance
+of the fact was present.</p>
 
-<dt><tt>int fact_uint(int number, unsigned** data)</tt>
-<dd><p>Retrieves a fact from the data returned by the module as an
-unsigned integer.  Returns non-zero if the fact was present and was an
-unsigned integer.</p>
+<dt><tt>int fact_uint(int number, unsigned long* data)</tt>
+<dd><p>Retrieves a <a href="facts.html">fact</a> from the data
+returned by the module as an unsigned integer.  Returns non-zero if
+the fact was present and was an unsigned integer.  Successive calls to
+this function with the same <tt>number</tt> return subsequent facts if
+more than one instance of the fact was present.</p>
 
 </dl></p>
 

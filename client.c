@@ -69,21 +69,28 @@ static unsigned build_buffer(const char** credentials)
 
 int fact_str(int number, const char** data)
 {
-  char* ptr;
+  static char* ptr = 0;
+  static int last_number = -1;
   
-  for (ptr = buffer+1; *ptr; ptr += strlen(ptr)+1) {
-    if (*ptr == (char)number) {
-      *data = ptr + 1;
+  if (!ptr || number != last_number)
+    ptr = buffer+1;
+  last_number = number;
+  
+  while (*ptr) {
+    char* tmp = ptr;
+    ptr += strlen(ptr) + 1;
+    if (*tmp == (char)number) {
+      *data = tmp + 1;
       return 1;
     }
   }
   return 0;
 }
 
-int fact_uint(int number, unsigned* data)
+int fact_uint(int number, unsigned long* data)
 {
   const char* tmp;
-  unsigned i;
+  unsigned long i;
   
   if (!fact_str(number, &tmp)) return 0;
   for (i = 0; *tmp >= '0' && *tmp <= '9'; ++tmp)
