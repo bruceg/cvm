@@ -19,7 +19,7 @@
 #include <string.h>
 #include <str/str.h>
 #include <pwcmp/client.h>
-#include <cvm/module.h>
+#include "module.h"
 #include "sql.h"
 
 const unsigned cvm_credential_count = 1;

@@ -1,6 +1,9 @@
 -------------------------------------------------------------------------------
 Changes in version 0.25
 
+- Fixed cvm/module.h header file include problem.
+  Thanks Paul Jarc for pointing this out.
+
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/
 -------------------------------------------------------------------------------

@@ -18,9 +18,9 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
-#include <cvm/module.h>
-#include "sql.h"
 #include <str/str.h>
+#include "module.h"
+#include "sql.h"
 
 #define QUOTE '\''
 #define BACKSLASH '\\'

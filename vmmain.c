@@ -26,7 +26,6 @@
 
 #include <cdb/cdb.h>
 #include <cdb/str.h>
-#include <cvm/module.h>
 #include <dict/dict.h>
 #include <dict/load.h>
 #include <iobuf/iobuf.h>
@@ -34,6 +33,7 @@
 #include <str/str.h>
 #include <vmailmgr/vpwentry.h>
 
+#include "module.h"
 #include "cvm-vmailmgr.h"
 
 const char* secret;

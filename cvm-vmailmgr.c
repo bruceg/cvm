@@ -19,7 +19,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#include <cvm/module.h>
+#include "module.h"
 #include <vmailmgr/vpwentry.h>
 
 #include "cvm-vmailmgr.h"
