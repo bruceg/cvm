@@ -1,6 +1,8 @@
 -------------------------------------------------------------------------------
 Changes in version 0.3
 
+- Fixed handling of negative values in client library.
+
 - Fixed a bug in the client library that caused handling bad data to not
   indicate any error.
 -------------------------------------------------------------------------------
