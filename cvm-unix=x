@@ -1,3 +1,4 @@
+getpwnam.o
 command.a
 crypt.lib
 shadow.lib

@@ -43,48 +43,19 @@ int cvm_auth_init(void)
   return 0;
 }
 
+extern int cvm_getpwnam(const char*, struct passwd*);
+
 int cvm_authenticate(void)
 {
   struct passwd* pw;
   struct group* gr;
-#ifdef HASUSERPW
-  struct userpw* upw;
-#endif
-#ifdef HASGETSPNAM
-  struct spwd* spw;
-#endif
-  const char* cpw;
   char* tmp;
-  cpw = 0;
-  
-  pw = getpwnam(cvm_account_name);
-  if (pw && pw->pw_passwd)
-    cpw = pw->pw_passwd;
-  else
-    return (errno == ETXTBSY) ? CVME_IO : CVME_PERMFAIL;
+  int err;
 
-#ifdef HASUSERPW
-  upw = getuserpw(cvm_account_name);
-  if (upw) {
-    if (upw->upw_passwd)
-      cpw = upw->upw_passwd;
-  }
-  else
-    if (errno == ETXTBSY) return CVME_IO;
-#endif
-
-#ifdef HASGETSPNAM
-  spw = getspnam(cvm_account_name);
-  if (spw) {
-    if (spw->sp_pwdp)
-      cpw = spw->sp_pwdp;
-  }
-  else
-    if (errno == ETXTBSY) return CVME_IO;
-#endif
-
-  if (!cpw) return CVME_PERMFAIL;
-  if (strcmp(crypt(cvm_credentials[0], cpw), cpw)) return CVME_PERMFAIL;
+  if ((err = cvm_getpwnam(cvm_account_name, &pw)) != 0) return err;
+  if (pw->pw_passwd == 0) return CVME_PERMFAIL;
+  if (strcmp(crypt(cvm_credentials[0], pw->pw_passwd), pw->pw_passwd) != 0)
+    return CVME_PERMFAIL;
 
   if ((tmp = strchr(pw->pw_gecos, ',')) != 0)
     *tmp = 0;

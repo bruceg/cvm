@@ -1,3 +1,4 @@
+getpwnam.o
 local.a
 socket/socket.a
 crypt.lib
