@@ -1,8 +1,10 @@
 - Write modules to do lookups from:
   - CDB file
-  - MySQL
-  - PgSQL
-  - Both passwd and one of the above.
+  - Both passwd and one of the other modules.
+
+- Add some method for modules to signal a "fatal" error to the library,
+  such that the module will exit after the error is reported to the
+  client.
 
 - Document the second protocol as either CVM2 or XCVM.
   - See http://lists.em.ca/?command=monthbythread&list=bgware&month=200105

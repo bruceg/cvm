@@ -1,4 +1,16 @@
 -------------------------------------------------------------------------------
+Changes in version 0.8
+
+- Added additional error codes.
+
+- Added a MySQL module.
+
+- Added a PgSQL module.
+
+- Minor bug fix in the cvm-unix module from Paul Jarc to make the
+  supplemental group id list reported by cvm-unix actually follow the
+  fact specification.
+-------------------------------------------------------------------------------
 Changes in version 0.7
 
 - Added a text-file module, cvm-pwfile.
