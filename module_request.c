@@ -27,8 +27,8 @@ unsigned inbuflen;
 
 const char* cvm_lookup_secret = 0;
 static const char* lookup_creds[1];
-static unsigned credential_count = 1;
-static const char** credentials = lookup_creds;
+static unsigned credential_count;
+static const char** credentials;
 
 void init_request(void)
 {
@@ -37,6 +37,10 @@ void init_request(void)
   if ((cvm_lookup_secret = getenv("CVM_LOOKUP_SECRET")) == 0) {
     credentials = cvm_credentials;
     credential_count = cvm_credential_count;
+  }
+  else {
+    credentials = lookup_creds;
+    credential_count = (*cvm_lookup_secret != 0);
   }
 }
 
@@ -71,8 +75,8 @@ static int parse_input(void)
   for (i = 0; i < credential_count; ++i)
     if (!copy_advance(&credentials[i], &buf, &len))
       return CVME_BAD_CLIDATA;
-  
-  if (*buf != 0) return CVME_BAD_CLIDATA;
+
+  if (len != 1) return CVME_BAD_CLIDATA;
   return 0;
 }
 
@@ -80,7 +84,7 @@ int handle_request(void)
 {
   int code;
   if ((code = parse_input()) != 0) return code;
-  if (cvm_lookup_secret != 0) {
+  if (cvm_lookup_secret != 0 && *cvm_lookup_secret != 0) {
     if (credentials[0] == 0 ||
 	strcmp(credentials[0], cvm_lookup_secret) != 0)
       return CVME_NOCRED;

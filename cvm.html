@@ -76,8 +76,11 @@ specifies the IP to bind the socket to.  Normally this will be
 
 <p>If <tt>$CVM_LOOKUP_SECRET</tt> is set, the module operates in "lookup
 mode".  In this mode, the authentication function provided by the module
-will not be called.  Instead, the module will expect a single credential
-and it must match the value of the above environment variable.</p>
+will not be called.  Instead, the module library will handle
+authentication internally, <em>before</em> the lookup happens.  If the
+secret is empty, the module will expect no credentials to be passed to
+the module, otherwise one must be passed and it must match the
+secret.</p>
 
 </body>
 </html>
