@@ -32,7 +32,7 @@ static const char* pwfilename;
 
 int cvm_auth_init(void)
 {
-  if ((pwfilename = getenv("CVM_PWFILE_PATH")) == 0) return CVME_GENERAL;
+  if ((pwfilename = getenv("CVM_PWFILE_PATH")) == 0) return CVME_CONFIG;
   return 0;
 }
 
