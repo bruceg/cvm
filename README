@@ -2,7 +2,7 @@ cvm
 Credential Validation Modules
 Bruce Guenter <bruceg@em.ca>
 Version 0.7
-2001-05-16
+2001-06-29
 
 This package contains:
 - The reference source for the CVM interface.

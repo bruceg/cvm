@@ -1,6 +1,8 @@
 -------------------------------------------------------------------------------
 Changes in version 0.7
 
+- Added a text-file module, cvm-file.
+
 - Modified the client and module APIs to add "cvm_" in front of all
   exported symbols.
 
@@ -19,7 +21,11 @@ Changes in version 0.7
   poll syscall.
 
 Note: This release doesn't make any of the protocol changes discussed in
-the mailing lists.
+the mailing lists.  Since those changes are fairly radical, they will go
+into a second version of CVM, named either CVM2 or CVMX or something.
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
 -------------------------------------------------------------------------------
 Changes in version 0.6
 
