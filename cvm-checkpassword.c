@@ -59,15 +59,15 @@ int main(int argc, char** argv)
   tokens[0] = buffer;
   tokens[1] = pass;
   tokens[2] = 0;
-  if ((i = authenticate(argv[1], tokens)) != 0) return i;
+  if ((i = cvm_authenticate(argv[1], tokens)) != 0) return i;
 
-  if (setenv("HOME", fact_directory, 1) != 0 ||
-      setenv("USER", fact_username, 1) != 0 ||
-      (fact_realname && setenv("NAME", fact_realname, 1) != 0) ||
-      setenv("SHELL", fact_shell,1) != 0 ||
-      chdir(fact_directory) != 0 ||
-      setgid(fact_groupid) != 0 ||
-      setuid(fact_userid) != 0)
+  if (setenv("HOME", cvm_fact_directory, 1) != 0 ||
+      setenv("USER", cvm_fact_username, 1) != 0 ||
+      (cvm_fact_realname && setenv("NAME", cvm_fact_realname, 1) != 0) ||
+      setenv("SHELL", cvm_fact_shell,1) != 0 ||
+      chdir(cvm_fact_directory) != 0 ||
+      setgid(cvm_fact_groupid) != 0 ||
+      setuid(cvm_fact_userid) != 0)
     return 111;
 
   execvp(argv[2], argv+2);

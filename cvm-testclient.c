@@ -28,7 +28,7 @@ int main(int argc, char** argv)
     return 1;
   }
   
-  i = authenticate(argv[1], (const char**)(argv+2));
+  i = cvm_authenticate(argv[1], (const char**)(argv+2));
   if (i) {
     printf("Authentication failed, error #%d\n", i);
     return i;
@@ -43,10 +43,11 @@ int main(int argc, char** argv)
 	 "group name:       %s\n"
 	 "system user name: %s\n"
 	 "system directory: %s\n",
-	 fact_username, fact_userid, fact_groupid, fact_realname,
-	 fact_directory, fact_shell, fact_groupname,
-	 fact_sys_username, fact_sys_directory);
-  while (fact_uint(FACT_SUPP_GROUPID, &u))
+	 cvm_fact_username, cvm_fact_userid, cvm_fact_groupid,
+	 cvm_fact_realname, cvm_fact_directory,
+	 cvm_fact_shell, cvm_fact_groupname,
+	 cvm_fact_sys_username, cvm_fact_sys_directory);
+  while (cvm_fact_uint(CVM_FACT_SUPP_GROUPID, &u) == 0)
     printf("supp. group ID:   %ld\n", u);
   return 0;
 }

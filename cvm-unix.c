@@ -25,8 +25,8 @@
 #include "hasuserpw.h"
 #include "module.h"
 
-const unsigned credential_count = 1;
-const char* credentials[1];
+const unsigned cvm_credential_count = 1;
+const char* cvm_credentials[1];
 
 #ifdef HASGETSPNAM
 #include <shadow.h>
@@ -38,7 +38,7 @@ const char* credentials[1];
 
 extern char* crypt(const char* key, const char* salt);
 
-int authenticate(void)
+int cvm_authenticate(void)
 {
   struct passwd* pw;
   struct group* gr;
@@ -52,14 +52,14 @@ int authenticate(void)
   char* tmp;
   cpw = 0;
   
-  pw = getpwnam(account_name);
+  pw = getpwnam(cvm_account_name);
   if (pw && pw->pw_passwd)
     cpw = pw->pw_passwd;
   else
     return (errno == ETXTBSY) ? 111 : 100;
 
 #ifdef HASUSERPW
-  upw = getuserpw(account_name);
+  upw = getuserpw(cvm_account_name);
   if (upw && upw->upw_passwd)
     cpw = upw->upw_passwd;
   else
@@ -67,7 +67,7 @@ int authenticate(void)
 #endif
 
 #ifdef HASGETSPNAM
-  spw = getspnam(account_name);
+  spw = getspnam(cvm_account_name);
   if (spw && spw->sp_pwdp)
     cpw = spw->sp_pwdp;
   else
@@ -75,31 +75,31 @@ int authenticate(void)
 #endif
 
   if (!cpw) return 100;
-  if (strcmp(crypt(credentials[0], cpw), cpw)) return 100;
+  if (strcmp(crypt(cvm_credentials[0], cpw), cpw)) return 100;
 
   if ((tmp = strchr(pw->pw_gecos, ',')) != 0)
     *tmp = 0;
 
-  fact_username = pw->pw_name;
-  fact_userid = pw->pw_uid;
-  fact_groupid = pw->pw_gid;
-  fact_realname = pw->pw_gecos;
-  fact_directory = pw->pw_dir;
-  fact_shell = pw->pw_shell;
+  cvm_fact_username = pw->pw_name;
+  cvm_fact_userid = pw->pw_uid;
+  cvm_fact_groupid = pw->pw_gid;
+  cvm_fact_realname = pw->pw_gecos;
+  cvm_fact_directory = pw->pw_dir;
+  cvm_fact_shell = pw->pw_shell;
 
-  if (fact_groupname) free((char*)fact_groupname);
-  fact_groupname = 0;
+  if (cvm_fact_groupname) free((char*)cvm_fact_groupname);
+  cvm_fact_groupname = 0;
   setgrent();
   while ((gr = getgrent()) != 0) {
     if (gr->gr_gid == pw->pw_gid) {
-      fact_groupname = strdup(gr->gr_name);
-      fact_uint(FACT_SUPP_GROUPID, gr->gr_gid);
+      cvm_fact_groupname = strdup(gr->gr_name);
+      cvm_fact_uint(CVM_FACT_SUPP_GROUPID, gr->gr_gid);
     }
     else {
       unsigned i;
       for (i = 0; gr->gr_mem[i]; i++)
 	if (strcmp(gr->gr_mem[i], pw->pw_name) == 0) {
-	  fact_uint(FACT_SUPP_GROUPID, gr->gr_gid);
+	  cvm_fact_uint(CVM_FACT_SUPP_GROUPID, gr->gr_gid);
 	  break;
 	}
     }

@@ -37,8 +37,7 @@ int main(int argc, char** argv)
   }
   
   for (i = 0; i < count; i++) {
-    a = authenticate(argv[2], (const char**)(argv+3));
-    if (a) {
+    if ((a = cvm_authenticate(argv[2], (const char**)(argv+3))) != 0) {
       printf("Authentication failed, error #%d\n", a);
       return a;
     }
