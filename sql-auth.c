@@ -30,9 +30,9 @@ static const char* postq;
 
 static const char sql_query_default[] =
 "SELECT password,username,userid,groupid,directory,realname,shell,groupname,"
-"       sys_username,sys_directory "
+"       domain,sys_username,sys_directory "
 "FROM accounts "
-"WHERE username=$account";
+"WHERE username=$account AND domain=$domain";
 
 int cvm_auth_init(void)
 {
@@ -89,8 +89,9 @@ int cvm_authenticate(void)
   cvm_fact_realname = sql_get_field(5);
   cvm_fact_shell = sql_get_field(6);
   cvm_fact_groupname = sql_get_field(7);
-  cvm_fact_sys_username = sql_get_field(8);
-  cvm_fact_sys_directory = sql_get_field(9);
+  cvm_fact_domain = sql_get_field(8);
+  cvm_fact_sys_username = sql_get_field(9);
+  cvm_fact_sys_directory = sql_get_field(10);
   
   return 0;
 }

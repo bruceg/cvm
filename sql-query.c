@@ -85,8 +85,12 @@ int sql_query_build(const char* template, str* q)
       if (!str_catc(q, '$')) return 0;
     }
     else {
-      ptr = (name.len == 7 && memcmp(name.s, "account", 7) == 0) ?
-	cvm_account_name : getenv(name.s);
+      if (str_diffs(&name, "account") == 0)
+	ptr = cvm_account_name;
+      else if (str_diffs(&name, "domain") == 0)
+	ptr = cvm_account_domain;
+      else
+	ptr = getenv(name.s);
       if (ptr) if (!str_cats_quoted(q, ptr)) return 0;
     }
   }

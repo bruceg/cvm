@@ -11,6 +11,8 @@ Changes in version 0.10
 - Modified the client library to optionally parse a domain name out of
   the account name.
 
+- Modified the MySQL and PgSQL modules to deal with domain names.
+
 NOTE:  Modules built against this version of CVM will be incompatible
 with clients built against older versions, and vice versa!  Use care
 when upgrading.
