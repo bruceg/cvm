@@ -55,7 +55,7 @@ system directory: (null)
 
 --- Testing local module, bad password
 - cvmtest
-Authentication failed, error #1
+Authentication failed, error #100
 
 --- Stopping local server
 Stopping.
