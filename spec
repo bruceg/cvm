@@ -1,14 +1,14 @@
-Name: @PACKAGE@
+Name: cvm
 Summary: Credential Validation Modules
 Version: @VERSION@
 Release: 1
 Copyright: GPL
 Group: Utilities/System
-Source: http://em.ca/~bruceg/@PACKAGE@/@VERSION@/@PACKAGE@-@VERSION@.tar.gz
-BuildRoot: %{_tmppath}/@PACKAGE@-buildroot
+Source: http://untroubled.org/cvm/cvm-@VERSION@.tar.gz
+BuildRoot: %{_tmppath}/cvm-buildroot
 BuildRequires: mysql-devel
 BuildRequires: postgresql-devel
-URL: http://em.ca/~bruceg/@PACKAGE@/
+URL: http://untroubled.org/cvm/
 Packager: Bruce Guenter <bruceg@em.ca>
 
 %description
