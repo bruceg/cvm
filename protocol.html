@@ -21,7 +21,13 @@ string.</p>
 <h3>Input</h3>
 
 <p>The flag byte in the input contains the protocol number, which is
-always 2.</p>
+always 2.  Example (all numbers are hexadecimal):</p>
+
+<pre>
+000000 02 01 08 75 73 65 72 6e  61 6d 65 02 09 6c 6f 63  ...usern ame..loc
+000010 61 6c 68 6f 73 74 03 08  70 61 73 73 77 6f 72 64  alhost.. password
+000020 00                                                . 
+</pre>
 
 <h3>Output</h3>
 
@@ -31,7 +37,17 @@ byte will be 0.  If the credentials are accepted by this module, but
 are not valid, the code will be 100 (permanent failure).  Any other
 code indicates a temporary <a href="errors.html">error</a>.  The list
 of <a href="facts.html">facts</a> will follow the flag byte only if
-authentication succeeded.</p>
+authentication succeeded.  Example (all numbers are hexadecimal):</p>
+
+<pre>
+000000 00 01 08 75 73 65 72 6e  61 6d 65 02 05 31 32 33  ...usern ame..123
+000010 34 35 03 05 32 33 34 35  36 04 09 54 65 73 74 20  45..2345 6..Test 
+000020 55 73 65 72 05 0a 2f 68  6f 6d 65 2f 75 73 65 72  User../h ome/user
+000030 08 03 35 30 30 08 05 32  33 34 35 36 08 03 31 30  ..500..2 3456..10
+000040 30 0e 09 6c 6f 63 61 6c  68 6f 73 74 0f 12 2f 68  0..local host../h
+000050 6f 6d 65 2f 75 73 65 72  2f 4d 61 69 6c 64 69 72  ome/user /Maildir
+000060 00                                                . 
+</pre>
 
 <h2>Environment Variables</h2>
 
