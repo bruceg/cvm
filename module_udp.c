@@ -25,6 +25,7 @@ static void write_output(void)
 static void exitfn()
 {
   log_shutdown();
+  exit(0);
 }
 
 static const char usagestr[] =

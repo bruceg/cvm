@@ -1,5 +1,6 @@
 #include <signal.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include "socket/socket.h"
 #include "module.h"
@@ -34,6 +35,7 @@ static void exitfn()
 {
   unlink(path);
   log_shutdown();
+  exit(0);
 }
 
 static const char usagestr[] =
