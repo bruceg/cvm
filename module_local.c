@@ -36,7 +36,10 @@ static int read_input(void)
   if ((conn = socket_acceptu(sock)) == -1) return CVME_IO;
   for (inbuflen = 0; inbuflen < BUFSIZE; inbuflen += rd) {
     if ((rd = read(conn, inbuffer+inbuflen, BUFSIZE-inbuflen)) == 0) break;
-    if (rd == (unsigned)-1) return CVME_IO;
+    if (rd == (unsigned)-1) {
+      close(conn);
+      return CVME_IO;
+    }
   }
   return 0;
 }
