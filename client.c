@@ -27,6 +27,8 @@
 #include "client.h"
 #include "iopoll.h"
 
+const char* cvm_account_split_chars = "@";
+
 #define BUFSIZE 512
 static char buffer[BUFSIZE];
 static unsigned buflen;
@@ -47,22 +49,50 @@ static int parse_buffer(void)
   cvm_fact_str(CVM_FACT_GROUPNAME, &cvm_fact_groupname);
   cvm_fact_str(CVM_FACT_SYS_USERNAME, &cvm_fact_sys_username);
   cvm_fact_str(CVM_FACT_SYS_DIRECTORY, &cvm_fact_sys_directory);
+  cvm_fact_str(CVM_FACT_DOMAIN, &cvm_fact_domain);
   return 0;
 }
 
-static unsigned build_buffer(const char** credentials)
+static char* buffer_add(char* ptr, const char* str, unsigned len)
+{
+  if (ptr - buffer + len + 1 >= BUFSIZE-1) return 0;
+  memcpy(ptr, str, len);
+  ptr[len] = 0;
+  return ptr + len + 1;
+}
+
+static unsigned build_buffer(const char* account, const char* domain,
+			     const char** credentials, int parse_domain)
 {
   char* ptr;
   unsigned i;
-  unsigned len;
+  unsigned actlen;
+  
+  buffer[0] = CVM_PROTOCOL;
+  ptr = buffer + 1;
 
-  ptr = buffer;
-  for (i = 0; credentials[i]; i++) {
-    len = strlen(credentials[i])+1;
-    if (ptr-buffer+len >= BUFSIZE-1) return 0;
-    memcpy(ptr, credentials[i], len);
-    ptr += len;
+  actlen = strlen(account);
+  if (parse_domain) {
+    const char* sc;
+    if ((sc = getenv("CVM_ACCOUNT_SPLIT_CHARS")) == 0)
+      sc = cvm_account_split_chars;
+    i = strlen(account);
+    while (i-- > 0) {
+      if (strchr(sc, account[i]) != 0) {
+	domain = account + i + 1;
+	actlen = i - 1;
+	break;
+      }
+    }
   }
+  
+  if ((ptr = buffer_add(ptr, account, actlen)) == 0) return 0;
+  if ((ptr = buffer_add(ptr, domain, strlen(domain))) == 0) return 0;
+
+  for (i = 0; credentials[i] != 0; i++)
+    if ((ptr = buffer_add(ptr, credentials[i], strlen(credentials[i]))) == 0)
+      return 0;
+
   *ptr++ = 0;
   buflen = ptr - buffer;
   return 1;
@@ -282,10 +312,14 @@ static int cvm_local(const char* path)
 }
 
 /* Top-level wrapper *********************************************************/
-int cvm_authenticate(const char* module, const char** credentials)
+int cvm_authenticate(const char* module, const char* account,
+		     const char* domain, const char** credentials,
+		     int parse_domain)
 {
   int result;
-  if (!build_buffer(credentials)) return CVME_GENERAL;
+  if (domain == 0) domain = "";
+  if (!build_buffer(account, domain, credentials, parse_domain))
+    return CVME_GENERAL;
   if (!memcmp(module, "cvm-udp:", 8))
     result = cvm_udp(module+8);
   else if (!memcmp(module, "cvm-local:", 10))
