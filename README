@@ -4,23 +4,12 @@ Bruce Guenter <bruceg@em.ca>
 Version 0.1
 2001-02-22
 
-This package contains ...
-
-Requirements:
-
--
-
-How to install:
-
--
-
-How to configure it for use:
-
--
-
-Operation:
-
--
+This package contains:
+- The reference source for the CVM interface.
+- A UNIX system CVM module (uses getpwnam).
+- A test CVM client.
+- A library for module writers.
+- A library for client writers.
 
 This program is Copyright(C) 2000-2001 Bruce Guenter, and may be copied
 according to the GNU GENERAL PUBLIC LICENSE (GPL) Version 2 or a later
