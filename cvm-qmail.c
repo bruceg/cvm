@@ -1,4 +1,4 @@
-/* cvm-qmaillookup.c - qmail lookup-only CVM
+/* cvm-qmail.c - qmail lookup-only CVM
  * Copyright (C) 2004  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -25,15 +25,12 @@
 
 const unsigned cvm_credential_count = 1;
 const char* cvm_credentials[1];
-const char program[] = "cvm-qmaillookup";
-
-static const char* secret;
+const char program[] = "cvm-qmail";
 
 int cvm_auth_init(void)
 {
   if (qmail_lookup_init() == -1)
     return CVME_IO;
-  secret = getenv("QMAILLOOKUP_SECRET");
   return 0;
 }
 
@@ -41,14 +38,6 @@ static struct qmail_user user;
 static str domain;
 static str username;
 static str ext;
-
-int cvm_preauth(void)
-{
-  if (secret != 0)
-    if (strcmp(secret, cvm_credentials[0]) != 0)
-      return CVME_BAD_MODDATA;
-  return 0;
-}
 
 /* Account name is either "baseuser-virtuser" or "virtuser@domain" */
 int cvm_lookup(void)

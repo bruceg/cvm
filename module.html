@@ -22,27 +22,18 @@ when the CVM starts up.
 the stored credentials for the named user.
 
 <dt><tt>int cvm_authenticate(void)</tt> <dd>The main authentication
-verification routine.
+verification routine.  This routine is not called when the module is
+operating in lookup mode.
 
 <dt><tt>void cvm_auth_stop(void)</tt> <dd>This routine is called once
 when the CVM is shut down.
 
 </dl>
 
-In addition, a module <i>may</i> provide the following items.  If they
-are not present in the module, default no-op stubs are used.<dl>
-
-<dt><tt>int cvm_preauth(void)</tt> <dd>This function is called before
-<tt>cvm_lookup</tt> to validate credentials not based on the account
-name.
-
-</dl>
-
-Before <tt>cvm_preauth()</tt> and <tt>cvm_lookup()</tt> are called, the
-input data stream is read and the account name is parsed into
-<tt>cvm_account_name</tt>, the domain name into
-<tt>cvm_account_domain</tt>, and the credentials are parsed into
-<tt>cvm_credentials</tt>.</p>
+Before <tt>cvm_lookup()</tt> is called, the input data stream is read
+and the account name is parsed into <tt>cvm_account_name</tt>, the
+domain name into <tt>cvm_account_domain</tt>, and the credentials are
+parsed into <tt>cvm_credentials</tt>.</p>
 
 <p>If authentication fails, the module must return
 <tt>CVME_PERMFAIL</tt> (value 100).  If there was a temporary error,

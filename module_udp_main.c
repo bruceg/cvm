@@ -1,5 +1,5 @@
 /* cvm/module_udp_main.c - UDP CVM server module main routine
- * Copyright (C) 2003  Bruce Guenter <bruceg@em.ca>
+ * Copyright (C) 2004  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,5 +31,6 @@ extern int udp_main(const char*, const char*);
 int main(int argc, char** argv)
 {
   if (argc != 3) usage();
+  init_request();
   return udp_main(argv[1], argv[2]);
 }

@@ -1,11 +1,13 @@
 -------------------------------------------------------------------------------
-Changes in version 0.25
+Changes in version 0.30
+
+- Added "lookup mode" common code, available in all modules.
+
+- Added new cvm-qmail module, which can be used to verify validity of
+  recipient addresses on qmail systems.
 
 - Fixed cvm/module.h header file include problem.
   Thanks Paul Jarc for pointing this out.
-
-- Added new cvm-qmaillookup module, which can be used to verify validity
-  of recipient addresses on qmail systems.
 
 - Significantly factorized the qmail code underlying the vmailmgr
   modules, making them more conformant to qmail's delivery process.

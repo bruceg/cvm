@@ -1,5 +1,5 @@
 /* cvm/module_request.c - Request parsing code
- * Copyright (C) 2001  Bruce Guenter <bruceg@em.ca>
+ * Copyright (C) 2004  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,6 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+#include <stdlib.h>
 #include <string.h>
 #include "module.h"
 
@@ -23,6 +24,21 @@ const char* cvm_account_domain;
 
 char inbuffer[BUFSIZE+1];
 unsigned inbuflen;
+
+static const char* lookup_secret;
+static const char* lookup_creds[1];
+static unsigned credential_count = 1;
+static const char** credentials = lookup_creds;
+
+void init_request(void)
+{
+  /* Determine if the module is to operate in lookup mode, and if not
+     set the local credential values appropriately. */
+  if ((lookup_secret = getenv("CVM_LOOKUP_SECRET")) == 0) {
+    credentials = cvm_credentials;
+    credential_count = cvm_credential_count;
+  }
+}
 
 static int copy_advance(const char** ptr, char**buf, unsigned* len)
 {
@@ -52,8 +68,8 @@ static int parse_input(void)
   if (!copy_advance(&cvm_account_name, &buf, &len)) return CVME_BAD_CLIDATA;
   if (!copy_advance(&cvm_account_domain, &buf, &len)) return CVME_BAD_CLIDATA;
 
-  for (i = 0; i < cvm_credential_count; ++i)
-    if (!copy_advance(&cvm_credentials[i], &buf, &len))
+  for (i = 0; i < credential_count; ++i)
+    if (!copy_advance(&credentials[i], &buf, &len))
       return CVME_BAD_CLIDATA;
   
   if (*buf != 0) return CVME_BAD_CLIDATA;
@@ -64,10 +80,15 @@ int handle_request(void)
 {
   int code;
   if ((code = parse_input()) != 0) return code;
-  cvm_fact_start();
-  if ((code = cvm_preauth()) != 0) return code;
+  if (lookup_secret != 0) {
+    if (credentials[0] == 0 ||
+	strcmp(credentials[0], lookup_secret) != 0)
+      return CVME_NOCRED;
+  }
   if ((code = cvm_lookup()) != 0) return code;
-  if ((code = cvm_authenticate()) != 0) return code;
+  if (lookup_secret == 0)
+    if ((code = cvm_authenticate()) != 0) return code;
+  cvm_fact_start();
   if ((code = cvm_results()) != 0) return code;
   cvm_fact_str(CVM_FACT_USERNAME, cvm_fact_username);
   cvm_fact_uint(CVM_FACT_USERID, cvm_fact_userid);

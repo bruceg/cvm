@@ -1,5 +1,9 @@
 <loop addr user user-addr user-addr-x user-wild user-wild-x user-wild-x-y-z alias alias-x awild awild-x>
 <loop domain local.dom>
+
+CVM_LOOKUP_SECRET=secret
+export CVM_LOOKUP_SECRET
+
 testq $addr $domain
 
 <result user local.dom>

@@ -1,5 +1,5 @@
 /* cvm/module_local_main.c - Local CVM server module main routine
- * Copyright (C) 2003  Bruce Guenter <bruceg@em.ca>
+ * Copyright (C) 2004  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,5 +33,6 @@ extern int local_main(const char*);
 int main(int argc, char** argv)
 {
   if (argc != 2) usage();
+  init_request();
   return local_main(argv[1]);
 }

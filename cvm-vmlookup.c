@@ -1,5 +1,5 @@
 /* cvm-vmlookup.c - vmailmgr lookup-only CVM
- * Copyright (C) 2003  Bruce Guenter <bruceg@em.ca>
+ * Copyright (C) 2004  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,14 +28,6 @@ const unsigned cvm_credential_count = 1;
 const char* cvm_credentials[1];
 const char program[] = "cvm-vmlookup";
 const int try_default = 1;
-
-int cvm_preauth(void)
-{
-  if (secret != 0)
-    if (strcmp(secret, cvm_credentials[0]) != 0)
-      return CVME_BAD_MODDATA;
-  return 0;
-}
 
 int cvm_authenticate(void)
 {

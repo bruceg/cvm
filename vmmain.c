@@ -1,5 +1,5 @@
 /* main.c - vmailmgr CVM main routines
- * Copyright (C) 2003  Bruce Guenter <bruceg@em.ca>
+ * Copyright (C) 2004  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,7 +37,6 @@
 #include "qmail.h"
 #include "cvm-vmailmgr.h"
 
-const char* secret;
 str default_user = {0,0,0};
 int lock_disabled;
 
@@ -70,7 +69,6 @@ int cvm_auth_init(void)
   memset(&vpw, 0, sizeof vpw);
   if ((pwfile = getenv("VMAILMGR_PWFILE")) == 0) pwfile = "passwd.cdb";
   if ((tmp = getenv("VMAILMGR_DEFAULT")) == 0) tmp = "+";
-  secret = getenv("VMLOOKUP_SECRET");
   lock_disabled = getenv("VMAILMGR_LOCK_DISABLED") != 0;
   if (!str_copys(&default_user, tmp)) return CVME_GENERAL;
   if (getenv("DEBUG") != 0) show_debug = 1;

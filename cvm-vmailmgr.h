@@ -2,7 +2,6 @@
 #define CVM_VMAILMGR__H__
 
 extern str default_user;
-extern const char* secret;
 
 /* Results from looking up the user */
 extern struct qmail_user vmuser;

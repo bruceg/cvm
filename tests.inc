@@ -9,7 +9,7 @@ make_pwfile()
 }
 testc() { ./cvm-testclient ./cvm-vmailmgr "$@"; }
 testl() { ./cvm-testclient ./cvm-vmlookup "$@"; }
-testq() { ./cvm-testclient ./cvm-qmaillookup "$@" ''; }
+testq() { ./cvm-testclient ./cvm-qmail "$@" secret; }
 
 QMAIL_ROOT=$tmp
 export QMAIL_ROOT
