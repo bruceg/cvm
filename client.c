@@ -163,10 +163,10 @@ static int cvm_command(const char* module)
       close(pipes[1]) == -1) {
     killit();
     if ((result = waitforit()) != 0) return result;
-    return 1;
+    return CVME_IO;
   }
 
-  return waitforit() ? 1 : 0;
+  return waitforit();
 }
 
 /* UDP module invocation *****************************************************/
