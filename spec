@@ -37,5 +37,5 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%doc COPYING NEWS README
+%doc COPYING NEWS README *.html
 %{_bindir}/*
