@@ -1,4 +1,15 @@
 -------------------------------------------------------------------------------
+Changes in version 0.12
+
+- Fixed a buffer mis-allocation bug in the getpwnam code.
+
+- Fixed a one-off bug in the client code that parses user/domain names.
+
+- Fixed a Solaris/SysV portability problem.
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
+-------------------------------------------------------------------------------
 Changes in version 0.11
 
 - Removed the MySQL and PgSQL modules from this package, and bundled
