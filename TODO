@@ -1,6 +1,8 @@
 - Add more fine-grained support to module_local.o for controlling the
   permissions of the socket file (owner, permissions).
 
+- Use the str library for all strings.
+
 - Add support for allow/deny tables
 
   - File based: if $CVM_ACCESS/deny/$USER exists, or if
@@ -18,6 +20,9 @@
 - Stop using perror.
 
 - Stop using stdio.
+
+- Split into cvm (containing the main modules) and lib/cvm (containing
+  the client/module code).
 
 - Consider how to do a "union" module that would call other modules and
   use the results from the first one that succeeds.
