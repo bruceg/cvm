@@ -1,4 +1,4 @@
-<loop addr user user-addr user-addr-x user-wild user-wild-x user-wild-x-y-z alias alias-x awild awild-x USER user-ADDR>
+<loop addr user user-addr user-addr-x user-wild user-wild-x user-wild-x-y-z alias alias-x awild awild-x USER user-ADDR USER-ADDR>
 <loop domain local.dom>
 
 testq $addr $domain secret
@@ -94,9 +94,32 @@ domain:           local.dom
 mailbox path:     @TMPDIR@/alias
 
 <result USER local.dom>
-Authentication failed, error #100
+user name:        user
+user ID:          @UID@
+group ID:         @GID@
+real name:        (null)
+directory:        @TMPDIR@
+shell:            (null)
+group name:       (null)
+system user name: user
+system directory: @TMPDIR@
+domain:           local.dom
+mailbox path:     @TMPDIR@
 
 <result user-ADDR local.dom>
+user name:        user
+user ID:          @UID@
+group ID:         @GID@
+real name:        (null)
+directory:        @TMPDIR@
+shell:            (null)
+group name:       (null)
+system user name: user
+system directory: @TMPDIR@
+domain:           local.dom
+mailbox path:     @TMPDIR@
+
+<result USER-ADDR local.dom>
 user name:        user
 user ID:          @UID@
 group ID:         @GID@

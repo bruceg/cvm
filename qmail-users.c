@@ -72,10 +72,8 @@ int qmail_users_init(void)
   return qmail_users_reinit();
 }
 
-static str tmp;
-
 static int lookup_userscdb(struct qmail_user* u,
-			   const char* name, char dash)
+			   str* name, char dash)
 {
   char* ptr;
   const char* end;
@@ -83,22 +81,21 @@ static int lookup_userscdb(struct qmail_user* u,
   const char* home;
   int i;
 
-  if (!str_copys(&tmp, "!")
-      || !str_cats(&tmp, name)
-      || (*name != 0 && !str_catc(&tmp, dash))) {
+  if (!str_spliceb(name, 0, 0, "!", 1)
+      || (name->len > 1 && !str_catc(name, dash))) {
     errno = ENOMEM;
     return -1;
   }
 
-  if ((i = cdb_get(&users_cdb, &tmp, &tmp)) <= 0)
+  if ((i = cdb_get(&users_cdb, name, name)) <= 0)
     return i;
 
   /* tmp now contains:
    * user NUL uid NUL gid NUL home NUL dash NUL ext
    */
   errno = EDOM;
-  ptr = tmp.s;
-  end = tmp.s + tmp.len;
+  ptr = name->s;
+  end = name->s + name->len;
   user = ptr;
   if ((ptr += strlen(ptr) + 1) >= end) return -1;
   u->uid = strtoul(ptr, &ptr, 10);
@@ -120,11 +117,12 @@ static int lookup_userscdb(struct qmail_user* u,
   return 1;
 }
 
-static int lookup_passwd(struct qmail_user* u, const char* name, char dash)
+static int lookup_passwd(struct qmail_user* u, const str* namestr, char dash)
 {
   const struct passwd* pw;
+  const char* name;
 
-  if (*name == 0)
+  if (*(name = namestr->s) == 0)
     name = "alias";
   if ((pw = getpwnam(name)) == 0)
     return (errno == ETXTBSY) ? -1 : 0;
@@ -143,9 +141,15 @@ static int lookup_passwd(struct qmail_user* u, const char* name, char dash)
 
 int qmail_users_lookup(struct qmail_user* u, const char* name, char dash)
 {
+  static str lname;
+  if (!str_copys(&lname, name)){
+    errno = ENOMEM;
+    return -1;
+  }
+  str_lower(&lname);
   return (users_fd == -1)
-    ? lookup_passwd(u, name, dash)
-    : lookup_userscdb(u, name, dash);
+    ? lookup_passwd(u, &lname, dash)
+    : lookup_userscdb(u, &lname, dash);
 }
 
 int qmail_users_lookup_split(struct qmail_user* u, const char* name,

@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Changes in version 0.32
 
-- Fixed the .qmail-ext lookup in cvm-qmail to lower-case the "-ext" part
-  just like qmail-local does.
+- Fixed the qmail lookups in cvm-qmail to lower-case both the username
+  and the "-ext" part in .qmail-ext files, just like qmail-local does.
 
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/
