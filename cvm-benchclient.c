@@ -26,8 +26,8 @@ int main(int argc, char** argv)
   unsigned long i;
   char* ptr;
   
-  if (argc < 5) {
-    printf("usage: cvm-benchclient count cvmodule account credential [credential ...]\n");
+  if (argc < 6) {
+    printf("usage: cvm-benchclient count cvmodule account domain credential [credential ...]\n");
     return 1;
   }
   
@@ -37,7 +37,8 @@ int main(int argc, char** argv)
   }
   
   for (i = 0; i < count; i++) {
-    if ((a = cvm_authenticate(argv[2], (const char**)(argv+3))) != 0) {
+    if ((a = cvm_authenticate(argv[2], argv[3], argv[4],
+			      (const char**)(argv+5), 0)) != 0) {
       printf("Authentication failed, error #%d\n", a);
       return a;
     }
