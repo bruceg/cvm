@@ -23,9 +23,10 @@
 #include "str/str.h"
 
 const char sql_query_default[] =
-"SELECT password,name,userid,groupid,directory,realname,shell "
+"SELECT password,username,userid,groupid,directory,realname,shell,groupname,"
+"       sys_username,sys_directory "
 "FROM accounts "
-"WHERE name=$account";
+"WHERE username=$account";
 
 #define QUOTE '\''
 #define BACKSLASH '\\'

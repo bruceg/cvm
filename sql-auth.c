@@ -73,9 +73,9 @@ int cvm_authenticate(void)
   cvm_fact_directory = sql_get_field(4);
   cvm_fact_realname = sql_get_field(5);
   cvm_fact_shell = sql_get_field(6);
-  cvm_fact_groupname = 0;
-  cvm_fact_sys_username = 0;
-  cvm_fact_sys_directory = 0;
+  cvm_fact_groupname = sql_get_field(7);
+  cvm_fact_sys_username = sql_get_field(8);
+  cvm_fact_sys_directory = sql_get_field(9);
   
   return 0;
 }

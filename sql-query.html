@@ -24,11 +24,14 @@ in order.  All required fields must not be null or empty.
 <li>Directory (required)
 <li>Real name (optional)
 <li>Login shell (optional)
+<li>Group name (optional)
+<li>System account name (optional)
+<li>System account directory (optional)
 </ol></p>
 
-<p><b>Default:</b> The default query is "<tt>SELECT password,
-name, userid, groupid, directory, realname, shell FROM accounts
-WHERE name=$account</tt>".</p>
+<p><b>Default:</b> The default query is "<tt>SELECT password, username,
+userid, groupid, directory, realname, shell, groupname, sys_username,
+sys_directory FROM accounts WHERE username=$account</tt>".</p>
 
 </body>
 </html>
