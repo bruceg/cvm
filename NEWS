@@ -1,4 +1,10 @@
 -------------------------------------------------------------------------------
+Changes in version 0.6
+
+- Fixed some client library bugs.
+
+- Added a benchmarking client.
+-------------------------------------------------------------------------------
 Changes in version 0.5
 
 - Added support for long-running UDP and local-domain socket modules.
