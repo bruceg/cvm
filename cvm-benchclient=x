@@ -1,3 +1,4 @@
 client.a
 socket/socket.a
 iopoll.o
+setenv.o
