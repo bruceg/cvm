@@ -1,0 +1,37 @@
+<html>
+<body>
+
+<h2><a href="cvm.html">CVM</a></h2>
+
+<h1>CVM SQL Framework</h1>
+
+<p><b>Query Substitution:</b> All occurrences of <tt>$account</tt> are
+replaced with the quoted value of the account name.  <tt>$$</tt> is
+replaced with a single dollar sign.  <tt>$VAR</tt> and <tt>${VAR}</tt>
+are replaced with the <i>quoted</i> value of the environment variable
+named <tt>VAR</tt>.  Use the second form when <tt>VAR</tt> contains
+anything other than alpha-numeric or underscore (<tt>_</tt>)
+characters.  Do not include quotes in the query.</p>
+
+<p><b>Query Results:</b> The query must produce the following fields
+exactly in order.  All required fields must not be null or empty.
+
+<ol>
+<li>Password, encrypted with <tt>crypt</tt> (required)
+<li>Actual account name (required)
+<li>User ID (integer) (required)
+<li>Group ID (integer) (required)
+<li>Directory (required)
+<li>Real name (optional)
+<li>Login shell (optional)
+<li>Group name (optional)
+<li>System account name (optional)
+<li>System account directory (optional)
+</ol></p>
+
+<p><b>Default Query:</b> <tt>SELECT password, username, userid,
+groupid, directory, realname, shell, groupname, sys_username,
+sys_directory FROM accounts WHERE username=$account</tt></p>
+
+</body>
+</html>
