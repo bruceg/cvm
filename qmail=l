@@ -1,3 +1,5 @@
+qmail-dotfile.o
 qmail-init.o
+qmail-lookup.o
 qmail-users.o
 qmail-vdomains.o
