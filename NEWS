@@ -1,6 +1,7 @@
 -------------------------------------------------------------------------------
 Changes in version 0.16
 
+- Merged cvm-sasl library from bglibs into this package.
 
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/
