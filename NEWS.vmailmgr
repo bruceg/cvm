@@ -1,0 +1,69 @@
+-------------------------------------------------------------------------------
+Changes in version 0.7
+
+- Made lock-out of disabled mailboxes optional.
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
+-------------------------------------------------------------------------------
+Changes in version 0.6
+
+- Elimiated a duplicate chdir in the fast path of lookups.
+
+- Virtual user names needed to be lower-cased before use, and domain
+  names needed case-insensitive lookups.
+
+- Added some automated tests.
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
+-------------------------------------------------------------------------------
+Changes in version 0.5
+
+- Added a lookup-only module, cvm-vmlookup.
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
+-------------------------------------------------------------------------------
+Changes in version 0.4
+
+- Fixed the support for unencrypted passwords.
+
+- Converted to external bglibs.
+
+- Added support for qmail in paths other than /var/qmail by setting
+  $QMAIL_ROOT.
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
+-------------------------------------------------------------------------------
+Changes in version 0.3
+
+- virtualdomains is now cached land reloaded automatically when it is
+  modified.
+
+- Added support for using the qmail-users CDB file for lookups.  This
+  together with the virtualdomains cache greatly speeds up lookups on
+  large servers.
+
+- Added support for unencrypted passwords, prefixed with '$0$' to
+  distinguish them from plain crypt (no prefix) and MD5-crypt (prefixed
+  with '$1$').  Note that creating such password entries requires
+  modified vmailmgr tools which are not yet generally available.
+
+- Added optional debugging output.
+
+- Removed base user authentication.  !!NOTE!! This means that
+  authentication for both real users and virtual users using passwords
+  in /etc/passwd will no longer work.
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
+-------------------------------------------------------------------------------
+Changes in version 0.2
+
+- Output mailbox facts suitable for use with pop3front-auth.
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
+-------------------------------------------------------------------------------

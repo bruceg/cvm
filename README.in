@@ -42,6 +42,23 @@ Installation:
 	./instcheck
   These commands will produce no output if there are no errors.
 
+vmailmgr Configuration:
+
+- If your virtual domain password tables are stored in a file other than
+  passwd.cdb, set $VMAILMGR_PWFILE to that file name.
+
+- If you want to protect lookups, set $VMLOOKUP_SECRET to an arbitrary
+  string before invoking cvm-vmlookup.
+
+- Set $QMAIL_ROOT to the base qmail directory (defaults to "/var/qmail").
+
+- Set $VMAILMGR_DEFAULT to the vmailmgr default username (defaults to "+").
+
+- Set $DEBUG (to anything) to see debugging output.
+
+- See http://untroubled.org/cvm/cvm.html for information on running
+  local or UDP server modules.
+
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/
 
