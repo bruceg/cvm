@@ -1,4 +1,10 @@
 -------------------------------------------------------------------------------
+Changes in version 0.33
+
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
+-------------------------------------------------------------------------------
 Changes in version 0.32
 
 - Fixed the qmail lookups in cvm-qmail to lower-case both the username
