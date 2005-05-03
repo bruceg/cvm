@@ -16,7 +16,7 @@
  add to Makefile:
  
    cvm-vchkpw: load cvm-vchkpw.o module.a crypt.lib shadow.lib s.lib socket.lib
-   	./load cvm-vchkpw getpwnam.o module.a at crypt.lib at shadow.lib at s.lib at socket.lib -lbg-net -lvpopmail -lmysqlclient
+   	./load cvm-vchkpw getpwnam.o module.a `cat crypt.lib `cat shadow.lib` `cat s.lib` `cat socket.lib` -lbg-net -lvpopmail -lmysqlclient
 
    cvm-vchkpw.o: compile cvm-vchkpw.c module.h facts.h errors.h
 	./compile cvm-vchkpw.c
@@ -35,6 +35,8 @@
 #include "vauth.h"
 #include "pwcmp/client.h"
 #include "module.h"
+
+const char program[] = "cvm-vchkpw";
 
 const unsigned cvm_credential_count = 1;
 const char* cvm_credentials[1];
@@ -68,7 +70,7 @@ int cvm_results(void)
 {
   char* mailbox;
   const long dirlen = strlen(mypw->pw_dir);
-  mailbox = malloc(strlen(dirlen + 10));
+  mailbox = malloc(dirlen + 10);
   memcpy(mailbox, mypw->pw_dir, dirlen);
   memcpy(mailbox+dirlen, "/Maildir/", 10);
   cvm_fact_username = mypw->pw_name;
