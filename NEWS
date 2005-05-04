@@ -3,6 +3,8 @@ Changes in version 0.33
 
 - Added compile fix for cvm-vchkpw.  Thanks Peter Palmreuther.
 
+- Fixed handling qmail lookups of extensions containing periods.
+
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/
 -------------------------------------------------------------------------------

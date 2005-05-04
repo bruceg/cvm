@@ -31,8 +31,10 @@ echo test.tld:user >$tmp/control/virtualdomains
 mkdir $tmp/alias
 echo \# >$tmp/.qmail-wild-default
 echo \# >$tmp/.qmail-addr
+echo \# >$tmp/.qmail-dot:addr
 echo \# >$tmp/alias/.qmail-alias
 echo \# >$tmp/alias/.qmail-awild-default
+echo \# >$tmp/alias/.qmail-adot:addr
 
 (
   printf '+4,69:virt->\x2\x8\x1\0$1$aSoIrl/J$TmAwoxKzrPJ0IaW5UvX4A0\0./virt\0\0\0-\0-\0-\0-\00001016731358\0-\0\n'

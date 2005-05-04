@@ -1,4 +1,4 @@
-<loop addr user user-addr user-addr-x user-wild user-wild-x user-wild-x-y-z alias alias-x awild awild-x USER user-ADDR USER-ADDR>
+<loop addr user user-addr user-addr-x user-wild user-wild-x user-wild-x-y-z alias alias-x awild awild-x USER user-ADDR USER-ADDR user-dot.addr adot.addr>
 <loop domain local.dom>
 
 testq $addr $domain secret
@@ -119,6 +119,32 @@ system directory: @TMPDIR@
 domain:           local.dom
 mailbox path:     @TMPDIR@
 
+<result user-dot.addr local.dom>
+user name:        user
+user ID:          @UID@
+group ID:         @GID@
+real name:        (null)
+directory:        @TMPDIR@
+shell:            (null)
+group name:       (null)
+system user name: user
+system directory: @TMPDIR@
+domain:           local.dom
+mailbox path:     @TMPDIR@
+
+<result adot.addr local.dom>
+user name:        alias
+user ID:          @UID@
+group ID:         @GID@
+real name:        (null)
+directory:        @TMPDIR@/alias
+shell:            (null)
+group name:       (null)
+system user name: alias
+system directory: @TMPDIR@/alias
+domain:           local.dom
+mailbox path:     @TMPDIR@/alias
+
 <result USER-ADDR local.dom>
 user name:        user
 user ID:          @UID@
@@ -131,3 +157,4 @@ system user name: user
 system directory: @TMPDIR@
 domain:           local.dom
 mailbox path:     @TMPDIR@
+

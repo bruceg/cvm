@@ -41,11 +41,15 @@ int qmail_dotfile_exists(const struct qmail_user* user, const char* ext)
   if (!str_catc(&path, user->dash)) return -1;
   if (!str_cat(&path, &user->ext)) return -1;
   if (ext != 0) {
-    split = path.len;
-    if (!str_cats(&path, ext)) return -1;
-    for (; split < (int)path.len; ++split)
-      if (isupper(path.s[split]))
-	path.s[split] = tolower(path.s[split]);
+    while (*ext) {
+      if (!str_catc(&path, isupper(*ext)
+		    ? tolower(*ext)
+		    : (*ext == '.')
+		    ? ':'
+		    : *ext))
+	return -1;
+      ++ext;
+    }
   }
 
   split = path.len;
