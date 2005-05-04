@@ -49,6 +49,9 @@ int qmail_lookup_cvm(struct qmail_user* user,
   static str prefix;
   static str fullname;
 
+  if (cvm_account_domain[0] == 0)
+    cvm_account_domain = qmail_envnoathost;
+
   if (qmail_users_reinit() != 0
       || qmail_domains_reinit() != 0)
     return -1;

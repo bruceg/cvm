@@ -14,6 +14,8 @@ struct qmail_user
 };
 
 extern const char* qmail_root;
+extern const char* qmail_me;
+extern const char* qmail_envnoathost;
 int qmail_init(void);
 
 int qmail_users_init(void);

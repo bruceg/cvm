@@ -5,6 +5,9 @@ Changes in version 0.33
 
 - Fixed handling qmail lookups of extensions containing periods.
 
+- Fixed handling qmail lookups with missing domains by reading
+  control/me and control/envnoathost.
+
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/
 -------------------------------------------------------------------------------

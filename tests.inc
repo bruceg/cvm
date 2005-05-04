@@ -28,6 +28,8 @@ mkdir $tmp/users
 mkdir $tmp/control
 echo local.dom >$tmp/control/locals
 echo test.tld:user >$tmp/control/virtualdomains
+echo noathost:user >>$tmp/control/virtualdomains
+echo noathost >$tmp/control/envnoathost
 mkdir $tmp/alias
 echo \# >$tmp/.qmail-wild-default
 echo \# >$tmp/.qmail-addr
