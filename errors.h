@@ -16,4 +16,7 @@
 
 #define CVME_MASK  0x0ff
 
+extern const char* const cvm_errlist[];
+extern const int cvm_nerr;
+
 #endif

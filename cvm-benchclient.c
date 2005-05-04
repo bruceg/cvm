@@ -1,5 +1,5 @@
 /* cvm/cvm-benchclient.c - CVM benchmark client
- * Copyright (C) 2001  Bruce Guenter <bruceg@em.ca>
+ * Copyright (C) 2005  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,7 +39,8 @@ int main(int argc, char** argv)
   for (i = 0; i < count; i++) {
     if ((a = cvm_authenticate(argv[2], argv[3], argv[4],
 			      (const char**)(argv+5), 0)) != 0) {
-      printf("Authentication failed, error #%d\n", a);
+      printf("Authentication failed, error #%d (%s)\n", a,
+	     (a < cvm_nerr) ? cvm_errlist[i] : "Unknown error code");
       return a;
     }
   }

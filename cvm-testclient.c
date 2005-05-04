@@ -1,5 +1,5 @@
 /* cvm/cvm-testclient.c - Diagnostic CVM client
- * Copyright (C) 2001  Bruce Guenter <bruceg@em.ca>
+ * Copyright (C) 2005  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,7 +30,8 @@ int main(int argc, char** argv)
   
   i = cvm_authenticate(argv[1], argv[2], argv[3], (const char**)(argv+4), 0);
   if (i) {
-    printf("Authentication failed, error #%d\n", i);
+    printf("Authentication failed, error #%d (%s)\n", i,
+	   (i < cvm_nerr) ? cvm_errlist[i] : "Unknown error code");
     return i;
   }
 

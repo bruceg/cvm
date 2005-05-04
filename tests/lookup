@@ -17,12 +17,12 @@ system user name: (null)
 system directory: (null)
 domain:           (null)
 mailbox path:     (null)
-Authentication failed, error #2
-Authentication failed, error #2
+Authentication failed, error #2 (Invalid data from client)
+Authentication failed, error #2 (Invalid data from client)
 
 <result secret>
-Authentication failed, error #2
-Authentication failed, error #7
+Authentication failed, error #2 (Invalid data from client)
+Authentication failed, error #7 (Credential missing in data from module)
 user name:        pwfuser
 user ID:          123
 group ID:         456
