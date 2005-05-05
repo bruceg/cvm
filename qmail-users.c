@@ -90,7 +90,7 @@ static int lookup_userscdb(struct qmail_user* u,
   if ((i = cdb_get(&users_cdb, name, name)) <= 0)
     return i;
 
-  /* tmp now contains:
+  /* name now contains:
    * user NUL uid NUL gid NUL home NUL dash NUL ext
    */
   errno = EDOM;
@@ -147,9 +147,18 @@ int qmail_users_lookup(struct qmail_user* u, const char* name, char dash)
     return -1;
   }
   str_lower(&lname);
-  return (users_fd == -1)
-    ? lookup_passwd(u, &lname, dash)
-    : lookup_userscdb(u, &lname, dash);
+  if (users_fd != -1) {
+    switch (lookup_userscdb(u, &lname, dash)) {
+    case -1: return -1;
+    case 0: break;
+    default: return 1;
+    }
+    if (!str_copys(&lname, name)){
+      errno = ENOMEM;
+      return -1;
+    }
+  }
+  return lookup_passwd(u, &lname, dash);
 }
 
 int qmail_users_lookup_split(struct qmail_user* u, const char* name,

@@ -8,6 +8,9 @@ Changes in version 0.33
 - Fixed handling qmail lookups with missing domains by reading
   control/me and control/envnoathost.
 
+- Fixed handling qmail lookups when cdb/users exists but does not
+  contain all users.  Thanks Dale Woolridge.
+
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/
 -------------------------------------------------------------------------------
