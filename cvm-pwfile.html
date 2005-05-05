@@ -5,7 +5,7 @@
 
 <h1>The cvm-pwfile Module</h1>
 
-<h2>Synopsis:</h2> <p>POSIX-style passwd file module</p>
+<h2>Synopsis:</h2> <p>UNIX-style passwd file module</p>
 
 <h2>Credentials:</h2>
 
@@ -28,7 +28,10 @@ done.</p>
 containing the credential information.</dd>
 
 <dt><tt>$CVM_PWFILE_PWCMP</tt> (optional)</dt> <dd>The <a
-href="../pwcmp/pwcmp.html">password comparison module</a> to use.</dd>
+href="../pwcmp/pwcmp.html">password comparison module</a> to use.  If it
+is not set, the default password comparison mode is plain-text.  To use
+UNIX crypt style passwords, like </tt>/etc/passwd</tt> does, set this to
+"<tt>crypt</tt>".</dd>
 
 </dl>
 
