@@ -1,5 +1,5 @@
 /* cvm/module_request.c - Request parsing code
- * Copyright (C) 2004  Bruce Guenter <bruceg@em.ca>
+ * Copyright (C) 2005  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "module.h"
+#include "protocol.h"
 
 const char* cvm_account_name;
 const char* cvm_account_domain;
@@ -62,7 +63,7 @@ static int parse_input(void)
   char* buf;
   unsigned len;
 
-  if (inbuffer[0] != CVM_PROTOCOL) return CVME_BAD_CLIDATA;
+  if (inbuffer[0] != CVM1_PROTOCOL) return CVME_BAD_CLIDATA;
   
   /* Prevent buffer run-off by ensuring there is at least one NUL byte */
   inbuffer[BUFSIZE] = 0;

@@ -4,8 +4,6 @@
 #include "facts.h"
 #include "errors.h"
 
-#define CVM_PROTOCOL 1
-
 extern const char* cvm_account_split_chars;
 extern const char* cvm_ucspi_domain(void);
 extern int cvm_authenticate(const char* module, const char* account,

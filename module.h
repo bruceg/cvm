@@ -10,8 +10,6 @@
 #define LOG_FAIL 'n'
 #define LOG_ERROR '?'
 
-#define CVM_PROTOCOL 1
-
 extern const char program[];
 
 extern const char* cvm_account_name;

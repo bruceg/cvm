@@ -1,5 +1,5 @@
 /* cvm/client.c - CVM client library
- * Copyright (C) 2001  Bruce Guenter <bruceg@em.ca>
+ * Copyright (C) 2005  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@
 #include <net/socket.h>
 
 #include "client.h"
+#include "protocol.h"
 
 const char* cvm_account_split_chars = "@";
 
@@ -70,7 +71,7 @@ static unsigned build_buffer(const char* account, const char* domain,
   unsigned i;
   unsigned actlen;
   
-  buffer[0] = CVM_PROTOCOL;
+  buffer[0] = CVM1_PROTOCOL;
   ptr = buffer + 1;
 
   actlen = strlen(account);
