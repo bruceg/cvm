@@ -16,7 +16,7 @@
  add to Makefile:
  
    cvm-vchkpw: load cvm-vchkpw.o module.a crypt.lib shadow.lib s.lib socket.lib
-   	./load cvm-vchkpw getpwnam.o module.a `cat crypt.lib `cat shadow.lib` `cat s.lib` `cat socket.lib` -lbg-net -lvpopmail -lmysqlclient
+   	./load cvm-vchkpw getpwnam.o module.a `cat crypt.lib` `cat shadow.lib` `cat s.lib` `cat socket.lib` -lbg-net -lvpopmail -lmysqlclient
 
    cvm-vchkpw.o: compile cvm-vchkpw.c module.h facts.h errors.h
 	./compile cvm-vchkpw.c
