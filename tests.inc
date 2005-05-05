@@ -21,6 +21,8 @@ mkdir $tmp/users
   len=`echo $tmp $uid $gid | wc -c`
   printf "+6,%d:!user\0->user\0000$uid\0000$gid\0000$tmp\0\0\n" $(($len+6))
   printf "+6,%d:!user-->user\0000$uid\0000$gid\0000$tmp\0-\0\n" $(($len+7))
+  printf "+7,%d:!alias\0->alias\0000$uid\0000$gid\0000$tmp/alias\0\0\n" $((len+13))
+  printf "+7,%d:!alias-->alias\0000$uid\0000$gid\0000$tmp/alias\0-\0\n" $((len+14))
   printf "+1,%d:!->alias\0000$uid\0000$gid\0000$tmp/alias\0-\0\n" $((len+14))
   echo
 ) | cdbmake $tmp/users/cdb $tmp/users/tmp
