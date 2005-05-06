@@ -23,7 +23,7 @@
 const char* cvm_account_name;
 const char* cvm_account_domain;
 
-char inbuffer[BUFSIZE+1];
+unsigned char inbuffer[BUFSIZE+1];
 unsigned inbuflen;
 
 const char* cvm_lookup_secret = 0;

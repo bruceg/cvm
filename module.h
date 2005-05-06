@@ -16,9 +16,9 @@ extern const char* cvm_account_name;
 extern const char* cvm_account_domain;
 extern const char* cvm_lookup_secret;
 
-extern char outbuffer[BUFSIZE];
+extern unsigned char outbuffer[BUFSIZE];
 extern unsigned outbuflen;
-extern char inbuffer[BUFSIZE+1];
+extern unsigned char inbuffer[BUFSIZE+1];
 extern unsigned inbuflen;
 
 extern void cvm_fact_start(void);

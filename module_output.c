@@ -21,7 +21,7 @@
 #include <unistd.h>
 #include "module.h"
 
-char outbuffer[BUFSIZE];
+unsigned char outbuffer[BUFSIZE];
 unsigned outbuflen;
 static char* outbufptr;
 
