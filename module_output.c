@@ -23,7 +23,7 @@
 
 unsigned char outbuffer[BUFSIZE];
 unsigned outbuflen;
-static char* outbufptr;
+static unsigned char* outbufptr;
 
 static int fact(int number, const char* data, unsigned len)
 {
