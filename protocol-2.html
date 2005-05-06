@@ -2,61 +2,62 @@
 <body>
 
 <h2><a href="cvm.html">CVM</a></h2>
-<h2><a href="protocol.html">CVM Protocol</a></h2>
+<h2><a href="protocol-1.html">CVM Version 1 Protocol</a></h2>
 
-<h1>CVM Version 2 Protocol</h1>
+<h1>CVM Version 2 Protocol (Work in progress)</h1>
 
-<p>Input to and output from the module follows the same format: a four
-byte protocol identifier (always "CVM2"), a four byte packet type
-identifier, eight bytes of random data (to help prevent spoofing of UDP
-responses), followed by a series of tagged strings, and completed with a
-single NUL byte.  The total size of either the input and output must not
-exceed 512 bytes.  The random data in the response is copied exactly
-from the request.</p>
+<p>Input to and output from the module follows a similar packet format:
+a packet identifier byte, a length byte L, L bytes of random data (used
+to help prevent spoofing of UDP responses), followed by a series of
+tagged strings and completed with a single NUL (zero) byte.  The total
+size of either the input or the output must not exceed 512 bytes.  The
+random data in the response is copied exactly from the request.</p>
 
-<p>A tagged string consists of a tag byte, a length byte, and that many
+<p>A tagged string consists of a tag byte T, a length byte L, and L
 bytes of data.  The tag byte identifies what <a
 href="credentials.html">credential</a> (in the input request) or what <a
 href="facts.html">fact</a> (in the output response) is represented by
-the string.</p>
+the data.  Note that the initial random data in the packet may be viewed
+as a tagged string that just differs in the tag value convention.</p>
 
 <h2>Input</h2>
 
-<p>The packet type identifier in the input (request) packet is
-"<tt>REQ2</tt>".  Example (all numbers are hexadecimal):</p>
+<p>The packet identifier in the input (request) packet is the protocol
+version number (2).  Example (all numbers are hexadecimal):
 
 <pre>
-0000000: 4356 4d32 5245 5132 0102 0304 0506 0708  CVM2REQ2........
-0000010: 0108 7573 6572 6e61 6d65 0209 6c6f 6361  ..username..loca
-0000020: 6c68 6f73 7403 0870 6173 7377 6f72 6400  lhost..password.
+0000000: 0208 0102 0304 0506 0708 0108 7573 6572  ............user
+0000010: 6e61 6d65 0209 6c6f 6361 6c68 6f73 7403  name..localhost.
+0000020: 0870 6173 7377 6f72 6400                 .password.
 </pre>
+</p>
 
 <h2>Output</h2>
 
-<p>The following types of response packets are possible:
+<p>The packet identifier in the output (response) packet is the <a
+href="errors.html">error code</a> value, with zero representing
+successful validation.  If authentication failed, no further data past
+the copied random data is present in the response.</p>
 
-<dl>
-<dt><tt>SUCC</tt> <dd>Authentication succeeded, and the packet contains
-a list of <a href="facts.html">facts</a>.
+<h2>Implementation Considerations</h2>
 
-<dt><tt>FAIL</tt> <dd>Authentication rejected, permanent error.  The
-credentials were accepted by this module, but are not valid.  The facts
-may include an error code number and a message.
+<p>The module must report a temporary error if it detects malformed
+input (incorrect credentials, etc.).  Extra data following the final
+NUL byte in the credentials is a fault in the invoking code, and must
+be rejected by the module.  Similarly, extra data following the final
+NUL byte in the facts is a fault in the module code.</p>
 
-<dt><tt>EBAD</tt> <dd>Authentication failed, permanent error.  The
-credentials were not accepted by this module.
+<p>All data following an unsuccessful result status code must be
+ignored by the invoking code.  Modules should not produce any facts
+when validation fails.</p>
 
-<dt><tt>ETMP</tt> <dd>Authentication failed, temporary error.
+<p>An executable module must exit 0 if authentication succeeds.
+Non-zero exit codes from an executable module should be treated as a
+temporary error.</p>
 
-</dl>
-
-<p>Example (all numbers are hexadecimal):</p>
-
-<pre>
-0000000: 4356 4d32 5355 4343 0102 0304 0506 0708  CVM2SUCC........
-0000010: 0108 7573 6572 6e61 6d65 0205 3132 3334  ..username..1234
-0000020: 3503 0532 3334 3536 00                   5..23456.
-</pre>
+<p>The invoker of an executable module must assume a temporary error
+if the module either fails to completely read its input or produces
+incomplete output, even if the module exits without error.</p>
 
 </body>
 </html>
