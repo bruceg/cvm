@@ -15,29 +15,31 @@
 <td>Unspecified error.</td> </tr>
 
 <tr> <td><tt>2</tt></td> <td><tt>CVME_BAD_CLIDATA</tt></td>
-<td>Invalid data from the client.
+<td>Invalid data from the client.</td> </tr>
 
 <tr> <td><tt>3</tt></td> <td><tt>CVME_BAD_MODDATA</tt></td>
 <td>Invalid data from the CVM.</td> </tr>
 
-<tr> <td><tt>4</tt></td> <td><tt>CVME_IO</tt></td> <td>Input or output
-error while communicating with the CVM.</td> </tr>
+<tr> <td><tt>4</tt></td> <td><tt>CVME_IO</tt></td>
+<td>Input or output error while communicating with the CVM.</td> </tr>
 
-<tr> <td><tt>5</tt></td> <td><tt>CVME_NOFACT</tt></td> <td>The
-requested fact was not present.</td> </tr>
+<tr> <td><tt>5</tt></td> <td><tt>CVME_NOFACT</tt></td>
+<td>A requested fact was not present.</td> </tr>
 
-<tr> <td><tt>6</tt></td> <td><tt>CVME_CONFIG</tt></td> <td>The module
-has incomplete or non-functional configuration.  This typically means
-an environment variable is missing or has bad contents.</td> </tr>
+<tr> <td><tt>6</tt></td> <td><tt>CVME_CONFIG</tt></td>
+<td>The module has incomplete or non-functional configuration.  This
+typically means an environment variable is missing or has bad
+contents.</td> </tr>
 
-<tr> <td><tt>7</tt></td> <td><tt>CVME_NOCRED</tt></td> <td>A
-credential that is required for successful validation by the module
-was not present in the input to the module</td> </tr>
+<tr> <td><tt>7</tt></td> <td><tt>CVME_NOCRED</tt></td>
+<td>A credential that is required for successful validation by the
+module was not present in the input to the module.</td> </tr>
 
-<tr> <td><tt>100</tt></td> <td><tt>CVME_PERMFAIL</tt></td> <td>The
-credentials were accepted by the module but are incorrect.</td> </tr>
+<tr> <td><tt>100</tt></td> <td><tt>CVME_PERMFAIL</tt></td>
+<td>The credentials were accepted by the module but are incorrect.</td>
+</tr>
 
 </table>
 
-Any value other than <tt>CVME_PERMFAIL</tt> (100) should be considered
-a temporary error.</p>
+Any non-zero value other than <tt>CVME_PERMFAIL</tt> (100) should be
+considered a temporary error.</p>
