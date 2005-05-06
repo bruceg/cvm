@@ -41,14 +41,14 @@ drop root priviledges as soon as possible after successful
 authentication.  Where reasonable, the client should also chroot to
 the directory for added protection.</p>
 
-<dt><tt>int cvm_fact_str(int number, const char** data)</tt>
+<dt><tt>int cvm_fact_str(unsigned number, const char** data)</tt>
 <dd><p>Retrieves a <a href="facts.html">fact</a> from the data
 returned by the module as a NUL-terminated string.  Returns zero if
 the fact was present, and <tt>CVME_NOFACT</tt> otherwise.  Successive
 calls to this function with the same <tt>number</tt> return subsequent
 facts if more than one instance of the fact was present.</p>
 
-<dt><tt>int cvm_fact_uint(int number, unsigned long* data)</tt>
+<dt><tt>int cvm_fact_uint(unsigned number, unsigned long* data)</tt>
 <dd><p>Retrieves a <a href="facts.html">fact</a> from the data
 returned by the module as an unsigned integer.  Returns zero if the
 fact was present and was an unsigned integer.  Returns

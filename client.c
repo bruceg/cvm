@@ -32,7 +32,7 @@
 const char* cvm_account_split_chars = "@";
 
 #define BUFSIZE 512
-static char buffer[BUFSIZE];
+static unsigned char buffer[BUFSIZE];
 static unsigned buflen;
 static pid_t pid = -1;
 
@@ -56,7 +56,7 @@ static int parse_buffer(void)
   return 0;
 }
 
-static char* buffer_add(char* ptr, const char* str, unsigned len)
+static char* buffer_add(unsigned char* ptr, const char* str, unsigned len)
 {
   if (ptr - buffer + len + 1 >= BUFSIZE-1) return 0;
   memcpy(ptr, str, len);
@@ -67,7 +67,7 @@ static char* buffer_add(char* ptr, const char* str, unsigned len)
 static unsigned build_buffer(const char* account, const char* domain,
 			     const char** credentials, int parse_domain)
 {
-  char* ptr;
+  unsigned char* ptr;
   unsigned i;
   unsigned actlen;
   
@@ -101,19 +101,19 @@ static unsigned build_buffer(const char* account, const char* domain,
   return 1;
 }
 
-int cvm_fact_str(int number, const char** data)
+int cvm_fact_str(unsigned number, const char** data)
 {
-  static char* ptr = 0;
-  static int last_number = -1;
+  static unsigned char* ptr = 0;
+  static unsigned last_number = -1;
   
   if (!ptr || number != last_number)
     ptr = buffer+1;
   last_number = number;
   
   while (*ptr) {
-    char* tmp = ptr;
+    unsigned char* tmp = ptr;
     ptr += strlen(ptr) + 1;
-    if (*tmp == (char)number) {
+    if (*tmp == number) {
       *data = tmp + 1;
       return 0;
     }
@@ -121,7 +121,7 @@ int cvm_fact_str(int number, const char** data)
   return CVME_NOFACT;
 }
 
-int cvm_fact_uint(int number, unsigned long* data)
+int cvm_fact_uint(unsigned number, unsigned long* data)
 {
   const char* str;
   unsigned long i;

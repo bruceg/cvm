@@ -25,7 +25,7 @@ unsigned char outbuffer[BUFSIZE];
 unsigned outbuflen;
 static unsigned char* outbufptr;
 
-static int fact(int number, const char* data, unsigned len)
+static int fact(unsigned number, const char* data, unsigned len)
 {
   /* Always leave room for a trailing NUL */
   if (outbuflen + len + 3 > BUFSIZE) {
@@ -33,7 +33,7 @@ static int fact(int number, const char* data, unsigned len)
     return 0;
   }
   outbuflen += len + 2;
-  *outbufptr++ = (char)number;
+  *outbufptr++ = number;
   memcpy(outbufptr, data, len);
   outbufptr += len;
   *outbufptr++ = 0;
@@ -46,13 +46,13 @@ void cvm_fact_start(void)
   outbufptr = outbuffer + outbuflen;
 }
 
-int cvm_fact_str(int number, const char* data)
+int cvm_fact_str(unsigned number, const char* data)
 {
   if (!data) return 0;
   return fact(number, data, strlen(data));
 }
 
-void cvm_fact_end(int code)
+void cvm_fact_end(unsigned code)
 {
   if (outbuflen >= BUFSIZE) code = CVME_BAD_MODDATA;
   if (code) {
@@ -66,7 +66,7 @@ void cvm_fact_end(int code)
   }
 }
 
-int cvm_fact_uint(int number, unsigned long data)
+int cvm_fact_uint(unsigned number, unsigned long data)
 {
   char buf[64];
   char* ptr;

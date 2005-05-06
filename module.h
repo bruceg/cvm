@@ -22,9 +22,9 @@ extern unsigned char inbuffer[BUFSIZE+1];
 extern unsigned inbuflen;
 
 extern void cvm_fact_start(void);
-extern int cvm_fact_str(int number, const char* data);
-extern int cvm_fact_uint(int number, unsigned long data);
-extern void cvm_fact_end(int code);
+extern int cvm_fact_str(unsigned number, const char* data);
+extern int cvm_fact_uint(unsigned number, unsigned long data);
+extern void cvm_fact_end(unsigned code);
 
 extern void init_request(void);
 extern int handle_request(void);

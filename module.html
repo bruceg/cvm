@@ -42,8 +42,8 @@ well: <tt>cvm_fact_realname</tt>, <tt>cvm_fact_groupname</tt>,
 automatically by the invoking module framework, with the optional facts
 being sent only if they have been set.  If any other facts are to be
 returned to the client, send them in this function with
-<tt>cvm_fact_str(int number, const char* data)</tt> or
-<tt>cvm_fact_uint(int number, unsigned data)</tt>.</p>
+<tt>cvm_fact_str(unsigned number, const char* data)</tt> or
+<tt>cvm_fact_uint(unsigned number, unsigned data)</tt>.</p>
 
 
 <dt><tt>void cvm_auth_stop(void)</tt> <dd>This routine is called once
