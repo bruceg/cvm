@@ -27,25 +27,18 @@ unsigned char inbuffer[BUFSIZE+1];
 unsigned inbuflen;
 
 const char* cvm_lookup_secret = 0;
-static const char* lookup_creds[1];
-static unsigned credential_count;
-static const char** credentials;
+
+str cvm_credentials[CVM_CRED_MAX+1];
 
 void init_request(void)
 {
   /* Determine if the module is to operate in lookup mode, and if not
      set the local credential values appropriately. */
-  if ((cvm_lookup_secret = getenv("CVM_LOOKUP_SECRET")) == 0) {
-    credentials = cvm_credentials;
-    credential_count = cvm_credential_count;
-  }
-  else {
-    credentials = lookup_creds;
-    credential_count = (*cvm_lookup_secret != 0);
-  }
+  cvm_lookup_secret = getenv("CVM_LOOKUP_SECRET");
+  memset(cvm_credentials, 0, sizeof cvm_credentials);
 }
 
-static int copy_advance(const char** ptr, char**buf, unsigned* len)
+static int v1copy_advance(const char** ptr, char** buf, unsigned* len)
 {
   char* tmp;
   if ((tmp = memchr(*buf, 0, *len)) == 0) return 0;
@@ -57,37 +50,79 @@ static int copy_advance(const char** ptr, char**buf, unsigned* len)
   return 1;
 }
 
-static int parse_input(void)
+static int parse_v1_input(void)
 {
-  unsigned i;
   char* buf;
   unsigned len;
+  const char* cred;
 
-  if (inbuffer[0] != CVM1_PROTOCOL) return CVME_BAD_CLIDATA;
-  
   /* Prevent buffer run-off by ensuring there is at least one NUL byte */
   inbuffer[BUFSIZE] = 0;
   buf = inbuffer + 1;
   len = inbuflen - 1;
 
-  if (!copy_advance(&cvm_account_name, &buf, &len)) return CVME_BAD_CLIDATA;
-  if (!copy_advance(&cvm_account_domain, &buf, &len)) return CVME_BAD_CLIDATA;
+  /* Account name */
+  if (!v1copy_advance(&cred, &buf, &len)) return CVME_BAD_CLIDATA;
+  if (!str_copys(&cvm_credentials[CVM_CRED_ACCOUNT], cred)) return CVME_IO;
 
-  for (i = 0; i < credential_count; ++i)
-    if (!copy_advance(&credentials[i], &buf, &len))
+  /* Domain name */
+  if (!v1copy_advance(&cred, &buf, &len)) return CVME_BAD_CLIDATA;
+  if (*cred != 0
+      && !str_copys(&cvm_credentials[CVM_CRED_DOMAIN], cred)) return CVME_IO;
+
+  if (len > 1) {
+    /* Allow for only a single credential if one is present.
+       No existing CVM1 module could handle more than one. */
+    if (!v1copy_advance(&cred, &buf, &len))
       return CVME_BAD_CLIDATA;
+    if (!str_copys((cvm_lookup_secret != 0)
+		   ? &cvm_credentials[CVM_CRED_SECRET]
+		   : &cvm_credentials[CVM_CRED_PASSWORD], cred))
+      return CVME_IO;
+  }
 
   if (len != 1) return CVME_BAD_CLIDATA;
   return 0;
 }
 
+static int parse_v2_input(void)
+{
+  unsigned i;
+  unsigned len;
+  unsigned type;
+  for (i = inbuffer[1] + 2; i < inbuflen-2; i += len) {
+    type = inbuffer[i];
+    len = inbuffer[i+1];
+    if (type <= CVM_CRED_MAX)
+      if (!str_copyb(&cvm_credentials[type], inbuffer+i+2, len))
+	return CVME_IO;
+  }
+  if (i >= inbuflen
+      || inbuffer[i] != 0)
+    return CVME_BAD_CLIDATA;
+  return 0;
+}
+
+static int parse_input(void)
+{
+  if (inbuffer[0] == CVM2_PROTOCOL)
+    return parse_v2_input();
+  if (inbuffer[0] == CVM1_PROTOCOL)
+    return parse_v1_input();
+  return CVME_BAD_CLIDATA;
+}
+
 int handle_request(void)
 {
   int code;
+  unsigned i;
+  for (i = 0; i <= CVM_CRED_MAX; ++i)
+    cvm_credentials[i].len = 0;
   if ((code = parse_input()) != 0) return code;
   if (cvm_lookup_secret != 0 && *cvm_lookup_secret != 0) {
-    if (credentials[0] == 0 ||
-	strcmp(credentials[0], cvm_lookup_secret) != 0)
+    if (cvm_credentials[CVM_CRED_SECRET].len == 0
+	|| str_diffs(&cvm_credentials[CVM_CRED_SECRET],
+		     cvm_lookup_secret) != 0)
       return CVME_NOCRED;
   }
   if ((code = cvm_lookup()) != 0) return code;

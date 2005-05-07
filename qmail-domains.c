@@ -98,11 +98,11 @@ int qmail_domains_init(void)
   return 0;
 }
 
-int qmail_domains_lookup(const char* d, str* domain, str* prefix)
+int qmail_domains_lookup(const str* d, str* domain, str* prefix)
 {
   dict_entry* e;
 
-  if (!str_copys(domain, d))
+  if (!str_copy(domain, d))
     return -1;
   str_lower(domain);
 

@@ -1,5 +1,5 @@
 /* cvm/sql-query.c - SQL query parsing and insertion framework.
- * Copyright (C) 2001  Bruce Guenter <bruceg@em.ca>
+ * Copyright (C) 2005  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,11 +25,12 @@
 #define QUOTE '\''
 #define BACKSLASH '\\'
 
-static int str_cats_quoted(str* s, const char* ptr)
+static int str_catb_quoted(str* s, const char* ptr, unsigned long len)
 {
   if (!str_catc(s, QUOTE)) return 0;
-  for (; *ptr; ++ptr) {
+  for (; len > 0; ++ptr, --len) {
     switch (*ptr) {
+    case 0: if (!str_cats(s, "\\0")) return 0; continue;
     case QUOTE: if (!str_catc(s, QUOTE)) return 0; break;
     case BACKSLASH: if (!str_catc(s, BACKSLASH)) return 0; break;
     }
@@ -85,13 +86,24 @@ int sql_query_build(const char* template, str* q)
       if (!str_catc(q, '$')) return 0;
     }
     else {
-      if (str_diffs(&name, "account") == 0)
-	ptr = cvm_account_name;
-      else if (str_diffs(&name, "domain") == 0)
-	ptr = cvm_account_domain;
-      else
+      if (str_diffs(&name, "account") == 0) {
+	if (!str_catb_quoted(q,
+			     cvm_credentials[CVM_CRED_ACCOUNT].s,
+			     cvm_credentials[CVM_CRED_ACCOUNT].len))
+	  return 0;
+      }
+      else if (str_diffs(&name, "domain") == 0) {
+	if (!str_catb_quoted(q,
+			     cvm_credentials[CVM_CRED_DOMAIN].s,
+			     cvm_credentials[CVM_CRED_DOMAIN].len))
+	  return 0;
+      }
+      else {
 	ptr = getenv(name.s);
-      if (ptr) if (!str_cats_quoted(q, ptr)) return 0;
+	if (ptr != 0)
+	  if (!str_catb_quoted(q, ptr, strlen(ptr)))
+	    return 0;
+      }
     }
   }
   if (!str_cats(q, template)) return 0;

@@ -26,7 +26,7 @@ int qmail_users_lookup_split(struct qmail_user* u, const char* name,
 
 int qmail_domains_init(void);
 int qmail_domains_reinit(void);
-int qmail_domains_lookup(const char* d, str* domain, str* prefix);
+int qmail_domains_lookup(const str* d, str* domain, str* prefix);
 
 int qmail_dotfile_exists(const struct qmail_user* user, const char* ext);
 

@@ -24,8 +24,6 @@
 
 #include "cvm-vmailmgr.h"
 
-const unsigned cvm_credential_count = 1;
-const char* cvm_credentials[1];
 const char program[] = "cvm-vmailmgr";
 
 extern char* crypt(const char* key, const char* salt);
@@ -41,9 +39,12 @@ static const char* null_crypt(const char* pass)
 
 int cvm_authenticate(void)
 {
-  const char* pass;
+  const char* stored;
   const char* enc;
+  const char* pass;
 
+  CVM_CRED_REQUIRED(PASSWORD);
+  
   if (lock_disabled && !vpw.is_mailbox_enabled) {
     DEBUG("Mailbox is disabled", 0, 0);
     return CVME_PERMFAIL;
@@ -52,22 +53,23 @@ int cvm_authenticate(void)
     DEBUG("Encoded password is too short", 0, 0);
     return CVME_PERMFAIL;
   }
-  pass = vpw.pass.s;
-  if (pass[0] == '$' && pass[2] == '$') {
-    switch (pass[1]) {
+  stored = vpw.pass.s;
+  pass = cvm_credentials[CVM_CRED_PASSWORD].s;
+  if (stored[0] == '$' && stored[2] == '$') {
+    switch (stored[1]) {
     case '0':
-      enc = null_crypt(cvm_credentials[0]);
+      enc = null_crypt(pass);
       break;
     case '1':
-      enc = md5_crypt(cvm_credentials[0], pass);
+      enc = md5_crypt(pass, stored);
       break;
     default:
-      enc = crypt(cvm_credentials[0], pass);
+      enc = crypt(pass, stored);
     }
   }
   else
-    enc = crypt(cvm_credentials[0], pass);
-  if (strcmp(enc, pass) == 0)
+    enc = crypt(pass, stored);
+  if (strcmp(enc, stored) == 0)
     return 0;
   DEBUG("authentication denied", 0, 0);
   return CVME_PERMFAIL;

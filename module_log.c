@@ -33,7 +33,6 @@ void log_request(void)
 {
   char buf[BUFSIZE+4];
   char* ptr;
-  const char* s;
   
   ptr = buf;
   switch (outbuffer[0]) {
@@ -42,9 +41,19 @@ void log_request(void)
   default: *ptr++ = '?'; break;
   }
   *ptr++ = ' ';
-  for (s = cvm_account_name; *s; ++s) *ptr++ = *s;
-  *ptr++ = '@';
-  for (s = cvm_account_domain; *s; ++s) *ptr++ = *s;
+  if (cvm_credentials[CVM_CRED_ACCOUNT].s != 0) {
+    memcpy(ptr,
+	   cvm_credentials[CVM_CRED_ACCOUNT].s,
+	   cvm_credentials[CVM_CRED_ACCOUNT].len);
+    ptr += cvm_credentials[CVM_CRED_ACCOUNT].len;
+  }
+  if (cvm_credentials[CVM_CRED_DOMAIN].s != 0) {
+    *ptr++ = '@';
+    memcpy(ptr,
+	   cvm_credentials[CVM_CRED_DOMAIN].s,
+	   cvm_credentials[CVM_CRED_DOMAIN].len);
+    ptr += cvm_credentials[CVM_CRED_DOMAIN].len;
+  }
   *ptr++ = '\n';
   *ptr = 0;
   write(1, buf, ptr-buf);

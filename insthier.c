@@ -40,10 +40,11 @@ void insthier(void) {
   s(dir, "cvm-sasl.h",          "cvm/sasl.h");
   dir = d(dir,  "cvm",          -1, -1, 0755);
   c(dir, "client.h",            -1, -1, 0644);
-  /* c(dir, "credentials.h",    -1, -1, 0644); Not yet included. */
+  c(dir, "credentials.h",       -1, -1, 0644);
   c(dir, "errors.h",            -1, -1, 0644);
   c(dir, "facts.h",             -1, -1, 0644);
   c(dir, "module.h",            -1, -1, 0644);
+  c(dir, "protocol.h",          -1, -1, 0644);
   c(dir, "sasl.h",              -1, -1, 0644);
 
   dir = d(home, "lib",          -1, -1, 0755);

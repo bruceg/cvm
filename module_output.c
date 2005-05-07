@@ -1,5 +1,5 @@
 /* cvm/module_output.c - Response formatting
- * Copyright (C) 2001  Bruce Guenter <bruceg@em.ca>
+ * Copyright (C) 2005  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,14 +20,15 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include "module.h"
+#include "protocol.h"
 
 unsigned char outbuffer[BUFSIZE];
 unsigned outbuflen;
-static unsigned char* outbufptr;
+unsigned char* outbufptr;
 
-static int fact(unsigned number, const char* data, unsigned len)
+static int v1fact(unsigned number, const char* data, unsigned len)
 {
-  /* Always leave room for a trailing NUL */
+  /* Always leave room for a trailing NUL. */
   if (outbuflen + len + 3 > BUFSIZE) {
     outbuflen = BUFSIZE;
     return 0;
@@ -40,9 +41,42 @@ static int fact(unsigned number, const char* data, unsigned len)
   return 1;
 }
 
+static int v2fact(unsigned number, const char* data, unsigned len)
+{
+  /* Always leave room for a trailing zero type byte. */
+  if (outbuflen + len + 3 > BUFSIZE) {
+    outbuflen = BUFSIZE;
+    return 0;
+  }
+  outbuflen += len + 2;
+  *outbufptr++ = number;
+  *outbufptr++ = len;
+  memcpy(outbufptr, data, len);
+  outbufptr += len;
+  return 1;
+}
+
+static int (*fact)(unsigned,const char*,unsigned);
+
+static void cvm1_fact_start(void)
+{
+  fact = v1fact;
+  outbuflen = 1;
+}
+
+static void cvm2_fact_start(void)
+{
+  fact = v2fact;
+  outbuflen = 0;
+  v2fact(0, inbuffer+2, inbuffer[1]);
+}
+
 void cvm_fact_start(void)
 {
-  outbuflen = 1;
+  if (inbuffer[0] == CVM2_PROTOCOL)
+    cvm2_fact_start();
+  else
+    cvm1_fact_start();
   outbufptr = outbuffer + outbuflen;
 }
 
@@ -54,7 +88,8 @@ int cvm_fact_str(unsigned number, const char* data)
 
 void cvm_fact_end(unsigned code)
 {
-  if (outbuflen >= BUFSIZE) code = CVME_BAD_MODDATA;
+  if (outbuflen >= BUFSIZE)
+    code = CVME_BAD_MODDATA;
   if (code) {
     outbuffer[0] = code;
     outbuflen = 1;

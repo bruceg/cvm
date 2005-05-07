@@ -1,4 +1,12 @@
 -------------------------------------------------------------------------------
+Changes in version 0.50
+
+* Moved all the modules to the CVM2 protocol.  The module mechanism
+* retains backwards compatibility with all existing CVM1 clients.
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
+-------------------------------------------------------------------------------
 Changes in version 0.33
 
 - Added compile fix for cvm-vchkpw.  Thanks Peter Palmreuther.

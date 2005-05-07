@@ -1,5 +1,5 @@
 /* cvm/cvm-pwfile.c - Alternate passwd file CVM module
- * Copyright (C) 2001,2003  Bruce Guenter <bruceg@em.ca>
+ * Copyright (C) 2005  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,9 +25,6 @@
 #include "module.h"
 
 const char program[] = "cvm-pwfile";
-
-const unsigned cvm_credential_count = 1;
-const char* cvm_credentials[1];
 
 static const char* pwfilename;
 
@@ -77,16 +74,18 @@ int cvm_lookup(void)
   FILE* pwfile;
   long namelen;
 
+  if (cvm_credentials[CVM_CRED_ACCOUNT].s == 0)
+    return CVME_NOCRED;
   passwd = 0;
-  namelen = strlen(cvm_account_name);
+  namelen = cvm_credentials[CVM_CRED_ACCOUNT].len;
 
   if ((pwfile = fopen(pwfilename, "r")) == 0) return CVME_IO;
   while (fgets(line, sizeof line, pwfile) != 0) {
     long len = strlen(line);
     if (line[len-1] != '\n') continue;
     line[len-1] = 0;
-    if (strncasecmp(cvm_account_name, line, namelen) == 0 &&
-	line[namelen] == ':') {
+    if (strncasecmp(cvm_credentials[CVM_CRED_ACCOUNT].s, line, namelen) == 0
+	&& line[namelen] == ':') {
       passwd = line + namelen;
       *passwd++ = 0;
       break;
@@ -103,7 +102,8 @@ int cvm_lookup(void)
 
 int cvm_authenticate(void)
 {
-  switch (pwcmp_check(cvm_credentials[0], passwd)) {
+  CVM_CRED_REQUIRED(PASSWORD);
+  switch (pwcmp_check(cvm_credentials[CVM_CRED_PASSWORD].s, passwd)) {
   case 0: return 0;
   case -1: return CVME_IO | CVME_FATAL;
   default: return CVME_PERMFAIL;

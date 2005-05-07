@@ -17,11 +17,31 @@ system user name: (null)
 system directory: (null)
 domain:           (null)
 mailbox path:     (null)
-Authentication failed, error #2 (Invalid data from client)
-Authentication failed, error #2 (Invalid data from client)
+user name:        pwfuser
+user ID:          123
+group ID:         456
+real name:        Gecos
+directory:        /home/ftp
+shell:            /bin/false
+group name:       (null)
+system user name: (null)
+system directory: (null)
+domain:           (null)
+mailbox path:     (null)
+user name:        pwfuser
+user ID:          123
+group ID:         456
+real name:        Gecos
+directory:        /home/ftp
+shell:            /bin/false
+group name:       (null)
+system user name: (null)
+system directory: (null)
+domain:           (null)
+mailbox path:     (null)
 
 <result secret>
-Authentication failed, error #2 (Invalid data from client)
+Authentication failed, error #7 (Credential missing in data from module)
 Authentication failed, error #7 (Credential missing in data from module)
 user name:        pwfuser
 user ID:          123

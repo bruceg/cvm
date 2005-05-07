@@ -1,8 +1,11 @@
 #ifndef CVM__MODULE__H__
 #define CVM__MODULE__H__
 
-#include "facts.h"
+#include "credentials.h"
 #include "errors.h"
+#include "facts.h"
+
+#include <str/str.h>
 
 #define BUFSIZE 512
 
@@ -12,8 +15,10 @@
 
 extern const char program[];
 
+#if 0
 extern const char* cvm_account_name;
 extern const char* cvm_account_domain;
+#endif
 extern const char* cvm_lookup_secret;
 
 extern unsigned char outbuffer[BUFSIZE];
@@ -35,10 +40,8 @@ extern void log_shutdown(void);
 
 extern int cvm_parse_domain(const char* seperators);
 
-/* The following need to be provided by the module.
- * The "credentials" global is filled by the input handling code. */
-extern const unsigned cvm_credential_count;
-extern const char* cvm_credentials[];
+extern str cvm_credentials[CVM_CRED_MAX+1];
+
 extern int cvm_auth_init(void);
 extern int cvm_lookup(void);
 extern int cvm_authenticate(void);

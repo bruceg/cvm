@@ -49,14 +49,16 @@ int qmail_lookup_cvm(struct qmail_user* user,
   static str prefix;
   static str fullname;
 
-  if (cvm_account_domain[0] == 0)
-    cvm_account_domain = qmail_envnoathost;
+  if (cvm_credentials[CVM_CRED_DOMAIN].len == 0)
+    if (!str_copys(&cvm_credentials[CVM_CRED_DOMAIN], qmail_envnoathost))
+      return CVME_IO;
 
   if (qmail_users_reinit() != 0
       || qmail_domains_reinit() != 0)
     return -1;
 
-  switch (qmail_domains_lookup(cvm_account_domain, domain, &prefix)) {
+  switch (qmail_domains_lookup(&cvm_credentials[CVM_CRED_DOMAIN],
+			       domain, &prefix)) {
   case -1:
     return -1;
   case 0:
@@ -72,7 +74,7 @@ int qmail_lookup_cvm(struct qmail_user* user,
       if (!str_copy(&fullname, &prefix)
 	  || !str_catc(&fullname, '-'))
 	return -1;
-    if (!str_cats(&fullname, cvm_account_name))
+    if (!str_cat(&fullname, &cvm_credentials[CVM_CRED_ACCOUNT]))
       return -1;
   }
 

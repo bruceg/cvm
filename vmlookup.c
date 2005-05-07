@@ -68,7 +68,7 @@ int lookup_virtuser(void)
   int fd;
   struct cdb cdb;
 
-  DEBUG("cvm_account_domain='", cvm_account_domain, "'");
+  DEBUG("cvm domain = '", cvm_credentials[CVM_CRED_DOMAIN].s, "'");
   switch (qmail_lookup_cvm(&vmuser, &domain, &baseuser, &virtuser)) {
   case -1: return CVME_IO;
   case 0:  return CVME_PERMFAIL;

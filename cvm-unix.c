@@ -28,9 +28,6 @@
 
 const char program[] = "cvm-unix";
 
-const unsigned cvm_credential_count = 1;
-const char* cvm_credentials[1];
-
 extern char* crypt(const char* key, const char* salt);
 
 int cvm_auth_init(void)
@@ -46,14 +43,17 @@ static struct group* gr;
 int cvm_lookup(void)
 {
   int err;
-  if ((err = cvm_getpwnam(cvm_account_name, &pw)) != 0) return err;
+  if ((err = cvm_getpwnam(cvm_credentials[CVM_CRED_ACCOUNT].s, &pw)) != 0)
+    return err;
   if (pw->pw_passwd == 0) return CVME_PERMFAIL;
   return 0;
 }
 
 int cvm_authenticate(void)
 {
-  if (strcmp(crypt(cvm_credentials[0], pw->pw_passwd), pw->pw_passwd) != 0)
+  CVM_CRED_REQUIRED(PASSWORD);
+  if (strcmp(crypt(cvm_credentials[CVM_CRED_PASSWORD].s, pw->pw_passwd),
+	     pw->pw_passwd) != 0)
     return CVME_PERMFAIL;
   return 0;
 }

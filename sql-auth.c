@@ -1,5 +1,5 @@
 /* cvm/sql-auth.c - Generic SQL authentication layer
- * Copyright (C) 2001  Bruce Guenter <bruceg@em.ca>
+ * Copyright (C) 2005  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,9 +21,6 @@
 #include <pwcmp/client.h>
 #include "module.h"
 #include "sql.h"
-
-const unsigned cvm_credential_count = 1;
-const char* cvm_credentials[1];
 
 static const char* query;
 static const char* postq;
@@ -62,13 +59,15 @@ int cvm_lookup(void)
 int cvm_authenticate(void)
 {
   const char* cpw;
+
+  CVM_CRED_REQUIRED(PASSWORD);
   
   /* If there is no password field, fail the password */
   cpw = sql_get_field(0);
   if (cpw == 0 || cpw[0] == 0) return CVME_PERMFAIL;
 
   /* Finally, if the stored pass is not the same, fail the pass */
-  switch (pwcmp_check(cvm_credentials[0], cpw)) {
+  switch (pwcmp_check(cvm_credentials[CVM_CRED_PASSWORD].s, cpw)) {
   case 0: return 0;
   case -1: return CVME_IO | CVME_FATAL;
   default: return CVME_PERMFAIL;
