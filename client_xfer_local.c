@@ -20,7 +20,7 @@
 
 #include <net/socket.h>
 
-#include "client.h"
+#include "v1client.h"
 #include "protocol.h"
 
 /* UNIX local-domain socket module invocation ********************************/

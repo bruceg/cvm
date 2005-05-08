@@ -25,7 +25,7 @@
 
 #include <sysdeps.h>
 
-#include "client.h"
+#include "v1client.h"
 
 static pid_t pid;
 

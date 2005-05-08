@@ -20,7 +20,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include "client.h"
+#include "v1client.h"
 
 static char buffer[513];
 static char* pass;

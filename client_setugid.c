@@ -17,7 +17,7 @@
  */
 #include <sys/types.h>
 #include <unistd.h>
-#include "client.h"
+#include "v1client.h"
 
 int cvm_setugid(void)
 {

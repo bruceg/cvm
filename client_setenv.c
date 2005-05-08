@@ -17,7 +17,7 @@
  */
 #include <sysdeps.h>
 
-#include "client.h"
+#include "v1client.h"
 
 static char* utoa_rec(unsigned i, char* buf)
 {

@@ -2,7 +2,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <systime.h>
-#include "client.h"
+#include "v1client.h"
 #include "sasl.h"
 #include "sasl_internal.h"
 

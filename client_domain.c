@@ -17,7 +17,7 @@
  */
 #include <stdlib.h>
 #include <string.h>
-#include "client.h"
+#include "v1client.h"
 
 static long len = 0;
 static char* var = 0;

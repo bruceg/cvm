@@ -17,7 +17,7 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-#include "client.h"
+#include "v1client.h"
 
 int main(int argc, char** argv)
 {

@@ -1,5 +1,5 @@
-#ifndef CVM__CLIENT__H__
-#define CVM__CLIENT__H__
+#ifndef CVM__V2CLIENT__H__
+#define CVM__V2CLIENT__H__
 
 #include "facts.h"
 #include "errors.h"

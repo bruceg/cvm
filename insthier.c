@@ -40,7 +40,7 @@ void insthier(void) {
   dir = d(home, "include",      -1, -1, 0755);
   s(dir, "cvm-sasl.h",          "cvm/sasl.h");
   dir = d(dir,  "cvm",          -1, -1, 0755);
-  c(dir, "client.h",            -1, -1, 0644);
+  s(dir, "client.h",            "v1client.h");
   c(dir, "credentials.h",       -1, -1, 0644);
   c(dir, "errors.h",            -1, -1, 0644);
   c(dir, "facts.h",             -1, -1, 0644);
@@ -48,13 +48,15 @@ void insthier(void) {
   c(dir, "protocol.h",          -1, -1, 0644);
   c(dir, "sasl.h",              -1, -1, 0644);
   c(dir, "v1client.h",          -1, -1, 0644);
+  c(dir, "v2client.h",          -1, -1, 0644);
 
   dir = d(home, "lib",          -1, -1, 0755);
-  cf(dir, "libcvm-client.a",    -1, -1, 0644, "client.a");
+  s(dir,  "libcvm-client.a",    "libcvm-v1client.a");
   cf(dir, "libcvm-command.a",   -1, -1, 0644, "command.a");
   cf(dir, "libcvm-local.a",     -1, -1, 0644, "local.a");
   cf(dir, "libcvm-module.a",    -1, -1, 0644, "module.a");
   cf(dir, "libcvm-sasl.a",      -1, -1, 0644, "sasl.a");
   cf(dir, "libcvm-udp.a",       -1, -1, 0644, "udp.a");
   cf(dir, "libcvm-v1client.a",  -1, -1, 0644, "v1client.a");
+  cf(dir, "libcvm-v2client.a",  -1, -1, 0644, "v2client.a");
 }

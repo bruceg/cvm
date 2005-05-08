@@ -26,7 +26,7 @@
 #include <sysdeps.h>
 #include <net/socket.h>
 
-#include "client.h"
+#include "v1client.h"
 #include "protocol.h"
 
 /* UDP module invocation *****************************************************/
