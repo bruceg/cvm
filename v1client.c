@@ -38,6 +38,7 @@ static unsigned buflen;
 /* Buffer management code ****************************************************/
 static int parse_buffer(void)
 {
+  if (buffer[0] != 0) return buffer[0];
   if (buflen < 3) return CVME_BAD_MODDATA;
   if (buffer[buflen-1] != 0 || buffer[buflen-2] != 0) return CVME_BAD_MODDATA;
   if (cvm_fact_str(CVM_FACT_USERNAME, &cvm_fact_username) ||
@@ -162,6 +163,5 @@ int cvm_authenticate(const char* module, const char* account,
   }
   signal(SIGPIPE, oldsig);
   if (result != 0) return result;
-  if (buffer[0]) return buffer[0];
   return parse_buffer();
 }
