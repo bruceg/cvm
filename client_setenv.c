@@ -48,7 +48,7 @@ static int set_gids(void)
 {
   unsigned long gid;
   long len;
-  char* str;
+  char* start;
   char* ptr;
   int result;
   
@@ -59,13 +59,13 @@ static int set_gids(void)
   if (len == 0) return 1;
   /* Reset to the start of facts list */
   cvm_fact_uint(-1, &gid);
-  ptr = str = malloc(len);
+  ptr = start = malloc(len);
   while (cvm_fact_uint(CVM_FACT_SUPP_GROUPID, &gid) == 0) {
-    if (ptr > str) *ptr++ = ',';
+    if (ptr > start) *ptr++ = ',';
     ptr = utoa_rec(gid, ptr);
   }
-  result = setenv("GIDS", str, 1) == 0;
-  free(str);
+  result = setenv("GIDS", start, 1) == 0;
+  free(start);
   return result;
 }
 
