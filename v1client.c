@@ -55,7 +55,8 @@ static int parse_buffer(void)
   return 0;
 }
 
-static char* buffer_add(unsigned char* ptr, const char* str, unsigned len)
+static unsigned char* buffer_add(unsigned char* ptr,
+				 const char* str, unsigned len)
 {
   if (ptr - buffer + len + 1 >= BUFSIZE-1) return 0;
   memcpy(ptr, str, len);
