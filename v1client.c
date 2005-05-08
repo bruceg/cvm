@@ -31,8 +31,7 @@
 
 const char* cvm_account_split_chars = "@";
 
-#define BUFSIZE 512
-static unsigned char buffer[BUFSIZE];
+static unsigned char buffer[CVM_BUFSIZE];
 static unsigned buflen;
 
 /* Buffer management code ****************************************************/
@@ -59,7 +58,7 @@ static int parse_buffer(void)
 static unsigned char* buffer_add(unsigned char* ptr,
 				 const char* str, unsigned len)
 {
-  if (ptr - buffer + len + 1 >= BUFSIZE-1) return 0;
+  if (ptr - buffer + len + 1 >= CVM_BUFSIZE-1) return 0;
   memcpy(ptr, str, len);
   ptr[len] = 0;
   return ptr + len + 1;
