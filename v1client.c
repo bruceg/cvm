@@ -34,7 +34,6 @@ const char* cvm_account_split_chars = "@";
 #define BUFSIZE 512
 static unsigned char buffer[BUFSIZE];
 static unsigned buflen;
-static pid_t pid = -1;
 
 /* Buffer management code ****************************************************/
 static int parse_buffer(void)
@@ -140,175 +139,6 @@ int cvm_fact_uint(unsigned number, unsigned long* data)
   return 0;
 }
 
-/* Command module execution **************************************************/
-static int pipefork(const char* cmd, int pipes[2])
-{
-  int pipe1[2];
-  int pipe2[2];
-  
-  if (pipe(pipe1) == -1 || pipe(pipe2) == -2) return 0;
-  pid = fork();
-  switch (pid) {
-  case -1:
-    return 0;
-  case 0:
-    close(0);
-    close(pipe1[1]);
-    dup2(pipe1[0], 0);
-    close(pipe1[0]);
-    close(1);
-    close(pipe2[0]);
-    dup2(pipe2[1], 1);
-    close(pipe2[1]);
-    execlp(cmd, cmd, 0);
-    exit(1);
-  default:
-    close(pipe1[0]);
-    pipes[0] = pipe1[1];
-    close(pipe2[1]);
-    pipes[1] = pipe2[0];
-    return 1;
-  }
-}
-
-static void killit(void)
-{
-  if (pid != -1)
-    kill(pid, SIGTERM);
-}
-
-static int waitforit(void)
-{
-  int status;
-  pid_t tmp;
-  while ((tmp = wait(&status)) != -1) {
-    if (tmp == pid)
-      return WIFEXITED(status) ? WEXITSTATUS(status) : 1;
-  }
-  return 1;
-}
-
-static int write_buffer(int fd)
-{
-  char* ptr;
-  size_t wr;
-
-  for (ptr = buffer; buflen; buflen -= wr, ptr += wr) {
-    wr = write(fd, ptr, buflen);
-    if (wr == 0 || wr == (unsigned)-1) return 0;
-  }
-  return 1;
-}
-
-static int read_buffer(int fd)
-{
-  char* ptr;
-  size_t rd;
-
-  for (ptr = buffer, buflen = 0; buflen < BUFSIZE; ptr += rd, buflen += rd) {
-    rd = read(fd, ptr, BUFSIZE-buflen);
-    if (rd == (unsigned)-1) return 0;
-    if (rd == 0) break;
-  }
-  return 1;
-}
-
-static int cvm_command(const char* module)
-{
-  int pipes[2];
-  int result;
-
-  if (!pipefork(module, pipes)) return 1;
-  
-  if (!write_buffer(pipes[0]) ||
-      close(pipes[0]) == -1 ||
-      !read_buffer(pipes[1]) ||
-      close(pipes[1]) == -1) {
-    killit();
-    if ((result = waitforit()) != 0) return result;
-    return CVME_IO;
-  }
-
-  return waitforit();
-}
-
-/* UDP module invocation *****************************************************/
-static int udp_sendrecv(int sock, ipv4addr* ip, ipv4port port)
-{
-  int timeout;
-  int try;
-  iopoll_fd ifd;
-
-  ifd.fd = sock;
-  ifd.events = IOPOLL_READ;
-  for (timeout = 2, try = 0; try < 4; timeout *= 2, ++try) {
-    if ((unsigned)socket_send4(sock, buffer, buflen, ip, port) != buflen)
-      return 0;
-    if (iopoll(&ifd, 1, timeout*1000) != 0)
-      return (buflen = socket_recv4(sock, buffer, BUFSIZE, ip, &port)) !=
-	(unsigned)-1;
-  }
-  return 0;
-}
-
-static int cvm_udp(const char* hostport)
-{
-  static char* hostname;
-  char* portstr;
-  ipv4port port;
-  int sock;
-  struct hostent* he;
-  ipv4addr ip;
-  
-  if ((portstr = strchr(hostport, ':')) == 0) return 1;
-  if (hostname) free(hostname);
-  hostname = malloc(portstr-hostport+1);
-  memcpy(hostname, hostport, portstr-hostport);
-  hostname[portstr-hostport] = 0;
-  port = strtoul(portstr+1, &portstr, 10);
-  if (*portstr != 0) return 1;
-  if ((he = gethostbyname(hostname)) == 0) return 1;
-  memcpy(&ip, he->h_addr_list[0], 4);
-  
-  if ((sock = socket_udp()) == -1) return CVME_IO;
-  if (!udp_sendrecv(sock, &ip, port)) {
-    close(sock);
-    return CVME_IO;
-  }
-  close(sock);
-  return buffer[0];
-}
-
-/* UNIX local-domain socket module invocation ********************************/
-static int cvm_local(const char* path)
-{
-  int sock;
-  int result;
-  unsigned io;
-  unsigned done;
-  result = CVME_IO;
-  if ((sock = socket_unixstr()) != -1 &&
-      socket_connectu(sock, path)) {
-    for (done = 0; done < buflen; done += io) {
-      if ((io = write(sock, buffer+done, buflen-done)) == 0) break;
-      if (io == (unsigned)-1) break;
-    }
-    socket_shutdown(sock, 0, 1);
-    if (done >= buflen) {
-      for (done = 0; done < BUFSIZE; done += io) {
-	if ((io = read(sock, buffer+done, BUFSIZE-done)) == 0) break;
-	if (io == (unsigned)-1) done = BUFSIZE+1;
-      }
-      if (done <= BUFSIZE) {
-	buflen = done;
-	result = 0;
-      }
-    }
-  }
-  close(sock);
-  return result;
-}
-
 /* Top-level wrapper *********************************************************/
 int cvm_authenticate(const char* module, const char* account,
 		     const char* domain, const char** credentials,
@@ -322,12 +152,12 @@ int cvm_authenticate(const char* module, const char* account,
   
   oldsig = signal(SIGPIPE, SIG_IGN);
   if (!memcmp(module, "cvm-udp:", 8))
-    result = cvm_udp(module+8);
+    result = cvm_xfer_udp(module+8, buffer, &buflen);
   else if (!memcmp(module, "cvm-local:", 10))
-    result = cvm_local(module+10);
+    result = cvm_xfer_local(module+10, buffer, &buflen);
   else {
     if (!memcmp(module, "cvm-command:", 12)) module += 12;
-    result = cvm_command(module);
+    result = cvm_xfer_command(module, buffer, &buflen);
   }
   signal(SIGPIPE, oldsig);
   if (result != 0) return result;
