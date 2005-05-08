@@ -1,0 +1,3 @@
+v1client.a
+-lbg
+socket.lib

@@ -1,0 +1,6 @@
+v1client.o
+client_domain.o
+client_setugid.o
+client_setenv.o
+errors.o
+facts.o

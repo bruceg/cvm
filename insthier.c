@@ -28,6 +28,7 @@ void insthier(void) {
   c(dir, "cvm-pwfile",          -1, -1, 0755);
   c(dir, "cvm-qmail",           -1, -1, 0755);
   c(dir, "cvm-testclient",      -1, -1, 0755);
+  c(dir, "cvm-v1testclient",    -1, -1, 0755);
   c(dir, "cvm-vmailmgr",        -1, -1, 0755);
   c(dir, "cvm-vmailmgr-local",  -1, -1, 0755);
   c(dir, "cvm-vmailmgr-udp",    -1, -1, 0755);
@@ -46,6 +47,7 @@ void insthier(void) {
   c(dir, "module.h",            -1, -1, 0644);
   c(dir, "protocol.h",          -1, -1, 0644);
   c(dir, "sasl.h",              -1, -1, 0644);
+  c(dir, "v1client.h",          -1, -1, 0644);
 
   dir = d(home, "lib",          -1, -1, 0755);
   cf(dir, "libcvm-client.a",    -1, -1, 0644, "client.a");
@@ -54,4 +56,5 @@ void insthier(void) {
   cf(dir, "libcvm-module.a",    -1, -1, 0644, "module.a");
   cf(dir, "libcvm-sasl.a",      -1, -1, 0644, "sasl.a");
   cf(dir, "libcvm-udp.a",       -1, -1, 0644, "udp.a");
+  cf(dir, "libcvm-v1client.a",  -1, -1, 0644, "v1client.a");
 }
