@@ -77,5 +77,5 @@ unsigned cvm_xfer_udp(const char* hostport,
     return CVME_IO;
   }
   close(sock);
-  return buffer[0];
+  return 0;
 }
