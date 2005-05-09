@@ -121,6 +121,7 @@ static int parse_domain(struct cvm_credential* credentials,
 static unsigned build_buffer(unsigned count,
 			     struct cvm_credential* credentials)
 {
+  const char* env;
   unsigned char* ptr;
   unsigned i;
   int has_secret;
@@ -138,8 +139,8 @@ static unsigned build_buffer(unsigned count,
   }
 
   if (!has_secret
-      && (ptr = getenv("CVM_LOOKUP_SECRET")) != 0)
-    if ((ptr = buffer_add(ptr, CVM_CRED_SECRET, strlen(ptr), ptr)) == 0)
+      && (env = getenv("CVM_LOOKUP_SECRET")) != 0)
+    if ((ptr = buffer_add(ptr, CVM_CRED_SECRET, strlen(env), env)) == 0)
       return 0;
 
   *ptr++ = 0;
