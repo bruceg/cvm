@@ -16,9 +16,10 @@ struct cvm_credential
 
 extern const char* cvm_account_split_chars;
 extern const char* cvm_ucspi_domain(void);
+extern int cvm_split_account(struct cvm_credential* credentials,
+			     unsigned account, unsigned domain);
 extern int cvm_authenticate(const char* module, unsigned count,
-			    struct cvm_credential* credentials,
-			    unsigned account, unsigned domain);
+			    struct cvm_credential* credentials);
 extern int cvm_fact_str(unsigned number, const char** data, unsigned* length);
 extern int cvm_fact_uint(unsigned number, unsigned long* data);
 

@@ -26,10 +26,13 @@ int cvm_authenticate_lookup(const char* module,
 			    int split_account)
 {
   creds[0].type = CVM_CRED_ACCOUNT;
-  str_copys(&creds[0].value, account);
+  if (!str_copys(&creds[0].value, account))
+    return CVME_IO;
   creds[1].type = CVM_CRED_DOMAIN;
   str_copys(&creds[1].value, domain);
-  return cvm_authenticate(module, 2, creds, 0, split_account ? 1 : 0);
+  if (split_account)
+    cvm_split_account(creds, 0, 1);
+  return cvm_authenticate(module, 2, creds);
 }
 
 int cvm_authenticate_password(const char* module,
@@ -44,5 +47,7 @@ int cvm_authenticate_password(const char* module,
   str_copys(&creds[1].value, domain);
   creds[2].type = CVM_CRED_PASSWORD;
   str_copys(&creds[2].value, password);
-  return cvm_authenticate(module, 3, creds, 0, split_account ? 1 : 0);
+  if (split_account)
+    cvm_split_account(creds, 0, 1);
+  return cvm_authenticate(module, 3, creds);
 }

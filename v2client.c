@@ -91,33 +91,6 @@ static unsigned char* buffer_add(unsigned char* ptr, unsigned type,
   return ptr + len;
 }
 
-static int parse_domain(struct cvm_credential* credentials,
-			unsigned account, unsigned domain)
-{
-  unsigned actlen;
-  char* actptr;
-  unsigned i;
-  if (account > 0 || domain > 0) {
-    const char* sc;
-    actlen = credentials[account].value.len;
-    actptr = credentials[account].value.s;
-    if ((sc = getenv("CVM_ACCOUNT_SPLIT_CHARS")) == 0)
-      sc = cvm_account_split_chars;
-    i = actlen;
-    while (i-- > 0) {
-      if (strchr(sc, actptr[i]) != 0) {
-	if (!str_copyb(&credentials[domain].value,
-		       actptr + i + 1,
-		       actlen - i - 1))
-	  return 0;
-	credentials[domain].value.len = i;
-	break;
-      }
-    }
-  }
-  return 1;
-}
-
 static unsigned build_buffer(unsigned count,
 			     struct cvm_credential* credentials)
 {
@@ -192,14 +165,39 @@ int cvm_fact_uint(unsigned number, unsigned long* data)
   return 0;
 }
 
+int cvm_split_account(struct cvm_credential* credentials,
+		      unsigned account, unsigned domain)
+{
+  unsigned actlen;
+  char* actptr;
+  unsigned i;
+  if (account > 0 || domain > 0) {
+    const char* sc;
+    actlen = credentials[account].value.len;
+    actptr = credentials[account].value.s;
+    if ((sc = getenv("CVM_ACCOUNT_SPLIT_CHARS")) == 0)
+      sc = cvm_account_split_chars;
+    i = actlen;
+    while (i-- > 0) {
+      if (strchr(sc, actptr[i]) != 0) {
+	if (!str_copyb(&credentials[domain].value,
+		       actptr + i + 1,
+		       actlen - i - 1))
+	  return 0;
+	credentials[domain].value.len = i;
+	break;
+      }
+    }
+  }
+  return 1;
+}
+
 /* Top-level wrapper *********************************************************/
 int cvm_authenticate(const char* module, unsigned count,
-		     struct cvm_credential* credentials,
-		     unsigned account, unsigned domain)
+		     struct cvm_credential* credentials)
 {
   int result;
   void (*oldsig)(int);
-  parse_domain(credentials, account, domain);
   if (!build_buffer(count, credentials))
     return CVME_GENERAL;
   
