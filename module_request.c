@@ -118,6 +118,7 @@ int handle_request(void)
   unsigned i;
   for (i = 0; i <= CVM_CRED_MAX; ++i)
     cvm_credentials[i].len = 0;
+  cvm_fact_start();
   if ((code = parse_input()) != 0) return code;
   if (cvm_lookup_secret != 0 && *cvm_lookup_secret != 0) {
     if (cvm_credentials[CVM_CRED_SECRET].len == 0
@@ -128,7 +129,6 @@ int handle_request(void)
   if ((code = cvm_lookup()) != 0) return code;
   if (cvm_lookup_secret == 0)
     if ((code = cvm_authenticate()) != 0) return code;
-  cvm_fact_start();
   if ((code = cvm_results()) != 0) return code;
   cvm_fact_str(CVM_FACT_USERNAME, cvm_fact_username);
   cvm_fact_uint(CVM_FACT_USERID, cvm_fact_userid);

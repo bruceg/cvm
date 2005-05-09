@@ -91,14 +91,13 @@ void cvm_fact_end(unsigned code)
 {
   if (outbuflen >= BUFSIZE)
     code = CVME_BAD_MODDATA;
-  if (code) {
-    outbuffer[0] = code;
-    outbuflen = 1;
-  }
-  else {
-    outbuffer[0] = 0;
+  outbuffer[0] = code;
+  if (code == 0 || inbuffer[0] == CVM2_PROTOCOL) {
     *outbufptr++ = 0;
     ++outbuflen;
+  }
+  else {
+    outbuflen = 1;
   }
 }
 
