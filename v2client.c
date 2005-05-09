@@ -123,14 +123,23 @@ static unsigned build_buffer(unsigned count,
 {
   unsigned char* ptr;
   unsigned i;
+  int has_secret;
 
   /* FIXME: generate real random data here */
   ptr = buffer_add(buffer, CVM2_PROTOCOL, randombytes.len, randombytes.s);
 
-  for (i = 0; i < count; ++i, ++credentials)
+  for (i = 0, has_secret = 0; i < count; ++i, ++credentials) {
+    if (credentials->type == CVM_CRED_SECRET)
+      has_secret = 1;
     if ((ptr = buffer_add(ptr, credentials->type,
 			  credentials->value.len,
 			  credentials->value.s)) == 0)
+      return 0;
+  }
+
+  if (!has_secret
+      && (ptr = getenv("CVM_LOOKUP_SECRET")) != 0)
+    if ((ptr = buffer_add(ptr, CVM_CRED_SECRET, strlen(ptr), ptr)) == 0)
       return 0;
 
   *ptr++ = 0;
