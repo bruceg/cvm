@@ -1,4 +1,5 @@
 v2client.o
+v2client_wrappers.o
 client_domain.o
 client_setugid.o
 client_setenv.o

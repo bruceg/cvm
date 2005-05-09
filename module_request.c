@@ -90,7 +90,7 @@ static int parse_v2_input(void)
   unsigned i;
   unsigned len;
   unsigned type;
-  for (i = inbuffer[1] + 2; i < inbuflen-2; i += len) {
+  for (i = inbuffer[1] + 2; i < inbuflen - 2; i += len + 2) {
     type = inbuffer[i];
     len = inbuffer[i+1];
     if (type <= CVM_CRED_MAX)

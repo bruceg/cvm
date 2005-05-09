@@ -26,73 +26,111 @@
 #include <sysdeps.h>
 #include <net/socket.h>
 
-#include "v1client.h"
+#include "v2client.h"
+#include "credentials.h"
 #include "protocol.h"
 
 const char* cvm_account_split_chars = "@";
 
-#define BUFSIZE 512
-static unsigned char buffer[BUFSIZE];
+static unsigned char buffer[CVM_BUFSIZE];
 static unsigned buflen;
+static struct 
+{
+  unsigned type;
+  unsigned start;
+} offsets[CVM_BUFSIZE/2];
+static str randombytes;
 
 /* Buffer management code ****************************************************/
 static int parse_buffer(void)
 {
-  if (buflen < 3) return CVME_BAD_MODDATA;
-  if (buffer[buflen-1] != 0 || buffer[buflen-2] != 0) return CVME_BAD_MODDATA;
-  if (cvm_fact_str(CVM_FACT_USERNAME, &cvm_fact_username) ||
+  unsigned i;
+  unsigned o;
+  if (buflen < 3)
+    return CVME_BAD_MODDATA;
+  if (buffer[1] != randombytes.len)
+    return CVME_BAD_MODDATA;
+  if (memcmp(buffer+2, randombytes.s, randombytes.len) != 0)
+    return CVME_BAD_MODDATA;
+  if (buffer[0] != 0)
+    return buffer[0];
+  if (buffer[buflen-1] != 0)
+    return CVME_BAD_MODDATA;
+  /* This funny loop gives all the strings in the buffer NUL termination. */
+  for (i = 0, o = buffer[1] + 2;
+       o < sizeof buffer && buffer[o] != 0;
+       ++i, o += buffer[o+1] + 2) {
+    offsets[i].type = buffer[o];
+    offsets[i].start = o+2;
+    buffer[o] = 0;
+  }
+  offsets[i].type = offsets[i].start = 0;
+  /* Extract required and common facts. */
+  if (cvm_fact_str(CVM_FACT_USERNAME, &cvm_fact_username, &i) ||
       cvm_fact_uint(CVM_FACT_USERID, &cvm_fact_userid) ||
       cvm_fact_uint(CVM_FACT_GROUPID, &cvm_fact_groupid) ||
-      cvm_fact_str(CVM_FACT_DIRECTORY, &cvm_fact_directory))
+      cvm_fact_str(CVM_FACT_DIRECTORY, &cvm_fact_directory, &i))
     return CVME_BAD_MODDATA;
-  cvm_fact_str(CVM_FACT_SHELL, &cvm_fact_shell);
-  cvm_fact_str(CVM_FACT_REALNAME, &cvm_fact_realname);
-  cvm_fact_str(CVM_FACT_GROUPNAME, &cvm_fact_groupname);
-  cvm_fact_str(CVM_FACT_SYS_USERNAME, &cvm_fact_sys_username);
-  cvm_fact_str(CVM_FACT_SYS_DIRECTORY, &cvm_fact_sys_directory);
-  cvm_fact_str(CVM_FACT_DOMAIN, &cvm_fact_domain);
-  cvm_fact_str(CVM_FACT_MAILBOX, &cvm_fact_mailbox);
+  cvm_fact_str(CVM_FACT_SHELL, &cvm_fact_shell, &i);
+  cvm_fact_str(CVM_FACT_REALNAME, &cvm_fact_realname, &i);
+  cvm_fact_str(CVM_FACT_GROUPNAME, &cvm_fact_groupname, &i);
+  cvm_fact_str(CVM_FACT_SYS_USERNAME, &cvm_fact_sys_username, &i);
+  cvm_fact_str(CVM_FACT_SYS_DIRECTORY, &cvm_fact_sys_directory, &i);
+  cvm_fact_str(CVM_FACT_DOMAIN, &cvm_fact_domain, &i);
+  cvm_fact_str(CVM_FACT_MAILBOX, &cvm_fact_mailbox, &i);
   return 0;
 }
 
-static char* buffer_add(unsigned char* ptr, const char* str, unsigned len)
+static unsigned char* buffer_add(unsigned char* ptr, unsigned type,
+				 unsigned len, const char* data)
 {
-  if (ptr - buffer + len + 1 >= BUFSIZE-1) return 0;
-  memcpy(ptr, str, len);
-  ptr[len] = 0;
-  return ptr + len + 1;
+  if (ptr - buffer + len + 2 >= CVM_BUFSIZE-1) return 0;
+  *ptr++ = type;
+  *ptr++ = len;
+  memcpy(ptr, data, len);
+  return ptr + len;
 }
 
-static unsigned build_buffer(const char* account, const char* domain,
-			     const char** credentials, int parse_domain)
+static int parse_domain(struct cvm_credential* credentials,
+			unsigned account, unsigned domain)
 {
-  unsigned char* ptr;
-  unsigned i;
   unsigned actlen;
-  
-  buffer[0] = CVM1_PROTOCOL;
-  ptr = buffer + 1;
-
-  actlen = strlen(account);
-  if (parse_domain) {
+  char* actptr;
+  unsigned i;
+  if (account > 0 || domain > 0) {
     const char* sc;
+    actlen = credentials[account].value.len;
+    actptr = credentials[account].value.s;
     if ((sc = getenv("CVM_ACCOUNT_SPLIT_CHARS")) == 0)
       sc = cvm_account_split_chars;
-    i = strlen(account);
+    i = actlen;
     while (i-- > 0) {
-      if (strchr(sc, account[i]) != 0) {
-	domain = account + i + 1;
-	actlen = i;
+      if (strchr(sc, actptr[i]) != 0) {
+	if (!str_copyb(&credentials[domain].value,
+		       actptr + i + 1,
+		       actlen - i - 1))
+	  return 0;
+	credentials[domain].value.len = i;
 	break;
       }
     }
   }
-  
-  if ((ptr = buffer_add(ptr, account, actlen)) == 0) return 0;
-  if ((ptr = buffer_add(ptr, domain, strlen(domain))) == 0) return 0;
+  return 1;
+}
 
-  for (i = 0; credentials[i] != 0; i++)
-    if ((ptr = buffer_add(ptr, credentials[i], strlen(credentials[i]))) == 0)
+static unsigned build_buffer(unsigned count,
+			     struct cvm_credential* credentials)
+{
+  unsigned char* ptr;
+  unsigned i;
+
+  /* FIXME: generate real random data here */
+  ptr = buffer_add(buffer, CVM2_PROTOCOL, randombytes.len, randombytes.s);
+
+  for (i = 0; i < count; ++i, ++credentials)
+    if ((ptr = buffer_add(ptr, credentials->type,
+			  credentials->value.len,
+			  credentials->value.s)) == 0)
       return 0;
 
   *ptr++ = 0;
@@ -100,54 +138,59 @@ static unsigned build_buffer(const char* account, const char* domain,
   return 1;
 }
 
-int cvm_fact_str(unsigned number, const char** data)
+int cvm_fact_str(unsigned number, const char** data, unsigned* length)
 {
-  static unsigned char* ptr = 0;
+  static unsigned last_offset = 0;
   static unsigned last_number = -1;
+  unsigned o;
+  int err = CVME_NOFACT;
   
-  if (!ptr || number != last_number)
-    ptr = buffer+1;
+  o = (number != last_number || offsets[last_offset].type == 0)
+    ? 0
+    : last_offset;
   last_number = number;
   
-  while (*ptr) {
-    unsigned char* tmp = ptr;
-    ptr += strlen(ptr) + 1;
-    if (*tmp == number) {
-      *data = tmp + 1;
-      return 0;
+  while (offsets[o].type != 0) {
+    if (offsets[o++].type == number) {
+      *length = (*data = buffer + offsets[o-1].start)[1];
+      err = 0;
+      break;
     }
   }
-  return CVME_NOFACT;
+  last_offset = o;
+  return err;
 }
 
 int cvm_fact_uint(unsigned number, unsigned long* data)
 {
-  const char* str;
+  const char* ptr;
+  unsigned len;
   unsigned long i;
   int err;
   
-  if ((err = cvm_fact_str(number, &str)) != 0) return err;
+  if ((err = cvm_fact_str(number, &ptr, &len)) != 0) return err;
 
-  for (i = 0; *str >= '0' && *str <= '9'; ++str) {
+  for (i = 0; len > 0 && *ptr >= '0' && *ptr <= '9'; ++ptr, --len) {
     unsigned long tmp = i;
-    i *= 10;
-    if (i < tmp) return CVME_BAD_MODDATA;
-    i += *str - '0';
+    i = (i * 10) + (*ptr - '0');
+    if (i < tmp)
+      return CVME_BAD_MODDATA;
   }
-  if (*str) return CVME_BAD_MODDATA;
+  if (len > 0)
+    return CVME_BAD_MODDATA;
   *data = i;
   return 0;
 }
 
 /* Top-level wrapper *********************************************************/
-int cvm_authenticate(const char* module, const char* account,
-		     const char* domain, const char** credentials,
-		     int parse_domain)
+int cvm_authenticate(const char* module, unsigned count,
+		     struct cvm_credential* credentials,
+		     unsigned account, unsigned domain)
 {
   int result;
   void (*oldsig)(int);
-  if (domain == 0) domain = "";
-  if (!build_buffer(account, domain, credentials, parse_domain))
+  parse_domain(credentials, account, domain);
+  if (!build_buffer(count, credentials))
     return CVME_GENERAL;
   
   oldsig = signal(SIGPIPE, SIG_IGN);
@@ -161,6 +204,5 @@ int cvm_authenticate(const char* module, const char* account,
   }
   signal(SIGPIPE, oldsig);
   if (result != 0) return result;
-  if (buffer[0]) return buffer[0];
   return parse_buffer();
 }

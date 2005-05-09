@@ -62,12 +62,14 @@ static void cvm1_fact_start(void)
 {
   fact = v1fact;
   outbuflen = 1;
+  outbufptr = outbuffer + 1;
 }
 
 static void cvm2_fact_start(void)
 {
   fact = v2fact;
   outbuflen = 0;
+  outbufptr = outbuffer;
   v2fact(0, inbuffer+2, inbuffer[1]);
 }
 
@@ -77,7 +79,6 @@ void cvm_fact_start(void)
     cvm2_fact_start();
   else
     cvm1_fact_start();
-  outbufptr = outbuffer + outbuflen;
 }
 
 int cvm_fact_str(unsigned number, const char* data)

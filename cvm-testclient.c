@@ -16,19 +16,19 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 #include <stdio.h>
-#include "v1client.h"
+#include "v2client.h"
 
 int main(int argc, char** argv)
 {
   int i;
   unsigned long u;
-
-  if (argc < 4) {
-    printf("usage: cvm-testclient cvmodule account domain [credential [credential ...]]\n");
+  
+  if (argc != 5) {
+    printf("usage: cvm-testclient cvmodule account domain password\n");
     return 1;
   }
   
-  i = cvm_authenticate(argv[1], argv[2], argv[3], (const char**)(argv+4), 0);
+  i = cvm_authenticate_password(argv[1], argv[2], argv[3], argv[4], 0);
   if (i) {
     printf("Authentication failed, error #%d (%s)\n", i,
 	   (i < cvm_nerr) ? cvm_errlist[i] : "Unknown error code");
