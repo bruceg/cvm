@@ -162,7 +162,7 @@ int cvm_fact_str(unsigned number, const char** data, unsigned* length)
   
   while (offsets[o].type != 0) {
     if (offsets[o++].type == number) {
-      *length = (*data = buffer + offsets[o-1].start)[1];
+      *length = (*data = buffer + offsets[o-1].start)[-1];
       err = 0;
       break;
     }
