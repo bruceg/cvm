@@ -1,4 +1,5 @@
-testl virt test.tld secret
+CVM_LOOKUP_SECRET=secret \
+$src/cvm-testclient $tmp/cvm-vmailmgr-lookup virt test.tld
 <result>
 user name:        virt
 user ID:          @UID@

@@ -1,9 +1,21 @@
 <loop secret '' secret>
 
 make_pwfile
-env CVM_LOOKUP_SECRET=$secret ./cvm-testclient ./cvm-pwfile pwfuser ''
-env CVM_LOOKUP_SECRET=$secret ./cvm-testclient ./cvm-pwfile pwfuser '' ''
-env CVM_LOOKUP_SECRET=$secret ./cvm-testclient ./cvm-pwfile pwfuser '' 'secret'
+cat <<EOF >$tmp/cvmlookup
+#!/bin/sh
+CVM_LOOKUP_SECRET=$secret
+export CVM_LOOKUP_SECRET
+exec $src/cvm-pwfile
+EOF
+chmod +x $tmp/cvmlookup
+
+$src/cvm-testclient $tmp/cvmlookup pwfuser ''
+env CVM_LOOKUP_SECRET='' \
+$src/cvm-testclient $tmp/cvmlookup pwfuser ''
+env CVM_LOOKUP_SECRET=$secret \
+$src/cvm-testclient $tmp/cvmlookup pwfuser ''
+
+rm -f $tmp/cvmlookup
 
 <result ''>
 user name:        pwfuser

@@ -1,5 +1,5 @@
 make_pwfile
-./cvm-testclient cvm-command:./cvm-pwfile pwfuser '' testpass
+$src/cvm-testclient cvm-command:$src/cvm-pwfile pwfuser '' testpass
 <result>
 user name:        pwfuser
 user ID:          123

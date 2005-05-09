@@ -1,6 +1,6 @@
 make_pwfile
 CVM_PWFILE_PWCMP=crypt export CVM_PWFILE_PWCMP
-./cvm-testclient ./cvm-pwfile cryptuser '' testpass
+$src/cvm-testclient $src/cvm-pwfile cryptuser '' testpass
 <result>
 user name:        cryptuser
 user ID:          234

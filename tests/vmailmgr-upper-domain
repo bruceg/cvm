@@ -1,4 +1,4 @@
-testc virt Test.TLD pass
+$src/cvm-testclient $src/cvm-vmailmgr virt Test.TLD pass
 <result>
 user name:        virt
 user ID:          @UID@

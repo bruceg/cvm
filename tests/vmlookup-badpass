@@ -1,3 +1,3 @@
-testl virt test.tld 'xpass'
+$src/cvm-testclient $src/cvm-vmailmgr virt test.tld 'xpass'
 <result>
-Authentication failed, error #7 (Credential missing in data from module)
+Authentication failed, error #100 (Credentials rejected)

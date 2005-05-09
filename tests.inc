@@ -7,9 +7,24 @@ make_pwfile()
     echo 'cryptuser:tpzv1IkcX9.fE:234:567:Crypt:/home/crypt:/bin/true'
   ) >$CVM_PWFILE_PATH
 }
-testc() { ./cvm-testclient ./cvm-vmailmgr "$@"; }
-testl() { CVM_LOOKUP_SECRET=secret ./cvm-testclient ./cvm-vmailmgr "$@"; }
-testq() { CVM_LOOKUP_SECRET=secret ./cvm-testclient ./cvm-qmail "$@"; }
+
+for base in pwfile qmail vmailmgr; do
+
+cat <<EOF >$tmp/cvm-$base-lookup
+#!/bin/sh
+CVM_LOOKUP_SECRET=secret export CVM_LOOKUP_SECRET
+exec $src/cvm-$base
+EOF
+
+cat <<EOF >$tmp/cvm-$base-nosecret
+#!/bin/bash
+unset CVM_LOOKUP_SECRET
+exec $src/cvm-$base
+EOF
+
+done
+
+chmod +x $tmp/cvm-*
 
 QMAIL_ROOT=$tmp
 export QMAIL_ROOT
