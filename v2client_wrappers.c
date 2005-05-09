@@ -20,6 +20,18 @@
 
 static struct cvm_credential creds[3];
 
+int cvm_authenticate_lookup(const char* module,
+			    const char* account,
+			    const char* domain,
+			    int split_account)
+{
+  creds[0].type = CVM_CRED_ACCOUNT;
+  str_copys(&creds[0].value, account);
+  creds[1].type = CVM_CRED_DOMAIN;
+  str_copys(&creds[1].value, domain);
+  return cvm_authenticate(module, 2, creds, 0, split_account ? 1 : 0);
+}
+
 int cvm_authenticate_password(const char* module,
 			      const char* account,
 			      const char* domain,

@@ -18,17 +18,27 @@
 #include <stdio.h>
 #include "v2client.h"
 
+const char usage[] =
+"usage: cvm-testclient cvmodule account domain\n"
+"   or: cvm-testclient cvmodule account domain password\n";
+
 int main(int argc, char** argv)
 {
   int i;
   unsigned long u;
-  
-  if (argc != 5) {
-    printf("usage: cvm-testclient cvmodule account domain password\n");
+
+  switch (argc) {
+  case 4:
+    i = cvm_authenticate_lookup(argv[1], argv[2], argv[3], 0);
+    break;
+  case 5:
+    i = cvm_authenticate_password(argv[1], argv[2], argv[3], argv[4], 0);
+    break;
+  default:
+    fputs(usage, stderr);
     return 1;
   }
   
-  i = cvm_authenticate_password(argv[1], argv[2], argv[3], argv[4], 0);
   if (i) {
     printf("Authentication failed, error #%d (%s)\n", i,
 	   (i < cvm_nerr) ? cvm_errlist[i] : "Unknown error code");
