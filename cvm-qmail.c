@@ -40,7 +40,6 @@ static str ext;
 /* Account name is either "baseuser-virtuser" or "virtuser@domain" */
 int cvm_lookup(void)
 {
-  CVM_CRED_REQUIRED(DOMAIN);
   switch (qmail_lookup_cvm(&user, &domain, &username, &ext)) {
   case -1:
     return CVME_IO;
