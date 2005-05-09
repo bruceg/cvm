@@ -32,22 +32,6 @@ static unsigned add(unsigned i, unsigned type, const char* value)
   return i + 1;
 }
 
-int cvm_authenticate_lookup(const char* module,
-			    const char* account,
-			    const char* domain,
-			    int split_account)
-{
-  unsigned i;
-  creds[0].type = CVM_CRED_ACCOUNT;
-  if (!str_copys(&creds[0].value, account))
-    return CVME_IO;
-  if ((i = add(1, CVM_CRED_DOMAIN, domain)) == 0)
-    return CVME_IO;
-  if (i > 1 && split_account)
-    cvm_split_account(creds, 0, 1);
-  return cvm_authenticate(module, i, creds);
-}
-
 int cvm_authenticate_password(const char* module,
 			      const char* account,
 			      const char* domain,

@@ -37,10 +37,6 @@ extern unsigned cvm_xfer_udp(const char* hostport,
 			     unsigned* buflen);
 
 /* Wrapper functions. */
-extern int cvm_authenticate_lookup(const char* module,
-				   const char* account,
-				   const char* domain,
-				   int split_account);
 extern int cvm_authenticate_password(const char* module,
 				     const char* account,
 				     const char* domain,

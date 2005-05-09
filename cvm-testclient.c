@@ -29,7 +29,7 @@ int main(int argc, char** argv)
 
   switch (argc) {
   case 4:
-    i = cvm_authenticate_lookup(argv[1], argv[2], argv[3], 0);
+    i = cvm_authenticate_password(argv[1], argv[2], argv[3], 0, 0);
     break;
   case 5:
     i = cvm_authenticate_password(argv[1], argv[2], argv[3], argv[4], 0);
