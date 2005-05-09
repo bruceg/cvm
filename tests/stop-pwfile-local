@@ -8,5 +8,5 @@ rm -f $tmp/log
 test -e $tmp/socket || echo Socket was removed.
 <result>
 Stopping.
-4 6 42
+4 6 40
 Socket was removed.

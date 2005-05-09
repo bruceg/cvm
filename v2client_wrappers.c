@@ -20,19 +20,32 @@
 
 static struct cvm_credential creds[3];
 
+static unsigned add(unsigned i, unsigned type, const char* value)
+{
+  if (value == 0)
+    return i;
+  if (value[0] == 0)
+    return i;
+  creds[i].type = type;
+  if (!str_copys(&creds[i].value, value))
+    return 0;
+  return i + 1;
+}
+
 int cvm_authenticate_lookup(const char* module,
 			    const char* account,
 			    const char* domain,
 			    int split_account)
 {
+  unsigned i;
   creds[0].type = CVM_CRED_ACCOUNT;
   if (!str_copys(&creds[0].value, account))
     return CVME_IO;
-  creds[1].type = CVM_CRED_DOMAIN;
-  str_copys(&creds[1].value, domain);
-  if (split_account)
+  if ((i = add(1, CVM_CRED_DOMAIN, domain)) == 0)
+    return CVME_IO;
+  if (i > 1 && split_account)
     cvm_split_account(creds, 0, 1);
-  return cvm_authenticate(module, 2, creds);
+  return cvm_authenticate(module, i, creds);
 }
 
 int cvm_authenticate_password(const char* module,
@@ -41,13 +54,15 @@ int cvm_authenticate_password(const char* module,
 			      const char* password,
 			      int split_account)
 {
+  unsigned i;
   creds[0].type = CVM_CRED_ACCOUNT;
-  str_copys(&creds[0].value, account);
-  creds[1].type = CVM_CRED_DOMAIN;
-  str_copys(&creds[1].value, domain);
-  creds[2].type = CVM_CRED_PASSWORD;
-  str_copys(&creds[2].value, password);
-  if (split_account)
+  if (!str_copys(&creds[0].value, account))
+    return CVME_IO;
+  if ((i = add(1, CVM_CRED_DOMAIN, domain)) == 0)
+    return CVME_IO;
+  if (i > 1 && split_account)
     cvm_split_account(creds, 0, 1);
-  return cvm_authenticate(module, 3, creds);
+  if ((i = add(i, CVM_CRED_PASSWORD, password)) == 0)
+    return CVME_IO;
+  return cvm_authenticate(module, i, creds);
 }
