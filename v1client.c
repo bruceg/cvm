@@ -131,11 +131,12 @@ int cvm_fact_uint(unsigned number, unsigned long* data)
 
   for (i = 0; *str >= '0' && *str <= '9'; ++str) {
     unsigned long tmp = i;
-    i *= 10;
-    if (i < tmp) return CVME_BAD_MODDATA;
-    i += *str - '0';
+    i = (i * 10) + (*str - '0');
+    if (i < tmp)
+      return CVME_BAD_MODDATA;
   }
-  if (*str) return CVME_BAD_MODDATA;
+  if (*str)
+    return CVME_BAD_MODDATA;
   *data = i;
   return 0;
 }
