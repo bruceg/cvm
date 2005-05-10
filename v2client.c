@@ -165,28 +165,23 @@ int cvm_fact_uint(unsigned number, unsigned long* data)
   return 0;
 }
 
-int cvm_split_account(struct cvm_credential* credentials,
-		      unsigned account, unsigned domain)
+int cvm_split_account(str* account, str* domain)
 {
   unsigned actlen;
   char* actptr;
   unsigned i;
-  if (account > 0 || domain > 0) {
-    const char* sc;
-    actlen = credentials[account].value.len;
-    actptr = credentials[account].value.s;
-    if ((sc = getenv("CVM_ACCOUNT_SPLIT_CHARS")) == 0)
-      sc = cvm_account_split_chars;
-    i = actlen;
-    while (i-- > 0) {
-      if (strchr(sc, actptr[i]) != 0) {
-	if (!str_copyb(&credentials[domain].value,
-		       actptr + i + 1,
-		       actlen - i - 1))
-	  return 0;
-	credentials[domain].value.len = i;
-	break;
-      }
+  const char* sc;
+  actlen = account->len;
+  actptr = account->s;
+  if ((sc = getenv("CVM_ACCOUNT_SPLIT_CHARS")) == 0)
+    sc = cvm_account_split_chars;
+  i = actlen;
+  while (i-- > 0) {
+    if (strchr(sc, actptr[i]) != 0) {
+      if (!str_copyb(domain, actptr + i + 1, actlen - i - 1))
+	return 0;
+      account->s[account->len = i] = 0;
+      break;
     }
   }
   return 1;

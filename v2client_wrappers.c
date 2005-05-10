@@ -45,7 +45,7 @@ int cvm_authenticate_password(const char* module,
   if ((i = add(1, CVM_CRED_DOMAIN, domain)) == 0)
     return CVME_IO;
   if (i > 1 && split_account)
-    cvm_split_account(creds, 0, 1);
+    cvm_split_account(&creds[0].value, &creds[1].value);
   if ((i = add(i, CVM_CRED_PASSWORD, password)) == 0)
     return CVME_IO;
   return cvm_authenticate(module, i, creds);
