@@ -8,13 +8,6 @@
 <p>To write a module using the CVM module library, you must provide
 the following items:<dl>
 
-<dt><tt>const unsigned cvm_credential_count</tt> <dd>Set this global
-to the number of credentials required from the client.
-
-<dt><tt>const char* cvm_credentials[X]</tt>, where X is the same as
-<tt>credential_count</tt> above <dd>Pointers to the credentials read
-from the client are stored in this array.
-
 <dt><tt>int cvm_auth_init(void)</tt> <dd>This function is called once
 when the CVM starts up.
 
@@ -45,7 +38,6 @@ returned to the client, send them in this function with
 <tt>cvm_fact_str(unsigned number, const char* data)</tt> or
 <tt>cvm_fact_uint(unsigned number, unsigned data)</tt>.</p>
 
-
 <dt><tt>void cvm_auth_stop(void)</tt> <dd>This routine is called once
 when the CVM is shut down.
 
@@ -56,14 +48,18 @@ memory, connection failed, etc), it must return a non-zero <a
 href="errors.html">error code</a> (other than <tt>CVME_PERMFAIL</tt>).
 Otherwise, return zero.</p>
 
+<p>The credentials sent from the client are accessable through the
+global <tt>cvm_credentials</tt> array (type <tt>str</tt>), which is
+indexed by the credential type number.</p>
+
 <p><b>NOTE:</b> The functions supplied by the module must never exit
 except on fatal errors.  If any memory is allocated in the course of
 processing a request, it must either be freed or reallocated on the next
 invocation.</p>
 
-<p>Each module will implement at least one type of credential
-validation (ie plain text, CRAM, etc).  Modules are not obligated to
-implement multiple types of validation, but may do so by examinimg
-which credentials are present in the input.  The invoker will choose
-which modules to invoke depending on what type of credentials it needs
+<p>Each module will implement at least one type of credential validation
+(ie plain text, CRAM, etc).  Modules are not obligated to implement
+multiple types of validation, but may do so by examinimg which types of
+credentials are present in the input.  The invoker will choose which
+modules to invoke depending on what type of credentials it needs
 validated.</p>
