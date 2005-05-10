@@ -2,17 +2,18 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <installer.h>
-#include "conf_home.c"
+#include "conf_bin.c"
+#include "conf_include.c"
+#include "conf_lib.c"
 
 void insthier(void) {
   struct stat st;
   const int do_mysql = stat("cvm-mysql", &st) != -1;
   const int do_pgsql = stat("cvm-pgsql", &st) != -1;
   const int do_vchkpw = stat("cvm-vchkpw", &st) != -1;
-  int home = opendir(conf_home);
   int dir;
 
-  dir = d(home, "bin",          -1, -1, 0755);
+  dir = opendir(conf_bin);
   c(dir, "cvm-benchclient",     -1, -1, 0755);
   c(dir, "cvm-checkpassword",   -1, -1, 0755);
   if (do_mysql) {
@@ -39,7 +40,7 @@ void insthier(void) {
     c(dir, "cvm-vchkpw",        -1, -1, 0755);
   }
 
-  dir = d(home, "include",      -1, -1, 0755);
+  dir = opendir(conf_include);
   s(dir, "cvm-sasl.h",          "cvm/sasl.h");
   dir = d(dir,  "cvm",          -1, -1, 0755);
   s(dir, "client.h",            "v1client.h");
@@ -52,7 +53,7 @@ void insthier(void) {
   c(dir, "v1client.h",          -1, -1, 0644);
   c(dir, "v2client.h",          -1, -1, 0644);
 
-  dir = d(home, "lib",          -1, -1, 0755);
+  dir = opendir(conf_lib);
   s(dir,  "libcvm-client.a",    "libcvm-v1client.a");
   cf(dir, "libcvm-command.a",   -1, -1, 0644, "command.a");
   cf(dir, "libcvm-local.a",     -1, -1, 0644, "local.a");

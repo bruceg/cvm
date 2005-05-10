@@ -45,16 +45,19 @@ Credential Validation Modules that authenticate against a PostgreSQL server.
 %build
 echo gcc "%{optflags}" -I/usr/include/pgsql >conf-cc
 echo gcc -s >conf-ld
-echo %{_bindir} >conf-bin
 make libraries programs mysql pgsql
 
 %install
-rm -fr %{buildroot}
-rm -f *.o conf_home.c
-echo %{buildroot}%{_prefix} >conf-home
+echo %{buildroot}%{_bindir} >conf-bin
+echo %{buildroot}%{_includedir} >conf-include
+echo %{buildroot}%{_libdir} >conf-lib
 make installer instcheck
 
-mkdir -p %{buildroot}%{_prefix}
+rm -fr %{buildroot}
+mkdir -p %{buildroot}%{_bindir}
+mkdir -p %{buildroot}%{_includedir}
+mkdir -p %{buildroot}%{_libdir}
+
 ./installer
 ./instcheck
 
@@ -64,13 +67,13 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %doc COPYING NEWS README *.html
-%{_prefix}/bin/cvm-[^mp]*
-%{_prefix}/bin/cvm-pwfile
+%{_bindir}/cvm-[^mp]*
+%{_bindir}/cvm-pwfile
 
 %files devel
 %defattr(-,root,root)
-%{_prefix}/include/*
-%{_prefix}/lib/*
+%{_includedir}/*
+%{_libdir}/*
 
 %files mysql
 %defattr(-,root,root)
