@@ -1,5 +1,5 @@
 /* cvm/module_local_main.c - Local CVM server module main routine
- * Copyright (C) 2004  Bruce Guenter <bruceg@em.ca>
+ * Copyright (C) 2005  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,16 +16,18 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 #include <sys/types.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
+#include <msg/msg.h>
+
 #include "module.h"
+
+const int msg_show_pid = 0;
 
 void usage(void)
 {
-  fprintf(stderr, "usage: %s /PATH/TO/SOCKET\n", program);
-  exit(1);
+  die3(1, "usage: ", program, "-local /PATH/TO/SOCKET");
 }
 
 extern int local_main(const char*);

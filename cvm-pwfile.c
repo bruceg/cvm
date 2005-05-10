@@ -15,13 +15,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+#include <sysdeps.h>
 #include <errno.h>
 #include <pwd.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/types.h>
+
+#include <iobuf/ibuf.h>
+#include <msg/msg.h>
 #include <pwcmp/client.h>
+
 #include "module.h"
 
 const char program[] = "cvm-pwfile";
@@ -67,11 +70,11 @@ static int parse_rest(char* rest)
 
 static char* passwd;
 static char* rest;
-static char line[1024];
+static str line;
 
 int cvm_lookup(void)
 {
-  FILE* pwfile;
+  ibuf pwfile;
   long namelen;
 
   if (cvm_credentials[CVM_CRED_ACCOUNT].s == 0)
@@ -79,19 +82,17 @@ int cvm_lookup(void)
   passwd = 0;
   namelen = cvm_credentials[CVM_CRED_ACCOUNT].len;
 
-  if ((pwfile = fopen(pwfilename, "r")) == 0) return CVME_IO;
-  while (fgets(line, sizeof line, pwfile) != 0) {
-    long len = strlen(line);
-    if (line[len-1] != '\n') continue;
-    line[len-1] = 0;
-    if (strncasecmp(cvm_credentials[CVM_CRED_ACCOUNT].s, line, namelen) == 0
-	&& line[namelen] == ':') {
-      passwd = line + namelen;
+  if (!ibuf_open(&pwfile, pwfilename, 0)) return CVME_IO;
+  while (ibuf_getstr(&pwfile, &line, LF)) {
+    line.s[--line.len] = 0;
+    if (strncasecmp(cvm_credentials[CVM_CRED_ACCOUNT].s, line.s, namelen) == 0
+	&& line.s[namelen] == ':') {
+      passwd = line.s + namelen;
       *passwd++ = 0;
       break;
     }
   }
-  fclose(pwfile);
+  ibuf_close(&pwfile);
   if (passwd == 0) return CVME_PERMFAIL;
 
   if ((rest = strchr(passwd, ':')) == 0 || rest == passwd)
@@ -112,7 +113,7 @@ int cvm_authenticate(void)
 
 int cvm_results(void)
 {
-  cvm_fact_username = line;
+  cvm_fact_username = line.s;
   if (!parse_rest(rest)) return CVME_CONFIG;
   return 0;
 }

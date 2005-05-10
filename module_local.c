@@ -1,5 +1,5 @@
 /* cvm/module_local.c - Local CVM server module loop
- * Copyright (C) 2001  Bruce Guenter <bruceg@em.ca>
+ * Copyright (C) 2005  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,11 +19,11 @@
 #include <grp.h>
 #include <pwd.h>
 #include <signal.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
+#include <msg/msg.h>
 #include <net/socket.h>
 
 #include "module.h"
@@ -81,7 +81,7 @@ static int make_socket(void)
     owner = strtoul(tmp, &end, 10);
     if (*end != 0) {
       if ((pw = getpwnam(tmp)) == 0) {
-	perror("getpwnam");
+	error1sys("getpwnam failed");
 	return CVME_IO;
       }
       owner = pw->pw_uid;
@@ -92,7 +92,7 @@ static int make_socket(void)
     group = strtoul(tmp, &end, 10);
     if (*end != 0) {
       if ((gr = getgrnam(tmp)) == 0) {
-	perror("getgrnam");
+	error1sys("getgrnam failed");
 	return CVME_IO;
       }
       group = gr->gr_gid;
@@ -101,15 +101,15 @@ static int make_socket(void)
 
   old_umask = umask((mode & 0777) ^ 0777);
   if ((sock = socket_unixstr()) == -1)
-    perror("socket");
+    error1sys("Could not create socket");
   else if (!socket_bindu(sock, path))
-    perror("bind");
+    error1sys("Could not bind socket");
   else if (chmod(path, mode) == -1)
-    perror("chmod");
+    error1sys("Could not change socket permission");
   else if (chown(path, owner, group) == -1)
-    perror("chown");
+    error1sys("Could not change socket ownership");
   else if (!socket_listen(sock, 1))
-    perror("listen");
+    error1sys("Could not listen on socket");
   else {
     umask(old_umask);
     return 0;

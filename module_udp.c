@@ -17,11 +17,11 @@
  */
 #include <netdb.h>
 #include <signal.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
+#include <msg/msg.h>
 #include <net/socket.h>
 
 #include "module.h"
@@ -63,9 +63,16 @@ int udp_main(const char* hostname, const char* portname)
   memcpy(&ip, he->h_addr_list[0], 4);
   if ((port = strtoul(portname, &tmp, 10)) == 0 ||
       port >= 0xffff || *tmp != 0) usage();
-  if ((sock = socket_udp()) == -1) perror("socket");
-  if (!socket_bind4(sock, &ip, port)) perror("bind");
-  if ((code = cvm_auth_init()) != 0) return code;
+  if ((sock = socket_udp()) == -1) {
+    error1sys("Could not create socket");
+    return CVME_IO;
+  }
+  if (!socket_bind4(sock, &ip, port)) {
+    error1sys("Could not bind socket");
+    return CVME_IO;
+  }
+  if ((code = cvm_auth_init()) != 0)
+    return code;
   log_startup();
 
   code = 0;

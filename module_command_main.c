@@ -1,5 +1,5 @@
 /* cvm/module_command_main.c - CVM command module main routine
- * Copyright (C) 2003  Bruce Guenter <bruceg@em.ca>
+ * Copyright (C) 2005  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,8 @@
 #include "module.h"
 
 extern int command_main(void);
+
+const int msg_show_pid = 0;
 
 int main(void)
 {

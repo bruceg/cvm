@@ -1,4 +1,4 @@
-/* cvm/cvm-benchclient.c - CVM benchmark client
+/* cvm/cvm-v1benchclient.c - CVM benchmark client
  * Copyright (C) 2005  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -15,9 +15,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-#include <stdio.h>
 #include <stdlib.h>
+#include <fmt/number.h>
+#include <msg/msg.h>
 #include "v1client.h"
+
+const char program[] = "cvm-v1benchclient";
+const int msg_show_pid = 0;
 
 int main(int argc, char** argv)
 {
@@ -25,23 +29,20 @@ int main(int argc, char** argv)
   unsigned long count;
   unsigned long i;
   char* ptr;
+  char num[FMT_ULONG_LEN];
   
-  if (argc < 6) {
-    printf("usage: cvm-benchclient count cvmodule account domain credential [credential ...]\n");
-    return 1;
-  }
-  
-  if ((count = strtoul(argv[1], &ptr, 10)) == 0 || *ptr) {
-    printf("Invalid number for count");
-    return 1;
-  }
-  
+  if (argc < 6)
+    die3(1, "usage: ", program, " count cvmodule account domain credential [credential ...]\n");
+
+  if ((count = strtoul(argv[1], &ptr, 10)) == 0 || *ptr)
+    die2(1, "Invalid number for count: ", argv[1]);
+
   for (i = 0; i < count; i++) {
     if ((a = cvm_authenticate(argv[2], argv[3], argv[4],
 			      (const char**)(argv+5), 0)) != 0) {
-      printf("Authentication failed, error #%d (%s)\n", a,
-	     (a < cvm_nerr) ? cvm_errlist[i] : "Unknown error code");
-      return a;
+      num[fmt_udec(num, a)] = 0;
+      die5(a, "Authentication failed, error #", num, " (",
+	   (a < cvm_nerr) ? cvm_errlist[i] : "Unknown error code", ")");
     }
   }
   return 0;

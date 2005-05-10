@@ -25,10 +25,6 @@
 - Write a module to do lookups from a CDB file, as well as a tool to
   manipulate that file "cdbpasswd".
 
-- Stop using perror.
-
-- Stop using stdio.
-
 - Write cvm UDP-to-command and local-to-command relays:
   - recv input block from socket
   - spawn command

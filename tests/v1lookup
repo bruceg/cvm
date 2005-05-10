@@ -51,8 +51,8 @@ domain:           (null)
 mailbox path:     (null)
 
 <result secret>
-Authentication failed, error #7 (Credential missing in data from module)
-Authentication failed, error #7 (Credential missing in data from module)
+cvm-v1testclient: Fatal: Authentication failed, error #7 (Credential missing in data from module)
+cvm-v1testclient: Fatal: Authentication failed, error #7 (Credential missing in data from module)
 user name:        pwfuser
 user ID:          123
 group ID:         456

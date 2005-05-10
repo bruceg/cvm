@@ -1,4 +1,4 @@
 make_pwfile
 $src/cvm-testclient $src/cvm-pwfile pxfuser '' testpass
 <result>
-Authentication failed, error #100 (Credentials rejected)
+cvm-testclient: Fatal: Authentication failed, error #100 (Credentials rejected)

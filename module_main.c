@@ -1,5 +1,5 @@
 /* cvm/module.c - CVM generic server module main routine
- * Copyright (C) 2004  Bruce Guenter <bruceg@em.ca>
+ * Copyright (C) 2005  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,17 +15,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+#include <msg/msg.h>
+
 #include "module.h"
+
+const int msg_show_pid = 0;
 
 void usage(void)
 {
-  fprintf(stderr, "usage: %s cvm-local:/path/to/socket\n", program);
-  fprintf(stderr, "or:    %s cvm-udp:hostname:port\n", program);
-  exit(1);
+  die5(1, "Incorrect usage.\n"
+       "usage: ", program, " cvm-local:/path/to/socket\n"
+       "or:    ", program, " cvm-udp:hostname:port");
 }
 
 extern int command_main(void);

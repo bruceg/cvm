@@ -1,5 +1,5 @@
 /* cvm/module_udp_main.c - UDP CVM server module main routine
- * Copyright (C) 2004  Bruce Guenter <bruceg@em.ca>
+ * Copyright (C) 2005  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,15 +15,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-#include <stdio.h>
 #include <stdlib.h>
+
+#include <msg/msg.h>
 
 #include "module.h"
 
+const int msg_show_pid = 0;
+
 void usage(void)
 {
-  fprintf(stderr, "usage: %s IP PORT\n", program);
-  exit(1);
+  die3(1, "usage: ", program, "-udp IP PORT");
 }
 
 extern int udp_main(const char*, const char*);

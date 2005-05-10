@@ -16,11 +16,14 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 #include <errno.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <msg/msg.h>
 #include "v2client.h"
+
+const char program[] = "cvm-checkpassword";
+const int msg_show_pid = 0;
 
 static char buffer[513];
 static char* pass;
@@ -49,10 +52,8 @@ int main(int argc, char** argv)
   int i;
   const char* tokens[2];
   
-  if (argc < 3) {
-    printf("usage: cvm-checkpassword cvmodule program [args ...]\n");
-    return 1;
-  }
+  if (argc < 3)
+    die3(111, "usage: ", program, " cvmodule program [args ...]");
 
   get_data();
   tokens[0] = pass;

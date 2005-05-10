@@ -1,4 +1,4 @@
-/* cvm/cvm-testclient.c - Diagnostic CVM client
+/* cvm/cvm-v1testclient.c - Diagnostic CVM client
  * Copyright (C) 2005  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -15,43 +15,60 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-#include <stdio.h>
+#include <sysdeps.h>
+#include <string.h>
+#include <fmt/number.h>
+#include <iobuf/obuf.h>
+#include <msg/msg.h>
 #include "v1client.h"
+
+const char program[] = "cvm-v1testclient";
+const int msg_show_pid = 0;
+
+static void s(const char* name, const char* value)
+{
+  obuf_puts(&outbuf, name);
+  obuf_puts(&outbuf, (value == 0) ? "(null)" : value);
+  obuf_putc(&outbuf, '\n');
+}
+
+static void u(const char* name, unsigned long value)
+{
+  obuf_puts(&outbuf, name);
+  obuf_putu(&outbuf, value);
+  obuf_putc(&outbuf, '\n');
+}
 
 int main(int argc, char** argv)
 {
   int i;
-  unsigned long u;
+  unsigned long v;
+  char num[FMT_ULONG_LEN];
 
-  if (argc < 4) {
-    printf("usage: cvm-testclient cvmodule account domain [credential [credential ...]]\n");
-    return 1;
-  }
+  if (argc < 4)
+    die1(1, "Incorrect usage.\n"
+	 "usage: cvm-testclient cvmodule account domain [credential [credential ...]]\n");
   
   i = cvm_authenticate(argv[1], argv[2], argv[3], (const char**)(argv+4), 0);
   if (i) {
-    printf("Authentication failed, error #%d (%s)\n", i,
-	   (i < cvm_nerr) ? cvm_errlist[i] : "Unknown error code");
-    return i;
+    num[fmt_udec(num, i)] = 0;
+    die5(i, "Authentication failed, error #", num, " (",
+	 (i < cvm_nerr) ? cvm_errlist[i] : "Unknown error code", ")");
   }
 
-  printf("user name:        %s\n"
-	 "user ID:          %ld\n"
-	 "group ID:         %ld\n"
-	 "real name:        %s\n"
-	 "directory:        %s\n"
-	 "shell:            %s\n"
-	 "group name:       %s\n"
-	 "system user name: %s\n"
-	 "system directory: %s\n"
-	 "domain:           %s\n"
-	 "mailbox path:     %s\n",
-	 cvm_fact_username, cvm_fact_userid, cvm_fact_groupid,
-	 cvm_fact_realname, cvm_fact_directory,
-	 cvm_fact_shell, cvm_fact_groupname,
-	 cvm_fact_sys_username, cvm_fact_sys_directory,
-	 cvm_fact_domain, cvm_fact_mailbox);
-  while (cvm_fact_uint(CVM_FACT_SUPP_GROUPID, &u) == 0)
-    printf("supp. group ID:   %ld\n", u);
+  s("user name:        ", cvm_fact_username);
+  u("user ID:          ", cvm_fact_userid);
+  u("group ID:         ", cvm_fact_groupid);
+  s("real name:        ", cvm_fact_realname);
+  s("directory:        ", cvm_fact_directory);
+  s("shell:            ", cvm_fact_shell);
+  s("group name:       ", cvm_fact_groupname);
+  s("system user name: ", cvm_fact_sys_username);
+  s("system directory: ", cvm_fact_sys_directory);
+  s("domain:           ", cvm_fact_domain);
+  s("mailbox path:     ", cvm_fact_mailbox);
+  while (cvm_fact_uint(CVM_FACT_SUPP_GROUPID, &v) == 0)
+    u("supp. group ID:   ", v);
+  obuf_flush(&outbuf);
   return 0;
 }
