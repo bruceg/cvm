@@ -1,0 +1,14 @@
+CVM_LOOKUP_SECRET=secret \
+$src/cvm-testclient $tmp/cvm-qmail-lookup addr ''
+<result>
+user name:        user
+user ID:          500
+group ID:         500
+real name:        (null)
+directory:        /home/bruce/dev/cvm/tests-tmp
+shell:            (null)
+group name:       (null)
+system user name: user
+system directory: /home/bruce/dev/cvm/tests-tmp
+domain:           noathost
+mailbox path:     /home/bruce/dev/cvm/tests-tmp
