@@ -20,6 +20,12 @@ otherwise.  The credentials have the following structure:
   str value;
 }</pre></p>
 
+<p>If <tt>$CVM_LOOKUP_SECRET</tt> is set, and no
+<tt>CVM_CRED_SECRET</tt> credential is present in the
+<tt>credentials</tt>, its value is added to the set of outgoing
+credentials automatically to assist with the workings of lookup
+modules.</p>
+
 <p>If authentication succeeds, this routine automatically retrieves
 <tt>cvm_fact_username</tt>, <tt>cvm_fact_userid</tt>,
 <tt>cvm_fact_groupid</tt>, <tt>cvm_fact_directory</tt>, and
@@ -44,6 +50,13 @@ which may be overridden by either setting it to a different string from
 the client program or by setting the <tt>$CVM_ACCOUNT_SPLIT_CHARS</tt>
 environment variable.  Setting it to an empty string will effectively
 prevent parsing of the account name.</p>
+
+<dt><tt>int cvm_authenticate_password(const char* module, const char*
+account, const char* domain, const char* password, int
+split_account)</tt> <dd><p>This is a convenience wrapper function for
+the <tt>cvm_authenticate</tt> and <tt>cvm_split_account</tt> functions.
+The <tt>domain</tt> and <tt>password</tt> credentials are only sent if
+they are not <tt>NULL</tt> and not empty.</p>
 
 <dt><tt>int cvm_fact_str(unsigned number, const char** data)</tt>
 <dd><p>Retrieves a <a href="facts.html">fact</a> from the data
