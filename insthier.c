@@ -29,6 +29,7 @@ void insthier(void) {
   c(dir, "cvm-qmail",           -1, -1, 0755);
   c(dir, "cvm-testclient",      -1, -1, 0755);
   c(dir, "cvm-v1testclient",    -1, -1, 0755);
+  c(dir, "cvm-v1checkpassword", -1, -1, 0755);
   c(dir, "cvm-vmailmgr",        -1, -1, 0755);
   c(dir, "cvm-vmailmgr-local",  -1, -1, 0755);
   c(dir, "cvm-vmailmgr-udp",    -1, -1, 0755);

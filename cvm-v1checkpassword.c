@@ -1,5 +1,5 @@
 /* cvm/cvm-checkpassword.c - Checkpassword emulator for CVM
- * Copyright (C) 2005  Bruce Guenter <bruceg@em.ca>
+ * Copyright (C) 2001  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include "v2client.h"
+#include "v1client.h"
 
 static char buffer[513];
 static char* pass;
@@ -57,9 +57,8 @@ int main(int argc, char** argv)
   get_data();
   tokens[0] = pass;
   tokens[1] = 0;
-  if ((i = cvm_authenticate_password(argv[1], buffer, getenv("TCPLOCALHOST"),
-				     pass, 1)) != 0)
-    return i;
+  if ((i = cvm_authenticate(argv[1], buffer, getenv("TCPLOCALHOST"),
+			    tokens, 1)) != 0) return i;
 
   if (!cvm_setugid()) return 111;
   if (!cvm_setenv()) return 111;
