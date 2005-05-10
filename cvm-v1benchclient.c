@@ -17,11 +17,7 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-#include "v2client.h"
-
-const char usage[] =
-"usage: cvm-benchclient count cvmodule account domain\n"
-"   or: cvm-benchclient count cvmodule account domain password\n";
+#include "v1client.h"
 
 int main(int argc, char** argv)
 {
@@ -29,9 +25,9 @@ int main(int argc, char** argv)
   unsigned long count;
   unsigned long i;
   char* ptr;
-
-  if (argc != 5 && argc != 6) {
-    fputs(usage, stderr);
+  
+  if (argc < 6) {
+    printf("usage: cvm-benchclient count cvmodule account domain credential [credential ...]\n");
     return 1;
   }
   
@@ -41,8 +37,8 @@ int main(int argc, char** argv)
   }
   
   for (i = 0; i < count; i++) {
-    if ((a = cvm_authenticate_password(argv[2],
-				       argv[3], argv[4], argv[5], 0)) != 0) {
+    if ((a = cvm_authenticate(argv[2], argv[3], argv[4],
+			      (const char**)(argv+5), 0)) != 0) {
       printf("Authentication failed, error #%d (%s)\n", a,
 	     (a < cvm_nerr) ? cvm_errlist[i] : "Unknown error code");
       return a;
