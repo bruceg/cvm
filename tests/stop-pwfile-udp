@@ -7,4 +7,4 @@ echo `cat $tmp/log | wc`
 rm -f $tmp/log
 <result>
 Stopping.
-4 6 40
+5 8 50
