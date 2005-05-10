@@ -1,6 +1,10 @@
 - Write tests for:
-  - parse_domain in client.c
+  - cvm_split_account in v2client.c
   - cvm_ucspi_domain and cvm_setugid (?)
+
+- Add concurrent access support to cvm-local mode?
+
+- Add cvm-tcp module code?
 
 - Build a caching CVM proxy
   - Two hash tables keyed on binary request string.
@@ -9,9 +13,6 @@
   - Caches positive response for $TTL seconds.
   - Caches negative response for $TTL_BAD seconds.
   - Do not cache temporary errors.
-
-- Write up and implement CVM client->server protocol 2, which adds tags
-  to the input format the same way the output has tags.
 
 - Add support for allow/deny tables
 
@@ -23,9 +24,6 @@
 
 - Write a module to do lookups from a CDB file, as well as a tool to
   manipulate that file "cdbpasswd".
-
-- Document the second protocol as either CVM2 or XCVM.
-  - See http://lists.untroubled.org/?list=bgware&cmd=monthbythread&month=200105
 
 - Stop using perror.
 

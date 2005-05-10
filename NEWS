@@ -1,8 +1,15 @@
 -------------------------------------------------------------------------------
 Changes in version 0.50
 
-* Moved all the modules to the CVM2 protocol.  The module mechanism
-* retains backwards compatibility with all existing CVM1 clients.
+* This version is a major upgrade providing support for the CVM2
+* protocol.  All the modules included here now support both the new CVM2
+* protocol and the existing CVM1 protocol.  There are two seperate
+* client libraries, cvm-v1client and cvm-v2client.  The previous library
+* and header names are retained as symlinks to the v1client files.
+
+NOTE: The version 1 client library is now depricated and may be removed
+in future versions of the package.  All new software should target the
+version 2 API.
 
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/
