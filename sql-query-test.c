@@ -1,3 +1,4 @@
+#include <string.h>
 #include <iobuf/obuf.h>
 #include <msg/msg.h>
 #include "credentials.h"
@@ -11,6 +12,7 @@ str cvm_credentials[CVM_CRED_MAX+1];
 int main(int argc, char* argv[])
 {
   static str s;
+  memset(cvm_credentials, 0, sizeof cvm_credentials);
   if (argc != 4)
     die3(1, "usage: ", program, " query account domain");
   if (!sql_query_validate(argv[1]))
