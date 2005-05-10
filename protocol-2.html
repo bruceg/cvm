@@ -6,6 +6,17 @@
 
 <h1>CVM Version 2 Protocol</h1>
 
+<p>The version 2 protocol was built based on lessons learned while
+working with the version 1 protocol.  In particular, it is impossible to
+pass binary data with the version 1 protocol without escaping to avoid
+NUL bytes.  It is also difficult to differentiate between different
+types of credentials (ie secret vs. password vs. challenge/response)
+since there is no indication given in the request packet what types of
+credentials are being sent.  Spoofing attacks are possible against
+version 1 UDP clients, since an attacker may forge valid responses with
+relative ease.  This second version protocol retains the efficiency of
+the original protocol while correcting these deficiencies.</p>
+
 <h2>General Packet Format</h2>
 
 <p>Input to and output from the module follows a similar packet format:
