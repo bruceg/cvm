@@ -59,8 +59,7 @@ int cvm_lookup(void)
 
 int cvm_authenticate(void)
 {
-  // CVM_CRED_REQUIRED(PASSWORD);
-  return 0;
+  return CVME_CONFIG;
 }
 
 int cvm_results(void)

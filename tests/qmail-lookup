@@ -1,7 +1,8 @@
 <loop addr user user-addr user-addr-x user-wild user-wild-x user-wild-x-y-z alias alias-x awild awild-x USER user-ADDR USER-ADDR user-dot.addr adot.addr>
 <loop domain local.dom>
 
-$src/cvm-testclient $src/cvm-qmail $addr $domain $secret
+env CVM_LOOKUP_SECRET=secret \
+$src/cvm-testclient $tmp/cvm-qmail-lookup $addr $domain
 
 <result user local.dom>
 user name:        user
