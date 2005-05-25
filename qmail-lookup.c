@@ -1,5 +1,5 @@
 /* qmail-lookup.c - qmail CVM lookup routines
- * Copyright (C) 2004  Bruce Guenter <bruceg@em.ca>
+ * Copyright (C) 2005  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,15 +49,16 @@ int qmail_lookup_cvm(struct qmail_user* user,
   static str prefix;
   static str fullname;
 
-  if (cvm_credentials[CVM_CRED_DOMAIN].len == 0)
-    if (!str_copys(&cvm_credentials[CVM_CRED_DOMAIN], qmail_envnoathost))
+  if (cvm_module_credentials[CVM_CRED_DOMAIN].len == 0)
+    if (!str_copys(&cvm_module_credentials[CVM_CRED_DOMAIN],
+		   qmail_envnoathost))
       return CVME_IO;
 
   if (qmail_users_reinit() != 0
       || qmail_domains_reinit() != 0)
     return -1;
 
-  switch (qmail_domains_lookup(&cvm_credentials[CVM_CRED_DOMAIN],
+  switch (qmail_domains_lookup(&cvm_module_credentials[CVM_CRED_DOMAIN],
 			       domain, &prefix)) {
   case -1:
     return -1;
@@ -74,7 +75,7 @@ int qmail_lookup_cvm(struct qmail_user* user,
       if (!str_copy(&fullname, &prefix)
 	  || !str_catc(&fullname, '-'))
 	return -1;
-    if (!str_cat(&fullname, &cvm_credentials[CVM_CRED_ACCOUNT]))
+    if (!str_cat(&fullname, &cvm_module_credentials[CVM_CRED_ACCOUNT]))
       return -1;
   }
 

@@ -19,40 +19,40 @@
 #include <unistd.h>
 #include "module.h"
 
-void log_startup(void)
+void cvm_module_log_startup(void)
 {
   write(1, "Starting.\n", 10);
 }
 
-void log_shutdown(void)
+void cvm_module_log_shutdown(void)
 {
   write(1, "Stopping.\n", 10);
 }
 
-void log_request(void)
+void cvm_module_log_request(void)
 {
   char buf[BUFSIZE+4];
   char* ptr;
   
   ptr = buf;
-  switch (outbuffer[0]) {
+  switch (cvm_module_outbuffer[0]) {
   case 0: *ptr++ = '+'; break;
   case CVME_PERMFAIL: *ptr++ = '-'; break;
   default: *ptr++ = '?'; break;
   }
   *ptr++ = ' ';
-  if (cvm_credentials[CVM_CRED_ACCOUNT].s != 0) {
+  if (cvm_module_credentials[CVM_CRED_ACCOUNT].s != 0) {
     memcpy(ptr,
-	   cvm_credentials[CVM_CRED_ACCOUNT].s,
-	   cvm_credentials[CVM_CRED_ACCOUNT].len);
-    ptr += cvm_credentials[CVM_CRED_ACCOUNT].len;
+	   cvm_module_credentials[CVM_CRED_ACCOUNT].s,
+	   cvm_module_credentials[CVM_CRED_ACCOUNT].len);
+    ptr += cvm_module_credentials[CVM_CRED_ACCOUNT].len;
   }
-  if (cvm_credentials[CVM_CRED_DOMAIN].s != 0) {
+  if (cvm_module_credentials[CVM_CRED_DOMAIN].s != 0) {
     *ptr++ = '@';
     memcpy(ptr,
-	   cvm_credentials[CVM_CRED_DOMAIN].s,
-	   cvm_credentials[CVM_CRED_DOMAIN].len);
-    ptr += cvm_credentials[CVM_CRED_DOMAIN].len;
+	   cvm_module_credentials[CVM_CRED_DOMAIN].s,
+	   cvm_module_credentials[CVM_CRED_DOMAIN].len);
+    ptr += cvm_module_credentials[CVM_CRED_DOMAIN].len;
   }
   *ptr++ = '\n';
   *ptr = 0;

@@ -38,7 +38,7 @@ static str username;
 static str ext;
 
 /* Account name is either "baseuser-virtuser" or "virtuser@domain" */
-int cvm_lookup(void)
+int cvm_module_lookup(void)
 {
   switch (qmail_lookup_cvm(&user, &domain, &username, &ext)) {
   case -1:
@@ -57,12 +57,12 @@ int cvm_lookup(void)
   return 0;
 }
 
-int cvm_authenticate(void)
+int cvm_module_authenticate(void)
 {
   return CVME_CONFIG;
 }
 
-int cvm_results(void)
+int cvm_module_results(void)
 {
   cvm_fact_username = user.user.s;
   cvm_fact_userid = user.uid;

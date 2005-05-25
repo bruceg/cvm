@@ -49,7 +49,7 @@ int main(int argc, char** argv)
     die1(1, "Incorrect usage.\n"
 	 "usage: cvm-testclient cvmodule account domain [credential [credential ...]]\n");
   
-  i = cvm_authenticate(argv[1], argv[2], argv[3], (const char**)(argv+4), 0);
+  i = cvm_client_authenticate(argv[1], argv[2], argv[3], (const char**)(argv+4), 0);
   if (i) {
     num[fmt_udec(num, i)] = 0;
     die5(i, "Authentication failed, error #", num, " (",
@@ -67,7 +67,7 @@ int main(int argc, char** argv)
   s("system directory: ", cvm_fact_sys_directory);
   s("domain:           ", cvm_fact_domain);
   s("mailbox path:     ", cvm_fact_mailbox);
-  while (cvm_fact_uint(CVM_FACT_SUPP_GROUPID, &v) == 0)
+  while (cvm_client_fact_uint(CVM_FACT_SUPP_GROUPID, &v) == 0)
     u("supp. group ID:   ", v);
   obuf_flush(&outbuf);
   return 0;

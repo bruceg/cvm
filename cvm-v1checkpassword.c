@@ -58,11 +58,11 @@ int main(int argc, char** argv)
   get_data();
   tokens[0] = pass;
   tokens[1] = 0;
-  if ((i = cvm_authenticate(argv[1], buffer, getenv("TCPLOCALHOST"),
+  if ((i = cvm_client_authenticate(argv[1], buffer, getenv("TCPLOCALHOST"),
 			    tokens, 1)) != 0) return i;
 
-  if (!cvm_setugid()) return 111;
-  if (!cvm_setenv()) return 111;
+  if (!cvm_client_setugid()) return 111;
+  if (!cvm_client_setenv()) return 111;
 
   execvp(argv[2], argv+2);
   return 111;

@@ -78,7 +78,7 @@ int cvm_module_init(void)
 static str directory;
 
 /* Account name is either "baseuser-virtuser" or "virtuser@domain" */
-int cvm_lookup(void)
+int cvm_module_lookup(void)
 {
   int err;
 
@@ -92,7 +92,7 @@ int cvm_lookup(void)
   return 0;
 }
 
-int cvm_results(void)
+int cvm_module_results(void)
 {
   if (!str_copy(&directory, &vmuser.homedir)) return CVME_IO;
   if (!path_merge(&directory, vpw.directory.s)) return CVME_IO;

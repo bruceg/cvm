@@ -22,18 +22,18 @@
 #include "module.h"
 #include "protocol.h"
 
-unsigned char outbuffer[BUFSIZE];
-unsigned outbuflen;
-unsigned char* outbufptr;
+unsigned char cvm_module_outbuffer[BUFSIZE];
+unsigned cvm_module_outbuflen;
+static unsigned char* outbufptr;
 
 static int v1fact(unsigned number, const char* data, unsigned len)
 {
   /* Always leave room for a trailing NUL. */
-  if (outbuflen + len + 3 > BUFSIZE) {
-    outbuflen = BUFSIZE;
+  if (cvm_module_outbuflen + len + 3 > BUFSIZE) {
+    cvm_module_outbuflen = BUFSIZE;
     return 0;
   }
-  outbuflen += len + 2;
+  cvm_module_outbuflen += len + 2;
   *outbufptr++ = number;
   memcpy(outbufptr, data, len);
   outbufptr += len;
@@ -44,11 +44,11 @@ static int v1fact(unsigned number, const char* data, unsigned len)
 static int v2fact(unsigned number, const char* data, unsigned len)
 {
   /* Always leave room for a trailing zero type byte. */
-  if (outbuflen + len + 3 > BUFSIZE) {
-    outbuflen = BUFSIZE;
+  if (cvm_module_outbuflen + len + 3 > BUFSIZE) {
+    cvm_module_outbuflen = BUFSIZE;
     return 0;
   }
-  outbuflen += len + 2;
+  cvm_module_outbuflen += len + 2;
   *outbufptr++ = number;
   *outbufptr++ = len;
   memcpy(outbufptr, data, len);
@@ -61,47 +61,47 @@ static int (*fact)(unsigned,const char*,unsigned);
 static void cvm1_fact_start(void)
 {
   fact = v1fact;
-  outbuflen = 1;
-  outbufptr = outbuffer + 1;
+  cvm_module_outbuflen = 1;
+  outbufptr = cvm_module_outbuffer + 1;
 }
 
 static void cvm2_fact_start(void)
 {
   fact = v2fact;
-  outbuflen = 0;
-  outbufptr = outbuffer;
-  v2fact(0, inbuffer+2, inbuffer[1]);
+  cvm_module_outbuflen = 0;
+  outbufptr = cvm_module_outbuffer;
+  v2fact(0, cvm_module_inbuffer+2, cvm_module_inbuffer[1]);
 }
 
-void cvm_fact_start(void)
+void cvm_module_fact_start(void)
 {
-  if (inbuffer[0] == CVM2_PROTOCOL)
+  if (cvm_module_inbuffer[0] == CVM2_PROTOCOL)
     cvm2_fact_start();
   else
     cvm1_fact_start();
 }
 
-int cvm_fact_str(unsigned number, const char* data)
+int cvm_module_fact_str(unsigned number, const char* data)
 {
   if (!data) return 0;
   return fact(number, data, strlen(data));
 }
 
-void cvm_fact_end(unsigned code)
+void cvm_module_fact_end(unsigned code)
 {
-  if (outbuflen >= BUFSIZE)
+  if (cvm_module_outbuflen >= BUFSIZE)
     code = CVME_BAD_MODDATA;
-  outbuffer[0] = code;
-  if (code == 0 || inbuffer[0] == CVM2_PROTOCOL) {
+  cvm_module_outbuffer[0] = code;
+  if (code == 0 || cvm_module_inbuffer[0] == CVM2_PROTOCOL) {
     *outbufptr++ = 0;
-    ++outbuflen;
+    ++cvm_module_outbuflen;
   }
   else {
-    outbuflen = 1;
+    cvm_module_outbuflen = 1;
   }
 }
 
-int cvm_fact_uint(unsigned number, unsigned long data)
+int cvm_module_fact_uint(unsigned number, unsigned long data)
 {
   char buf[64];
   char* ptr;

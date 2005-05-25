@@ -29,7 +29,7 @@
 #include "v1client.h"
 #include "protocol.h"
 
-const char* cvm_account_split_chars = "@";
+const char* cvm_client_account_split_chars = "@";
 
 static unsigned char buffer[CVM_BUFSIZE];
 static unsigned buflen;
@@ -40,18 +40,18 @@ static int parse_buffer(void)
   if (buffer[0] != 0) return buffer[0];
   if (buflen < 3) return CVME_BAD_MODDATA;
   if (buffer[buflen-1] != 0 || buffer[buflen-2] != 0) return CVME_BAD_MODDATA;
-  if (cvm_fact_str(CVM_FACT_USERNAME, &cvm_fact_username) ||
-      cvm_fact_uint(CVM_FACT_USERID, &cvm_fact_userid) ||
-      cvm_fact_uint(CVM_FACT_GROUPID, &cvm_fact_groupid) ||
-      cvm_fact_str(CVM_FACT_DIRECTORY, &cvm_fact_directory))
+  if (cvm_client_fact_str(CVM_FACT_USERNAME, &cvm_fact_username) ||
+      cvm_client_fact_uint(CVM_FACT_USERID, &cvm_fact_userid) ||
+      cvm_client_fact_uint(CVM_FACT_GROUPID, &cvm_fact_groupid) ||
+      cvm_client_fact_str(CVM_FACT_DIRECTORY, &cvm_fact_directory))
     return CVME_BAD_MODDATA;
-  cvm_fact_str(CVM_FACT_SHELL, &cvm_fact_shell);
-  cvm_fact_str(CVM_FACT_REALNAME, &cvm_fact_realname);
-  cvm_fact_str(CVM_FACT_GROUPNAME, &cvm_fact_groupname);
-  cvm_fact_str(CVM_FACT_SYS_USERNAME, &cvm_fact_sys_username);
-  cvm_fact_str(CVM_FACT_SYS_DIRECTORY, &cvm_fact_sys_directory);
-  cvm_fact_str(CVM_FACT_DOMAIN, &cvm_fact_domain);
-  cvm_fact_str(CVM_FACT_MAILBOX, &cvm_fact_mailbox);
+  cvm_client_fact_str(CVM_FACT_SHELL, &cvm_fact_shell);
+  cvm_client_fact_str(CVM_FACT_REALNAME, &cvm_fact_realname);
+  cvm_client_fact_str(CVM_FACT_GROUPNAME, &cvm_fact_groupname);
+  cvm_client_fact_str(CVM_FACT_SYS_USERNAME, &cvm_fact_sys_username);
+  cvm_client_fact_str(CVM_FACT_SYS_DIRECTORY, &cvm_fact_sys_directory);
+  cvm_client_fact_str(CVM_FACT_DOMAIN, &cvm_fact_domain);
+  cvm_client_fact_str(CVM_FACT_MAILBOX, &cvm_fact_mailbox);
   return 0;
 }
 
@@ -78,7 +78,7 @@ static unsigned build_buffer(const char* account, const char* domain,
   if (parse_domain) {
     const char* sc;
     if ((sc = getenv("CVM_ACCOUNT_SPLIT_CHARS")) == 0)
-      sc = cvm_account_split_chars;
+      sc = cvm_client_account_split_chars;
     i = strlen(account);
     while (i-- > 0) {
       if (strchr(sc, account[i]) != 0) {
@@ -101,7 +101,7 @@ static unsigned build_buffer(const char* account, const char* domain,
   return 1;
 }
 
-int cvm_fact_str(unsigned number, const char** data)
+int cvm_client_fact_str(unsigned number, const char** data)
 {
   static unsigned char* ptr = 0;
   static unsigned last_number = -1;
@@ -121,13 +121,13 @@ int cvm_fact_str(unsigned number, const char** data)
   return CVME_NOFACT;
 }
 
-int cvm_fact_uint(unsigned number, unsigned long* data)
+int cvm_client_fact_uint(unsigned number, unsigned long* data)
 {
   const char* str;
   unsigned long i;
   int err;
   
-  if ((err = cvm_fact_str(number, &str)) != 0) return err;
+  if ((err = cvm_client_fact_str(number, &str)) != 0) return err;
 
   for (i = 0; *str >= '0' && *str <= '9'; ++str) {
     unsigned long tmp = i;
@@ -142,9 +142,9 @@ int cvm_fact_uint(unsigned number, unsigned long* data)
 }
 
 /* Top-level wrapper *********************************************************/
-int cvm_authenticate(const char* module, const char* account,
-		     const char* domain, const char** credentials,
-		     int parse_domain)
+int cvm_client_authenticate(const char* module, const char* account,
+			    const char* domain, const char** credentials,
+			    int parse_domain)
 {
   int result;
   void (*oldsig)(int);

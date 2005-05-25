@@ -53,14 +53,14 @@ static int set_gids(void)
   int result;
   
   len = 0;
-  while (cvm_fact_uint(CVM_FACT_SUPP_GROUPID, &gid) == 0)
+  while (cvm_client_fact_uint(CVM_FACT_SUPP_GROUPID, &gid) == 0)
     len += utoa_len(gid) + 1;
   /* Don't set $GIDS if no supplementary group IDs were listed */
   if (len == 0) return 1;
   /* Reset to the start of facts list */
-  cvm_fact_uint(-1, &gid);
+  cvm_client_fact_uint(-1, &gid);
   ptr = start = malloc(len);
-  while (cvm_fact_uint(CVM_FACT_SUPP_GROUPID, &gid) == 0) {
+  while (cvm_client_fact_uint(CVM_FACT_SUPP_GROUPID, &gid) == 0) {
     if (ptr > start) *ptr++ = ',';
     ptr = utoa_rec(gid, ptr);
   }
@@ -69,7 +69,7 @@ static int set_gids(void)
   return result;
 }
 
-int cvm_setenv(void)
+int cvm_client_setenv(void)
 {
   if (setenv("USER", cvm_fact_username, 1) != 0) return 0;
   if (setenv("UID", utoa(cvm_fact_userid), 1) != 0) return 0;

@@ -19,7 +19,7 @@
 #include <unistd.h>
 #include "v1client.h"
 
-int cvm_setugid(void)
+int cvm_client_setugid(void)
 {
   if (setgid(cvm_fact_groupid) == -1) return 0;
   if (setuid(cvm_fact_userid) == -1) return 0;

@@ -40,25 +40,25 @@ extern int cvm_getpwnam(const char*, struct passwd**);
 static struct passwd* pw;
 static struct group* gr;
 
-int cvm_lookup(void)
+int cvm_module_lookup(void)
 {
   int err;
-  if ((err = cvm_getpwnam(cvm_credentials[CVM_CRED_ACCOUNT].s, &pw)) != 0)
+  if ((err = cvm_getpwnam(cvm_module_credentials[CVM_CRED_ACCOUNT].s, &pw)) != 0)
     return err;
   if (pw->pw_passwd == 0) return CVME_PERMFAIL;
   return 0;
 }
 
-int cvm_authenticate(void)
+int cvm_module_authenticate(void)
 {
   CVM_CRED_REQUIRED(PASSWORD);
-  if (strcmp(crypt(cvm_credentials[CVM_CRED_PASSWORD].s, pw->pw_passwd),
+  if (strcmp(crypt(cvm_module_credentials[CVM_CRED_PASSWORD].s, pw->pw_passwd),
 	     pw->pw_passwd) != 0)
     return CVME_PERMFAIL;
   return 0;
 }
 
-int cvm_results(void)
+int cvm_module_results(void)
 {
   char* tmp;
   if ((tmp = strchr(pw->pw_gecos, ',')) != 0)
@@ -71,7 +71,7 @@ int cvm_results(void)
   cvm_fact_directory = pw->pw_dir;
   cvm_fact_shell = pw->pw_shell;
 
-  cvm_fact_uint(CVM_FACT_SUPP_GROUPID, pw->pw_gid);
+  cvm_module_fact_uint(CVM_FACT_SUPP_GROUPID, pw->pw_gid);
   if (cvm_fact_groupname) free((char*)cvm_fact_groupname);
   cvm_fact_groupname = 0;
   setgrent();
@@ -82,7 +82,7 @@ int cvm_results(void)
       unsigned i;
       for (i = 0; gr->gr_mem[i]; i++)
 	if (strcmp(gr->gr_mem[i], pw->pw_name) == 0) {
-	  cvm_fact_uint(CVM_FACT_SUPP_GROUPID, gr->gr_gid);
+	  cvm_module_fact_uint(CVM_FACT_SUPP_GROUPID, gr->gr_gid);
 	  break;
 	}
     }

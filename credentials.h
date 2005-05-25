@@ -10,6 +10,6 @@
 #define CVM_CRED_RESPONSE_TYPE 7
 #define CVM_CRED_MAX 7
 
-#define CVM_CRED_REQUIRED(X) do{ if (cvm_credentials[CVM_CRED_##X].len==0) return CVME_NOCRED; }while(0)
+#define CVM_CRED_REQUIRED(X) do{ if (cvm_module_credentials[CVM_CRED_##X].len==0) return CVME_NOCRED; }while(0)
 
 #endif

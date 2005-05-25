@@ -36,8 +36,12 @@ static int read_input(void)
 {
   unsigned rd;
   if ((conn = socket_acceptu(sock)) == -1) return CVME_IO;
-  for (inbuflen = 0; inbuflen < BUFSIZE; inbuflen += rd) {
-    if ((rd = read(conn, inbuffer+inbuflen, BUFSIZE-inbuflen)) == 0) break;
+  for (cvm_module_inbuflen = 0;
+       cvm_module_inbuflen < BUFSIZE;
+       cvm_module_inbuflen += rd) {
+    if ((rd = read(conn, cvm_module_inbuffer+cvm_module_inbuflen,
+		   BUFSIZE-cvm_module_inbuflen)) == 0)
+      break;
     if (rd == (unsigned)-1) {
       close(conn);
       return CVME_IO;
@@ -50,8 +54,10 @@ static void write_output(void)
 {
   unsigned wr;
   unsigned written;
-  for (written = 0; written < outbuflen; written += wr) {
-    if ((wr = write(conn, outbuffer+written, outbuflen-written)) == 0) break;
+  for (written = 0; written < cvm_module_outbuflen; written += wr) {
+    if ((wr = write(conn, cvm_module_outbuffer+written,
+		    cvm_module_outbuflen-written)) == 0)
+      break;
     if (wr == (unsigned)-1) break;
   }
   close(conn);
@@ -60,7 +66,7 @@ static void write_output(void)
 static void exitfn()
 {
   unlink(path);
-  log_shutdown();
+  cvm_module_log_shutdown();
   exit(0);
 }
 
@@ -131,14 +137,14 @@ int local_main(const char* p)
 
   if ((code = make_socket()) != 0) return code;
   if ((code = cvm_module_init()) != 0) return code;
-  log_startup();
+  cvm_module_log_startup();
   
   code = 0;
   do {
     if ((code = read_input()) != 0) continue;
-    code = handle_request();
-    cvm_fact_end(code & CVME_MASK);
-    log_request();
+    code = cvm_module_handle_request();
+    cvm_module_fact_end(code & CVME_MASK);
+    cvm_module_log_request();
     write_output();
   } while ((code & CVME_FATAL) == 0);
   cvm_module_stop();

@@ -44,7 +44,7 @@ int cvm_module_init(void)
 
 static str q;
 
-int cvm_lookup(void)
+int cvm_module_lookup(void)
 {
   int i;
 
@@ -56,7 +56,7 @@ int cvm_lookup(void)
   return (i == 1) ? 0 : CVME_PERMFAIL;
 }
 
-int cvm_authenticate(void)
+int cvm_module_authenticate(void)
 {
   const char* cpw;
 
@@ -67,14 +67,14 @@ int cvm_authenticate(void)
   if (cpw == 0 || cpw[0] == 0) return CVME_PERMFAIL;
 
   /* Finally, if the stored pass is not the same, fail the pass */
-  switch (pwcmp_check(cvm_credentials[CVM_CRED_PASSWORD].s, cpw)) {
+  switch (pwcmp_check(cvm_module_credentials[CVM_CRED_PASSWORD].s, cpw)) {
   case 0: return 0;
   case -1: return CVME_IO | CVME_FATAL;
   default: return CVME_PERMFAIL;
   }
 }
 
-int cvm_results(void)
+int cvm_module_results(void)
 {
   int i;
 

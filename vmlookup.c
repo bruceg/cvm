@@ -68,7 +68,7 @@ int lookup_virtuser(void)
   int fd;
   struct cdb cdb;
 
-  DEBUG("cvm domain = '", cvm_credentials[CVM_CRED_DOMAIN].s, "'");
+  DEBUG("cvm domain = '", cvm_module_credentials[CVM_CRED_DOMAIN].s, "'");
   switch (qmail_lookup_cvm(&vmuser, &domain, &baseuser, &virtuser)) {
   case -1: return CVME_IO;
   case 0:  return CVME_PERMFAIL;
@@ -91,7 +91,7 @@ int lookup_virtuser(void)
     DEBUG("cdb_get failed", 0, 0);
     /* Only handle the default user when in lookup mode, as
        authenticating the default user shouldn't happen. */
-    if (cvm_lookup_secret != 0) {
+    if (cvm_module_lookup_secret != 0) {
       switch (cdb_get(&cdb, &default_user, &vpwdata)) {
       case -1:
 	DEBUG("cdb_get returned error", 0, 0);

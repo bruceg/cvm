@@ -22,9 +22,12 @@ static int read_input(void)
 {
   size_t rd;
 
-  inbuflen = 0;
-  for (inbuflen = 0; inbuflen <= BUFSIZE; inbuflen += rd) {
-    if ((rd = read(0, inbuffer+inbuflen, BUFSIZE-inbuflen)) == (unsigned)-1)
+  cvm_module_inbuflen = 0;
+  for (cvm_module_inbuflen = 0;
+       cvm_module_inbuflen <= BUFSIZE;
+       cvm_module_inbuflen += rd) {
+    if ((rd = read(0, cvm_module_inbuffer+cvm_module_inbuflen,
+		   BUFSIZE-cvm_module_inbuflen)) == (unsigned)-1)
       return CVME_IO;
     if (rd == 0) break;
   }
@@ -36,8 +39,11 @@ static int write_output(void)
   size_t wr;
   char* ptr;
   
-  for (ptr = outbuffer; outbuflen > 0; outbuflen -= wr, ptr += wr) {
-    if ((wr = write(1, ptr, outbuflen)) == (unsigned)-1 || wr == 0)
+  for (ptr = cvm_module_outbuffer;
+       cvm_module_outbuflen > 0;
+       cvm_module_outbuflen -= wr, ptr += wr) {
+    if ((wr = write(1, ptr, cvm_module_outbuflen)) == (unsigned)-1
+	|| wr == 0)
       return CVME_IO;
   }
   return 0;
@@ -51,8 +57,8 @@ int command_main(void)
   int wcode;
   if ((code = cvm_module_init()) != 0) return code;
   if ((code = read_input()) != 0) { cvm_module_stop(); return code; }
-  code = handle_request();
-  cvm_fact_end(code);
+  code = cvm_module_handle_request();
+  cvm_module_fact_end(code);
   if ((wcode = write_output()) != 0 && code == 0) code = wcode;
   cvm_module_stop();
   return code & CVME_MASK;

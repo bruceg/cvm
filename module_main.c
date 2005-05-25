@@ -37,7 +37,7 @@ extern int udp_main(const char*, const char*);
 
 int main(int argc, char** argv)
 {
-  init_request();
+  cvm_module_init_request();
   if (argc == 1)
     return command_main();
   if (argc == 2) {

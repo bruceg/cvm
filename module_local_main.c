@@ -35,6 +35,6 @@ extern int local_main(const char*);
 int main(int argc, char** argv)
 {
   if (argc != 2) usage();
-  init_request();
+  cvm_module_init_request();
   return local_main(argv[1]);
 }

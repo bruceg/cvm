@@ -1,7 +1,13 @@
 -------------------------------------------------------------------------------
-Changes in version 0.51
+Changes in version 0.60
 
-- Renamed cvm_auth_{init,stop} to cvm_module_{init,stop}.
+* This version brings major API changes. *
+
+- All module symbols are named cvm_module_*
+
+- All client symbols are named cvm_client_*
+
+- Macros are used to preserve source compatability with existing code.
 
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/

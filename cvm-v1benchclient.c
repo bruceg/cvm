@@ -38,7 +38,7 @@ int main(int argc, char** argv)
     die2(1, "Invalid number for count: ", argv[1]);
 
   for (i = 0; i < count; i++) {
-    if ((a = cvm_authenticate(argv[2], argv[3], argv[4],
+    if ((a = cvm_client_authenticate(argv[2], argv[3], argv[4],
 			      (const char**)(argv+5), 0)) != 0) {
       num[fmt_udec(num, a)] = 0;
       die5(a, "Authentication failed, error #", num, " (",

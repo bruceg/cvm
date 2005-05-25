@@ -72,20 +72,20 @@ static char* passwd;
 static char* rest;
 static str line;
 
-int cvm_lookup(void)
+int cvm_module_lookup(void)
 {
   ibuf pwfile;
   long namelen;
 
-  if (cvm_credentials[CVM_CRED_ACCOUNT].s == 0)
+  if (cvm_module_credentials[CVM_CRED_ACCOUNT].s == 0)
     return CVME_NOCRED;
   passwd = 0;
-  namelen = cvm_credentials[CVM_CRED_ACCOUNT].len;
+  namelen = cvm_module_credentials[CVM_CRED_ACCOUNT].len;
 
   if (!ibuf_open(&pwfile, pwfilename, 0)) return CVME_IO;
   while (ibuf_getstr(&pwfile, &line, LF)) {
     line.s[--line.len] = 0;
-    if (strncasecmp(cvm_credentials[CVM_CRED_ACCOUNT].s, line.s, namelen) == 0
+    if (strncasecmp(cvm_module_credentials[CVM_CRED_ACCOUNT].s, line.s, namelen) == 0
 	&& line.s[namelen] == ':') {
       passwd = line.s + namelen;
       *passwd++ = 0;
@@ -101,17 +101,17 @@ int cvm_lookup(void)
   return 0;
 }
 
-int cvm_authenticate(void)
+int cvm_module_authenticate(void)
 {
   CVM_CRED_REQUIRED(PASSWORD);
-  switch (pwcmp_check(cvm_credentials[CVM_CRED_PASSWORD].s, passwd)) {
+  switch (pwcmp_check(cvm_module_credentials[CVM_CRED_PASSWORD].s, passwd)) {
   case 0: return 0;
   case -1: return CVME_IO | CVME_FATAL;
   default: return CVME_PERMFAIL;
   }
 }
 
-int cvm_results(void)
+int cvm_module_results(void)
 {
   cvm_fact_username = line.s;
   if (!parse_rest(rest)) return CVME_CONFIG;

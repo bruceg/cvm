@@ -37,7 +37,7 @@ static const char* null_crypt(const char* pass)
   return buffer.s;
 }
 
-int cvm_authenticate(void)
+int cvm_module_authenticate(void)
 {
   const char* stored;
   const char* enc;
@@ -54,7 +54,7 @@ int cvm_authenticate(void)
     return CVME_PERMFAIL;
   }
   stored = vpw.pass.s;
-  pass = cvm_credentials[CVM_CRED_PASSWORD].s;
+  pass = cvm_module_credentials[CVM_CRED_PASSWORD].s;
   if (stored[0] == '$' && stored[2] == '$') {
     switch (stored[1]) {
     case '0':

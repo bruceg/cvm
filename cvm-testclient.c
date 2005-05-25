@@ -50,10 +50,10 @@ int main(int argc, char** argv)
 
   switch (argc) {
   case 4:
-    i = cvm_authenticate_password(argv[1], argv[2], argv[3], 0, 0);
+    i = cvm_client_authenticate_password(argv[1], argv[2], argv[3], 0, 0);
     break;
   case 5:
-    i = cvm_authenticate_password(argv[1], argv[2], argv[3], argv[4], 0);
+    i = cvm_client_authenticate_password(argv[1], argv[2], argv[3], argv[4], 0);
     break;
   default:
     die2(1, "Incorrect usage.", usage);
@@ -77,7 +77,7 @@ int main(int argc, char** argv)
   s("system directory: ", cvm_fact_sys_directory);
   s("domain:           ", cvm_fact_domain);
   s("mailbox path:     ", cvm_fact_mailbox);
-  while (cvm_fact_uint(CVM_FACT_SUPP_GROUPID, &v) == 0)
+  while (cvm_client_fact_uint(CVM_FACT_SUPP_GROUPID, &v) == 0)
     u("supp. group ID:   ", v);
   obuf_flush(&outbuf);
   return 0;

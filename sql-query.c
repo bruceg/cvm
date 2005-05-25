@@ -88,14 +88,14 @@ int sql_query_build(const char* template, str* q)
     else {
       if (str_diffs(&name, "account") == 0) {
 	if (!str_catb_quoted(q,
-			     cvm_credentials[CVM_CRED_ACCOUNT].s,
-			     cvm_credentials[CVM_CRED_ACCOUNT].len))
+			     cvm_module_credentials[CVM_CRED_ACCOUNT].s,
+			     cvm_module_credentials[CVM_CRED_ACCOUNT].len))
 	  return 0;
       }
       else if (str_diffs(&name, "domain") == 0) {
 	if (!str_catb_quoted(q,
-			     cvm_credentials[CVM_CRED_DOMAIN].s,
-			     cvm_credentials[CVM_CRED_DOMAIN].len))
+			     cvm_module_credentials[CVM_CRED_DOMAIN].s,
+			     cvm_module_credentials[CVM_CRED_DOMAIN].len))
 	  return 0;
       }
       else {

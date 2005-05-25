@@ -1,5 +1,5 @@
 /* cvm/module_udp.c - UDP CVM server module loop
- * Copyright (C) 2001  Bruce Guenter <bruceg@em.ca>
+ * Copyright (C) 2005  Bruce Guenter <bruceg@em.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,19 +32,20 @@ static ipv4port port;
 
 static int read_input(void)
 {
-  inbuflen = socket_recv4(sock, inbuffer, BUFSIZE, &ip, &port);
-  if (inbuflen == (unsigned)-1) return CVME_IO;
+  cvm_module_inbuflen = socket_recv4(sock, cvm_module_inbuffer, BUFSIZE,
+				     &ip, &port);
+  if (cvm_module_inbuflen == (unsigned)-1) return CVME_IO;
   return 0;
 }
 
 static void write_output(void)
 {
-  socket_send4(sock, outbuffer, outbuflen, &ip, port);
+  socket_send4(sock, cvm_module_outbuffer, cvm_module_outbuflen, &ip, port);
 }
 
 static void exitfn()
 {
-  log_shutdown();
+  cvm_module_log_shutdown();
   exit(0);
 }
 
@@ -73,14 +74,14 @@ int udp_main(const char* hostname, const char* portname)
   }
   if ((code = cvm_module_init()) != 0)
     return code;
-  log_startup();
+  cvm_module_log_startup();
 
   code = 0;
   do {
     if ((code = read_input()) != 0) continue;
-    code = handle_request();
-    cvm_fact_end(code & CVME_MASK);
-    log_request();
+    code = cvm_module_handle_request();
+    cvm_module_fact_end(code & CVME_MASK);
+    cvm_module_log_request();
     write_output();
   } while ((code & CVME_FATAL) == 0);
   cvm_module_stop();
