@@ -25,7 +25,7 @@
 
 const char program[] = "cvm-qmail";
 
-int cvm_auth_init(void)
+int cvm_module_init(void)
 {
   if (qmail_lookup_init() == -1)
     return CVME_IO;
@@ -77,6 +77,6 @@ int cvm_results(void)
   return 0;
 }
 
-void cvm_auth_stop(void)
+void cvm_module_stop(void)
 {
 }

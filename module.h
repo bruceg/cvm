@@ -42,10 +42,10 @@ extern int cvm_parse_domain(const char* seperators);
 
 extern str cvm_credentials[CVM_CRED_MAX+1];
 
-extern int cvm_auth_init(void);
+extern int cvm_module_init(void);
 extern int cvm_lookup(void);
 extern int cvm_authenticate(void);
 extern int cvm_results(void);
-extern void cvm_auth_stop(void);
+extern void cvm_module_stop(void);
 
 #endif

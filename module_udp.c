@@ -71,7 +71,7 @@ int udp_main(const char* hostname, const char* portname)
     error1sys("Could not bind socket");
     return CVME_IO;
   }
-  if ((code = cvm_auth_init()) != 0)
+  if ((code = cvm_module_init()) != 0)
     return code;
   log_startup();
 
@@ -83,6 +83,6 @@ int udp_main(const char* hostname, const char* portname)
     log_request();
     write_output();
   } while ((code & CVME_FATAL) == 0);
-  cvm_auth_stop();
+  cvm_module_stop();
   return 0;
 }

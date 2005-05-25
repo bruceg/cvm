@@ -63,7 +63,7 @@ void debug(const char* func, int line,
   obuf_putsflush(&errbuf, "\n");
 }
 
-int cvm_auth_init(void)
+int cvm_module_init(void)
 {
   const char* tmp;
   memset(&vpw, 0, sizeof vpw);
@@ -109,6 +109,6 @@ int cvm_results(void)
   return 0;
 }
 
-void cvm_auth_stop(void)
+void cvm_module_stop(void)
 {
 }

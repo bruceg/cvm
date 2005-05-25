@@ -30,7 +30,7 @@ const char program[] = "cvm-unix";
 
 extern char* crypt(const char* key, const char* salt);
 
-int cvm_auth_init(void)
+int cvm_module_init(void)
 {
   return 0;
 }
@@ -92,6 +92,6 @@ int cvm_results(void)
   return 0;
 }
 
-void cvm_auth_stop(void)
+void cvm_module_stop(void)
 {
 }

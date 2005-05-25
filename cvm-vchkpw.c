@@ -41,12 +41,12 @@ const char program[] = "cvm-vchkpw";
 const unsigned cvm_credential_count = 1;
 const char* cvm_credentials[1];
 
-int cvm_auth_init(void)
+int cvm_module_init(void)
 {
   return 0;
 }
 
-void cvm_auth_stop(void)
+void cvm_module_stop(void)
 {
   return;
 }

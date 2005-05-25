@@ -25,7 +25,7 @@
 static const char* query;
 static const char* postq;
 
-int cvm_auth_init(void)
+int cvm_module_init(void)
 {
   int result;
 
@@ -99,7 +99,7 @@ int cvm_results(void)
   return 0;
 }
 
-void cvm_auth_stop(void)
+void cvm_module_stop(void)
 {
   pwcmp_stop();
   sql_auth_stop();

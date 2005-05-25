@@ -130,7 +130,7 @@ int local_main(const char* p)
   signal(SIGTERM, exitfn);
 
   if ((code = make_socket()) != 0) return code;
-  if ((code = cvm_auth_init()) != 0) return code;
+  if ((code = cvm_module_init()) != 0) return code;
   log_startup();
   
   code = 0;
@@ -141,6 +141,6 @@ int local_main(const char* p)
     log_request();
     write_output();
   } while ((code & CVME_FATAL) == 0);
-  cvm_auth_stop();
+  cvm_module_stop();
   return 0;
 }

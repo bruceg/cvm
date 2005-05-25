@@ -1,6 +1,7 @@
 -------------------------------------------------------------------------------
 Changes in version 0.51
 
+- Renamed cvm_auth_{init,stop} to cvm_module_{init,stop}.
 
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/

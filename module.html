@@ -8,7 +8,7 @@
 <p>To write a module using the CVM module library, you must provide
 the following items:<dl>
 
-<dt><tt>int cvm_auth_init(void)</tt> <dd>This function is called once
+<dt><tt>int cvm_module_init(void)</tt> <dd>This function is called once
 when the CVM starts up.
 
 <dt><tt>int cvm_lookup(void)</tt> <dd>This function is used to retrieve
@@ -38,7 +38,7 @@ returned to the client, send them in this function with
 <tt>cvm_fact_str(unsigned number, const char* data)</tt> or
 <tt>cvm_fact_uint(unsigned number, unsigned data)</tt>.</p>
 
-<dt><tt>void cvm_auth_stop(void)</tt> <dd>This routine is called once
+<dt><tt>void cvm_module_stop(void)</tt> <dd>This routine is called once
 when the CVM is shut down.
 
 </dl>

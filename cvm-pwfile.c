@@ -31,7 +31,7 @@ const char program[] = "cvm-pwfile";
 
 static const char* pwfilename;
 
-int cvm_auth_init(void)
+int cvm_module_init(void)
 {
   if ((pwfilename = getenv("CVM_PWFILE_PATH")) == 0) return CVME_CONFIG;
   if (!pwcmp_start(getenv("CVM_PWFILE_PWCMP"))) return CVME_GENERAL;
@@ -118,7 +118,7 @@ int cvm_results(void)
   return 0;
 }
 
-void cvm_auth_stop(void)
+void cvm_module_stop(void)
 {
   pwcmp_stop();
 }
