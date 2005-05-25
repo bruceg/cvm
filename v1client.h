@@ -27,7 +27,7 @@ extern unsigned cvm_xfer_udp(const char* hostport,
 			     unsigned char buffer[CVM_BUFSIZE],
 			     unsigned* buflen);
 
-#if 0
+#ifndef CVM_NOCOMPAT
 
 /* Legacy definitions. */
 #define cvm_account_split_chars    cvm_client_account_split_chars

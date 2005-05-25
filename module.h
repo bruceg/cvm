@@ -44,7 +44,7 @@ extern int cvm_module_authenticate(void);
 extern int cvm_module_results(void);
 extern void cvm_module_stop(void);
 
-#if 0
+#ifndef CVM_NOCOMPAT
 
 /* Legacy definitions. */
 #define cvm_lookup_secret      cvm_module_lookup_secret

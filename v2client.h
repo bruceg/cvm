@@ -43,7 +43,7 @@ extern int cvm_client_authenticate_password(const char* module,
 					    const char* password,
 					    int split_account);
 
-#if 0
+#ifndef CVM_NOCOMPAT
 
 /* Legacy definitions. */
 #define cvm_account_split_chars    cvm_client_account_split_chars
