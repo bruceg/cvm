@@ -15,6 +15,7 @@ void insthier(void) {
 
   dir = opendir(conf_bin);
   c(dir, "cvm-benchclient",     -1, -1, 0755);
+  c(dir, "cvm-chain",           -1, -1, 0755);
   c(dir, "cvm-checkpassword",   -1, -1, 0755);
   if (do_mysql) {
     c(dir, "cvm-mysql",           -1, -1, 0755);

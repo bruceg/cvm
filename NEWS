@@ -9,6 +9,9 @@ Changes in version 0.60
 
 - Macros are used to preserve source compatability with existing code.
 
+- Added cvm-chain combination client/module program
+  (adapted from code contributed by Dale Woolridge).
+
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/
 -------------------------------------------------------------------------------

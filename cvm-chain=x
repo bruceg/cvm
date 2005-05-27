@@ -1,0 +1,5 @@
+module.a
+v2client.a
+socket.lib
+s.lib
+-lbg
