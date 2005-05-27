@@ -7,22 +7,22 @@
 
 <p>The CVM version 1 client library defines the following functions:<dl>
 
-<dt><tt>int cvm_authenticate(const char* module, const char* account,
-const char* domain, const char** credentials, int parse_account)</tt>
-<dd><p>This is the main entry point to the library.  Simply set up the
-credentials as an array with a trailing NULL pointer and call
-<tt>authenticate</tt>.  If the <tt>domain</tt> parameter is a NULL
-pointer, it will be treated as an empty string; no other parameter may
-be NULL.  The function will return 0 if authentication succeeded and
+<dt><tt>int cvm_client_authenticate(const char* module, const char*
+account, const char* domain, const char** credentials, int
+parse_account)</tt> <dd><p>This is the main entry point to the library.
+Simply set up the credentials as an array with a trailing NULL pointer
+and call <tt>authenticate</tt>.  If the <tt>domain</tt> parameter is a
+NULL pointer, it will be treated as an empty string; no other parameter
+may be NULL.  The function will return 0 if authentication succeeded and
 an <a href="errors.html">error code</a> otherwise.</p>
 
 <p>If <tt>parse_account</tt> is true then <tt>account</tt> is searched
 for the last instance of any character from
-<tt>cvm_account_split_chars</tt>.  If found, <tt>domain</tt> is
-replaced with the portion of <tt>account</tt> following that
-character, and <tt>account</tt> is truncated before that character.
-<tt>cvm_account_split_chars</tt> defaults to "<tt>@</tt>", which may
-be overridden by either setting it to a different string from the
+<tt>cvm_client_account_split_chars</tt>.  If found, <tt>domain</tt> is
+replaced with the portion of <tt>account</tt> following that character,
+and <tt>account</tt> is truncated before that character.
+<tt>cvm_client_account_split_chars</tt> defaults to "<tt>@</tt>", which
+may be overridden by either setting it to a different string from the
 client program or by setting the <tt>$CVM_ACCOUNT_SPLIT_CHARS</tt>
 environment variable.  Setting it to an empty string will effectively
 prevent parsing of the account name, no matter what
@@ -41,29 +41,29 @@ drop root priviledges as soon as possible after successful
 authentication.  Where reasonable, the client should also chroot to
 the directory for added protection.</p>
 
-<dt><tt>int cvm_fact_str(unsigned number, const char** data)</tt>
-<dd><p>Retrieves a <a href="facts.html">fact</a> from the data
-returned by the module as a NUL-terminated string.  Returns zero if
-the fact was present, and <tt>CVME_NOFACT</tt> otherwise.  Successive
-calls to this function with the same <tt>number</tt> return subsequent
-facts if more than one instance of the fact was present.</p>
+<dt><tt>int cvm_client_fact_str(unsigned number, const char** data)</tt>
+<dd><p>Retrieves a <a href="facts.html">fact</a> from the data returned
+by the module as a NUL-terminated string.  Returns zero if the fact was
+present, and <tt>CVME_NOFACT</tt> otherwise.  Successive calls to this
+function with the same <tt>number</tt> return subsequent facts if more
+than one instance of the fact was present.</p>
 
-<dt><tt>int cvm_fact_uint(unsigned number, unsigned long* data)</tt>
-<dd><p>Retrieves a <a href="facts.html">fact</a> from the data
-returned by the module as an unsigned integer.  Returns zero if the
+<dt><tt>int cvm_client_fact_uint(unsigned number, unsigned long*
+data)</tt> <dd><p>Retrieves a <a href="facts.html">fact</a> from the
+data returned by the module as an unsigned integer.  Returns zero if the
 fact was present and was an unsigned integer.  Returns
 <tt>CVME_BAD_MODDATA</tt> if the fact was present but was not an
 unsigned integer.  Successive calls to this function with the same
-<tt>number</tt> return subsequent facts if more than one instance of
-the fact was present.</p>
+<tt>number</tt> return subsequent facts if more than one instance of the
+fact was present.</p>
 
-<dt><tt>const char* cvm_ucspi_domain(void)</tt> <dd><p>Retrieves the
-UCSPI local domain from the environment variable named
-<tt>${PROTO}LOCALHOST</tt>.  Use this as the <tt>domain</tt>
-paramenter to <tt>cvm_authenticate</tt> in all UCSPI servers that have
-no other means of determining the domain name.</p>
+<dt><tt>const char* cvm_client_ucspi_domain(void)</tt> <dd><p>Retrieves
+the UCSPI local domain from the environment variable named
+<tt>${PROTO}LOCALHOST</tt>.  Use this as the <tt>domain</tt> paramenter
+to <tt>cvm_authenticate</tt> in all UCSPI servers that have no other
+means of determining the domain name.</p>
 
-<dt><tt>int cvm_setenv(void)</tt> <dd><p>Exports the following
+<dt><tt>int cvm_client_setenv(void)</tt> <dd><p>Exports the following
 environment variables based on their associated CVM fact.  If the fact
 was optional and was not present in the results from the module, the
 environment variable will not be set or unset.</p>
@@ -92,10 +92,10 @@ environment variable will not be set or unset.</p>
 
 </table>
 
-<dt><tt>int cvm_setugid(void)</tt> <dd><p>Calls <tt>chdir</tt>,
-<tt>setgid</tt> and <tt>setuid</tt> with appropriate values based on
-the data returned from the authentication.  Returns zero if any of the
-calls failed.</p>
+<dt><tt>int cvm_client_setugid(void)</tt> <dd><p>Calls <tt>chdir</tt>,
+<tt>setgid</tt> and <tt>setuid</tt> with appropriate values based on the
+data returned from the authentication.  Returns zero if any of the calls
+failed.</p>
 
 </dl></p>
 
