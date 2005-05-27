@@ -22,7 +22,7 @@
 static long len = 0;
 static char* var = 0;
 
-const char* cvm_ucspi_domain(void)
+const char* cvm_client_ucspi_domain(void)
 {
   const char* proto;
   long newlen;
