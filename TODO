@@ -1,6 +1,6 @@
 - Write tests for:
-  - cvm_split_account in v2client.c
-  - cvm_ucspi_domain and cvm_setugid (?)
+  - cvm_client_split_account in v2client.c
+  - cvm_client_ucspi_domain and cvm_client_setugid (?)
 
 - Add concurrent access support to cvm-local mode?
 
