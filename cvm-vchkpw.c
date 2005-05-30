@@ -27,10 +27,10 @@
 
 */
 
+#include <sys/types.h>
 #include <string.h>
 #include <stdlib.h>
 #include <pwd.h>
-#include <sys/types.h>
 #include "vpopmail.h"
 #include "vauth.h"
 #include "pwcmp/client.h"

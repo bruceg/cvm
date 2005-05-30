@@ -1,7 +1,7 @@
+#include <sys/types.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-#include <sys/types.h>
 
 #include <sysdeps.h>
 
