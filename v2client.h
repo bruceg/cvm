@@ -18,7 +18,7 @@ extern const char* cvm_client_account_split_chars;
 extern const char* cvm_client_ucspi_domain(void);
 extern int cvm_client_split_account(str* account, str* domain);
 extern int cvm_client_authenticate(const char* module, unsigned count,
-				   struct cvm_credential* credentials);
+				   const struct cvm_credential* credentials);
 extern int cvm_client_fact_str(unsigned number,
 			       const char** data, unsigned* length);
 extern int cvm_client_fact_uint(unsigned number, unsigned long* data);

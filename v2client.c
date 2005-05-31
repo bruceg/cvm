@@ -92,7 +92,7 @@ static unsigned char* buffer_add(unsigned char* ptr, unsigned type,
 }
 
 static unsigned build_buffer(unsigned count,
-			     struct cvm_credential* credentials)
+			     const struct cvm_credential* credentials)
 {
   const char* env;
   unsigned char* ptr;
@@ -189,7 +189,7 @@ int cvm_client_split_account(str* account, str* domain)
 
 /* Top-level wrapper *********************************************************/
 int cvm_client_authenticate(const char* module, unsigned count,
-			    struct cvm_credential* credentials)
+			    const struct cvm_credential* credentials)
 {
   int result;
   void (*oldsig)(int);
