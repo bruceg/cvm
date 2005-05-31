@@ -11,7 +11,6 @@ int sasl_plain_start(const str* response, str* challenge)
 
 int sasl_plain_response(const str* response, str* challenge)
 {
-  const char* creds[2];
   unsigned i;
   unsigned j;
   if (response->len == 0) return SASL_RESP_BAD;
@@ -19,8 +18,6 @@ int sasl_plain_response(const str* response, str* challenge)
   ++i;
   if ((j = str_findnext(response, 0, i)) == (unsigned)-1) return SASL_RESP_BAD;
   ++j;
-  creds[0] = response->s+j;
-  creds[1] = 0;
-  return sasl_authenticate(response->s+i, creds);
+  return sasl_authenticate_plain(response->s+i, response->s+j);
   (void)challenge;
 }

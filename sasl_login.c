@@ -15,14 +15,11 @@ int sasl_login_start(const str* response, str* challenge)
 
 int sasl_login_response(const str* response, str* challenge)
 {
-  const char* creds[2];
   if (response->len == 0) return SASL_RESP_BAD;
   if (username.len == 0) {
     if (!str_copy(&username, response) ||
 	!str_copys(challenge, cpassword)) return SASL_TEMP_FAIL;
     return SASL_CHALLENGE;
   }
-  creds[0] = response->s;
-  creds[1] = 0;
-  return sasl_authenticate(username.s, creds);
+  return sasl_authenticate_plain(username.s, response->s);
 }
