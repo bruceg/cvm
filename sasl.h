@@ -3,7 +3,9 @@
 
 #include <str/str.h>
 
-typedef int (*saslfn)(const str* response, str* challenge);
+struct sasl_state;
+
+typedef int (*saslfn)(struct sasl_state*, const str* response, str* challenge);
 
 struct sasl_mechanism 
 {
@@ -11,17 +13,23 @@ struct sasl_mechanism
   const char* var;
   const char* cvm;
   saslfn start;
-  saslfn response;
   struct sasl_mechanism* next;
 };
-typedef struct sasl_mechanism sasl_mechanism;
 
-extern const sasl_mechanism* sasl_mechanisms;
-extern const char* sasl_domain;
-extern int sasl_init(void);
-extern int sasl_start(const char* mechanism, const str* initresponse,
+struct sasl_state
+{
+  saslfn response;
+  str init;
+  str username;
+  const char* domain;
+  const struct sasl_mechanism* mech;
+};
+
+extern const struct sasl_mechanism* sasl_mechanisms;
+extern int sasl_init(struct sasl_state*);
+extern int sasl_start(struct sasl_state*,
+		      const char* mechanism, const str* initresponse,
 		      str* challenge);
-extern saslfn sasl_response;
 
 #define SASL_AUTH_OK 0		/* Authentication is complete */
 #define SASL_AUTH_FAILED 1	/* Authentication failed (permanently) */
@@ -38,6 +46,7 @@ struct obuf;
 
 struct sasl_auth
 {
+  struct sasl_state state;
   const char* prefix;
   const char* suffix;
   struct ibuf* in;
