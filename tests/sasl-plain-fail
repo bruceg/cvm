@@ -1,0 +1,7 @@
+sasltest PLAIN\ cHdmdXNlcgBwd2Z1c2VyAHRlc3RwYXNZ </dev/null
+
+<result>
+sasl-auth-test: AUTH LOGIN PLAIN
+sasl-auth-test: SASL AUTH PLAIN failed
+sasl-auth-test: Fatal: sasl_auth1 failed: 1
+  501 Authentication failed.

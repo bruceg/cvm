@@ -1,3 +1,5 @@
+- Rewrite v2client_wrappers to prevent static struct
+
 - Write tests for:
   - cvm_client_split_account in v2client.c
   - cvm_client_ucspi_domain and cvm_client_setugid (?)

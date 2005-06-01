@@ -1,0 +1,8 @@
+sasltest PLAIN <<EOF
+cHdmdXNlcgBwd2Z1c2VyAHRlc3RwYXNz
+EOF
+
+<result>
+sasl-auth-test: AUTH LOGIN PLAIN
++ ^M
+sasl-auth-test: SASL AUTH PLAIN username=pwfuser

@@ -1,3 +1,4 @@
+sasl_auth.o
 sasl_authenticate.o
 sasl_cram_md5.o
 sasl_init.o

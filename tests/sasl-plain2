@@ -1,0 +1,5 @@
+sasltest PLAIN\ cHdmdXNlcgBwd2Z1c2VyAHRlc3RwYXNz </dev/null
+
+<result>
+sasl-auth-test: AUTH LOGIN PLAIN
+sasl-auth-test: SASL AUTH PLAIN username=pwfuser

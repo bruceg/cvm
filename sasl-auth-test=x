@@ -1,0 +1,3 @@
+sasl.a
+v2client.a
+-lbg

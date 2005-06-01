@@ -3,6 +3,8 @@ Changes in version 0.65
 
 - Fixed up the SASL library to use the v2 client library.
 
+- Added SASL generic text I/O authentication framework from mailfront.
+
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/
 -------------------------------------------------------------------------------

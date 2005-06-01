@@ -59,3 +59,12 @@ echo \# >$tmp/alias/.qmail-adot:addr
   printf '+4,69:virt->\x2\x8\x1\0$1$aSoIrl/J$TmAwoxKzrPJ0IaW5UvX4A0\0./virt\0\0\0-\0-\0-\0-\00001016731358\0-\0\n'
   echo
 ) | cdbmake $tmp/passwd.cdb $tmp/passwd.tmp
+
+sasltest() {
+  make_pwfile
+  env \
+  CVM_SASL_PLAIN=$src/cvm-pwfile \
+  TCPLOCALHOST=localhost \
+  $src/sasl-auth-test "$@"
+  rm -f $CVM_PWFILE_PATH
+}
