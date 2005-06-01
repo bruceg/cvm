@@ -26,7 +26,7 @@ Development versions of @PACKAGE@ are available via Subversion at:
 
 Requirements:
 
-- bglibs library package version 1.015 or later.
+- bglibs library package version 1.020 or later.
 - The vmailmgr modules should work with all versions of vmailmgr that
   use CDB password tables, introduced in vmailmgr version 0.89 (only
   tested with version 0.96.9)
