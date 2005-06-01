@@ -1,1 +1,1 @@
-: all mysql pgsql clean clean-spac
+: all mysql pgsql clean clean-spac install
