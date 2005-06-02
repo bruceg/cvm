@@ -25,8 +25,8 @@ static const unsigned char hex2bin[256] = {
   -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, /* 240-255 */
 };
 
-int sasl_cram_md5_response(struct sasl_state* ss,
-			   const str* response, str* challenge)
+static int response1(struct sasl_state* ss,
+		     const str* response, str* challenge)
 {
   char binresp[16];
   const str binrespstr = { binresp, 16, 0 };      
@@ -51,9 +51,9 @@ int sasl_cram_md5_start(struct sasl_state* ss,
   struct timeval tv;
   const char* hostname;
   
-  ss->response = sasl_cram_md5_response;
   if (response)
     return SASL_RESP_NOTALLOWED;
+  ss->response = response1;
   if ((hostname = cvm_client_ucspi_domain()) == 0)
     hostname = "unknown";
   if (gettimeofday(&tv, 0) == -1 ||
@@ -66,6 +66,7 @@ int sasl_cram_md5_start(struct sasl_state* ss,
       !str_catc(&ss->init, '@') ||
       !str_cats(&ss->init, hostname) ||
       !str_catc(&ss->init, '>') ||
-      !str_copy(challenge, &ss->init)) return SASL_TEMP_FAIL;
+      !str_copy(challenge, &ss->init))
+    return SASL_TEMP_FAIL;
   return SASL_CHALLENGE;
 }
