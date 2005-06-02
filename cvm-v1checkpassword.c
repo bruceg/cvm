@@ -19,6 +19,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <misc/ucspi.h>
 #include <msg/msg.h>
 #include "v1client.h"
 
@@ -58,8 +59,8 @@ int main(int argc, char** argv)
   get_data();
   tokens[0] = pass;
   tokens[1] = 0;
-  if ((i = cvm_client_authenticate(argv[1], buffer, getenv("TCPLOCALHOST"),
-			    tokens, 1)) != 0) return i;
+  if ((i = cvm_client_authenticate(argv[1], buffer, ucspi_localhost(),
+				   tokens, 1)) != 0) return i;
 
   if (!cvm_client_setugid()) return 111;
   if (!cvm_client_setenv()) return 111;

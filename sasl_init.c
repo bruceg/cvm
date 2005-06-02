@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <misc/ucspi.h>
 #include "sasl.h"
 #include "sasl_internal.h"
 
@@ -41,6 +42,6 @@ int sasl_init(struct sasl_state* ss)
   }
   sasl_mechanisms = first;
   memset(ss, 0, sizeof *ss);
-  ss->domain = getenv("TCPLOCALHOST");
+  ss->domain = ucspi_localhost();
   return 1;
 }
