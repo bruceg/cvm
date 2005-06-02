@@ -64,6 +64,7 @@ sasltest() {
   make_pwfile
   env \
   CVM_SASL_PLAIN=$src/cvm-pwfile \
+  PROTO=TCP \
   TCPLOCALHOST=localhost \
   $src/sasl-auth-test "$@"
   rm -f $CVM_PWFILE_PATH
