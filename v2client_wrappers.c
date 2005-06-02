@@ -15,12 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+#include <string.h>
 #include "v2client.h"
 #include "credentials.h"
 
-static struct cvm_credential creds[3];
-
-static unsigned add(unsigned i, unsigned type, const char* value)
+static unsigned add(struct cvm_credential* creds,
+		    unsigned i, unsigned type, const char* value)
 {
   if (value == 0)
     return i;
@@ -38,15 +38,24 @@ int cvm_client_authenticate_password(const char* module,
 			      const char* password,
 			      int split_account)
 {
-  unsigned i;
+  struct cvm_credential creds[3];
+  unsigned i = 1;
+  int result;
+  memset(creds, 0, sizeof creds);
   creds[0].type = CVM_CRED_ACCOUNT;
   if (!str_copys(&creds[0].value, account))
-    return CVME_IO;
-  if ((i = add(1, CVM_CRED_DOMAIN, domain)) == 0)
-    return CVME_IO;
-  if (i > 1 && split_account)
-    cvm_client_split_account(&creds[0].value, &creds[1].value);
-  if ((i = add(i, CVM_CRED_PASSWORD, password)) == 0)
-    return CVME_IO;
-  return cvm_client_authenticate(module, i, creds);
+    result = CVME_IO;
+  else if ((i = add(creds,1, CVM_CRED_DOMAIN, domain)) == 0)
+    result = CVME_IO;
+  else {
+    if (i > 1 && split_account)
+      cvm_client_split_account(&creds[0].value, &creds[1].value);
+    if ((i = add(creds, i, CVM_CRED_PASSWORD, password)) == 0)
+      result = CVME_IO;
+    else
+      result = cvm_client_authenticate(module, i, creds);
+  }
+  for (i = 0; i < 3; ++i)
+    str_free(&creds[i].value);
+  return result;
 }
