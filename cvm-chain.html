@@ -1,0 +1,39 @@
+<html>
+<body>
+
+<h2><a href="cvm.html">CVM</a></h2>
+
+<h1>The cvm-chain Module</h1>
+
+<h2>Synopsis:</h2> <p>multi-module chaining shim</p>
+
+<h2>Credentials:</h2>
+
+<p>This module passes all its input credentials to the configured client
+modules</p>
+
+<h2>Description:</h2>
+
+<p>This module invokes a sequence of other modules.  If the first module
+returns success (no error), the module passes the results back to its
+caller, otherwise it calls the second module and so on.  If no module
+succeeds, the error code from the last module is returned.</p>
+
+<h2>Configuration Variables:</h2>
+
+<dl>
+
+<dt><tt>$CVM_CHAIN0</tt> through <tt>$CVM_CHAIN9</tt></dt> <dd>These 10
+variables specify the modules to be called.  They are called in order
+from 0 through 9, if set.</dd>
+
+</dl>
+
+<p><b>Note:</b> The previous versions of this module (not part of the
+main cvm package) used the environment variable <tt>$CVM_CHAIN</tt> to
+configure the list of modules.  This will not work with this module.  If
+you were using one of these previous versions you will need to change
+your configuration to match the above usage.</p>
+
+</body>
+</html>
