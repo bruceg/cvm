@@ -28,10 +28,10 @@ static int response1(struct sasl_state* ss,
 int sasl_login_start(struct sasl_state* ss,
 		     const str* response, str* challenge)
 {
-  ss->response = response1;
   if (response)
     return response1(ss, response, challenge);
   if (!str_copys(challenge, cusername))
     return SASL_TEMP_FAIL;
+  ss->response = response1;
   return SASL_CHALLENGE;
 }
