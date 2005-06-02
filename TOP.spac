@@ -1,1 +1,1 @@
-: all mysql pgsql clean clean-spac install
+: all mysql pgsql cvm-vchkpw clean clean-spac install
