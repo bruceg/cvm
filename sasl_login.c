@@ -21,6 +21,7 @@ int sasl_login_response(struct sasl_state* ss,
 int sasl_login_start(struct sasl_state* ss,
 		     const str* response, str* challenge)
 {
+  ss->username.len = 0;
   ss->response = sasl_login_response;
   if (response)
     return sasl_login_response(ss, response, challenge);
