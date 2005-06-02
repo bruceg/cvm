@@ -48,6 +48,10 @@ cvm-*sql:
 
 cvm-vmailmgr:
 
+- Add an "autoconvert" mode, where passwords are automatically converted
+  to a preferred format (ie plain text) after successful password
+  authentication.
+
 - Add code to vmailmgr_auth to try to grab the password from /etc/passwd
   if the main authentication fails.
 
