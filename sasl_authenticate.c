@@ -13,6 +13,8 @@ static int setup(int count,
   creds[0].type = CVM_CRED_ACCOUNT;
   if (!str_copys(&creds[0].value, account))
     return 0;
+  if (domain == 0)
+    domain = "";
   creds[1].type = CVM_CRED_DOMAIN;
   if (!str_copys(&creds[1].value, domain))
     return 0;
