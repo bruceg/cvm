@@ -1,4 +1,11 @@
 -------------------------------------------------------------------------------
+Changes in version 0.71
+
+- Several brown-paper-bag bug fixes.
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
+-------------------------------------------------------------------------------
 Changes in version 0.70
 
 - Major SASL rewrite:
