@@ -2,8 +2,8 @@
 #include "sasl.h"
 #include "sasl_internal.h"
 
-int sasl_plain_response(struct sasl_state* ss,
-			const str* response, str* challenge)
+static int response1(struct sasl_state* ss,
+		     const str* response, str* challenge)
 {
   unsigned i;
   unsigned j;
@@ -22,10 +22,10 @@ int sasl_plain_response(struct sasl_state* ss,
 int sasl_plain_start(struct sasl_state* ss,
 		     const str* response, str* challenge)
 {
-  ss->response = sasl_plain_response;
   if (response)
-    return sasl_plain_response(ss, response, challenge);
+    return response1(ss, response, challenge);
   if (!str_truncate(challenge, 0))
     return SASL_TEMP_FAIL;
+  ss->response = response1;
   return SASL_CHALLENGE;
 }
