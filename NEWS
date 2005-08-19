@@ -1,6 +1,8 @@
 -------------------------------------------------------------------------------
 Changes in version 0.72
 
+- Added an "autoconvert" mode to cvm-vmailmgr, which converts encrypted
+  passwords to plain-text on successful authentication.
 
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/

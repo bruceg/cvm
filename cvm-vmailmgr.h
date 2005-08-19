@@ -18,5 +18,6 @@ extern void debug(const char* func, int line,
 
 extern int lookup_init(void);
 extern int lookup_virtuser(void);
+extern int vmailmgr_autoconvert(void);
 
 #endif

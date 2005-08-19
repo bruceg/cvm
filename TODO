@@ -38,19 +38,13 @@
 - Consider how to do a "union" module that would call other modules and
   use the results from the first one that succeeds.
 
-cvm-*sql:
-
-- Call PQclearn(result) in cvm-pgsql.c
-
 - Add support for allow/deny tables
 
-- SQL modules: add an extra required boolean column to the query.
+cvm-*sql:
+
+- Add an extra required boolean column to the query (for what?).
 
 cvm-vmailmgr:
-
-- Add an "autoconvert" mode, where passwords are automatically converted
-  to a preferred format (ie plain text) after successful password
-  authentication.
 
 - Add code to vmailmgr_auth to try to grab the password from /etc/passwd
   if the main authentication fails.

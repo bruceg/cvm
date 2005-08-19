@@ -58,6 +58,7 @@ str vpwdata = {0,0,0};
 const char* pwfile = 0;
 
 static int lock_disabled;
+static int do_autoconvert;
 static vpwentry vpw;
 
 #define DEBUG(A,B,C) debug(__FUNCTION__, __LINE__, A, B, C)
@@ -83,6 +84,7 @@ int cvm_module_init(void)
   if ((pwfile = getenv("VMAILMGR_PWFILE")) == 0) pwfile = "passwd.cdb";
   if ((tmp = getenv("VMAILMGR_DEFAULT")) == 0) tmp = "+";
   lock_disabled = getenv("VMAILMGR_LOCK_DISABLED") != 0;
+  do_autoconvert = getenv("VMAILMGR_AUTOCONVERT") != 0;
   if (!str_copys(&default_user, tmp)) return CVME_GENERAL;
   if (getenv("DEBUG") != 0) show_debug = 1;
   return lookup_init();
@@ -137,8 +139,12 @@ int cvm_module_authenticate(void)
   }
   else
     enc = crypt(pass, stored);
-  if (strcmp(enc, stored) == 0)
+  if (strcmp(enc, stored) == 0) {
+    if (do_autoconvert
+	&& (stored[0] != '$' || stored[1] != '0' || stored[2] != '$'))
+      return vmailmgr_autoconvert();
     return 0;
+  }
   DEBUG("authentication denied", 0, 0);
   return CVME_PERMFAIL;
 }
