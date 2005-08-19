@@ -1,4 +1,3 @@
-vmmain.o
 vmlookup.o
 getpwnam.o
 module.a

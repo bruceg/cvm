@@ -9,11 +9,8 @@ extern struct qmail_user vmuser;
 extern str domain;
 extern str virtuser;
 extern str vpwdata;
-extern vpwentry vpw;
 
 extern const char* pwfile;
-extern const char* qmail_root;
-extern int lock_disabled;
 
 #define DEBUG(A,B,C) debug(__FUNCTION__, __LINE__, A, B, C)
 extern void debug(const char* func, int line,

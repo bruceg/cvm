@@ -1,5 +1,4 @@
 cvm-vmailmgr.o
-vmmain.o
 vmlookup.o
 getpwnam.o
 udp.a
