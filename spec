@@ -2,13 +2,13 @@ Name: cvm
 Summary: Credential Validation Modules
 Version: @VERSION@
 Release: 1
-Copyright: GPL
+License: GPL
 Group: Utilities/System
 Source: http://untroubled.org/cvm/cvm-@VERSION@.tar.gz
 BuildRoot: %{_tmppath}/cvm-buildroot
 URL: http://untroubled.org/cvm/
 Packager: Bruce Guenter <bruceg@em.ca>
-BuildRequires: bglibs >= 1.020
+BuildRequires: bglibs >= 1.026
 BuildRequires: mysql-devel
 BuildRequires: postgresql-devel
 Obsoletes: cvm-vmailmgr
@@ -44,22 +44,19 @@ Credential Validation Modules that authenticate against a PostgreSQL server.
 
 %build
 echo gcc "%{optflags}" -I%{_includedir}/pgsql >conf-cc
-echo gcc -s >conf-ld
+echo gcc -s -L%{_libdir}/mysql >conf-ld
+echo %{_bindir} >conf-bin
+echo %{_includedir} >conf-include
+echo %{_libdir} >conf-lib
 make libraries programs mysql pgsql
 
 %install
-echo %{buildroot}%{_bindir} >conf-bin
-echo %{buildroot}%{_includedir} >conf-include
-echo %{buildroot}%{_libdir} >conf-lib
-make installer instcheck
-
 rm -fr %{buildroot}
 mkdir -p %{buildroot}%{_bindir}
 mkdir -p %{buildroot}%{_includedir}
 mkdir -p %{buildroot}%{_libdir}
 
-./installer
-./instcheck
+make install_prefix=%{buildroot} install
 
 %clean
 rm -rf %{buildroot}
