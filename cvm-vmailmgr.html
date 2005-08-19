@@ -37,6 +37,12 @@ default or "catch-all" account to look up if no match is found for the
 virtual account name.  Defaults to "<tt>+</tt>", and is only used in
 lookup mode.</dd>
 
+<dt><tt>$VMAILMGR_AUTOCONVERT</tt> (optional)</td> <dd>If this is set,
+encrypted passwords in the virtual password file will be automatically
+converted to plain text format after the first successful
+authentication.  Plain text passwords are required for use of
+challenge-response authentication methods such as CRAM-MD5.</dd>
+
 </dl>
 
 </body>
