@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
-Changes in version 0.72
+Changes in version 0.75
 
 - Added an "autoconvert" mode to cvm-vmailmgr, which converts encrypted
   passwords to plain-text on successful authentication if
