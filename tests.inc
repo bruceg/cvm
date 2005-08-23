@@ -1,3 +1,5 @@
+printf='env printf'
+
 CVM_PWFILE_PATH=$tmp/pwfile
 export CVM_PWFILE_PATH
 make_pwfile()
@@ -34,11 +36,11 @@ mkdir $tmp/users
   uid=`id -u`
   gid=`id -g`
   len=`echo $tmp $uid $gid | wc -c`
-  printf "+6,%d:!user\0->user\000$uid\000$gid\000$tmp\0\0\n" $(($len+6))
-  printf "+6,%d:!user-->user\000$uid\000$gid\000$tmp\0-\0\n" $(($len+7))
-  printf "+7,%d:!alias\0->alias\000$uid\000$gid\000$tmp/alias\0\0\n" $((len+13))
-  printf "+7,%d:!alias-->alias\000$uid\000$gid\000$tmp/alias\0-\0\n" $((len+14))
-  printf "+1,%d:!->alias\000$uid\000$gid\000$tmp/alias\0-\0\n" $((len+14))
+  $printf "+6,%d:!user\0->user\000$uid\000$gid\000$tmp\0\0\n" $(($len+6))
+  $printf "+6,%d:!user-->user\000$uid\000$gid\000$tmp\0-\0\n" $(($len+7))
+  $printf "+7,%d:!alias\0->alias\000$uid\000$gid\000$tmp/alias\0\0\n" $(($len+13))
+  $printf "+7,%d:!alias-->alias\000$uid\000$gid\000$tmp/alias\0-\0\n" $(($len+14))
+  $printf "+1,%d:!->alias\000$uid\000$gid\000$tmp/alias\0-\0\n" $(($len+14))
   echo
 ) | cdbmake $tmp/users/cdb $tmp/users/tmp
 
@@ -56,7 +58,7 @@ echo \# >$tmp/alias/.qmail-awild-default
 echo \# >$tmp/alias/.qmail-adot:addr
 
 (
-  printf '+4,69:virt->\x2\x8\x1\0$1$aSoIrl/J$TmAwoxKzrPJ0IaW5UvX4A0\0./virt\0\0\0-\0-\0-\0-\0001016731358\0-\0\n'
+  $printf '+4,69:virt->\x2\x8\x1\0$1$aSoIrl/J$TmAwoxKzrPJ0IaW5UvX4A0\0./virt\0\0\0-\0-\0-\0-\0001016731358\0-\0\n'
   echo
 ) | cdbmake $tmp/passwd.cdb $tmp/passwd.tmp
 
