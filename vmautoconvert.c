@@ -18,6 +18,7 @@
 #include <sysdeps.h>
 #include <stdio.h>
 #include <string.h>
+#include <sys/stat.h>
 #include <unistd.h>
 
 #include <cdb/make.h>
@@ -94,7 +95,11 @@ int vmailmgr_autoconvert(void)
       if (ibuf_open(&reader, pwfile, 0)) {
 
 	uint32 end;
-	if (read_start(&reader, &end)) {
+	struct stat st;
+	if (fstat(reader.io.fd, &st) == 0
+	    && fchmod(writefd, st.st_mode) == 0
+	    && fchown(writefd, st.st_uid, st.st_gid) == 0
+	    && read_start(&reader, &end)) {
 	  while (ibuf_tell(&reader) < end) {
 	    if (!read_cdb_pair(&reader, &key, &data))
 	      break;
@@ -118,6 +123,7 @@ int vmailmgr_autoconvert(void)
 	if (readall && !writerr)
 	  rename(tmppwfile.s, pwfile);
     }
+    close(writefd);
     unlink(tmppwfile.s);
   }
   return error;
