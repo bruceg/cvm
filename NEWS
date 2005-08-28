@@ -1,4 +1,10 @@
 -------------------------------------------------------------------------------
+Changes in version 0.76
+
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
+-------------------------------------------------------------------------------
 Changes in version 0.75
 
 - Added an "autoconvert" mode to cvm-vmailmgr, which converts encrypted
