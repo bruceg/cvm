@@ -4,6 +4,9 @@ Changes in version 0.76
 - Fixed the autoconvert feature of cvm-vmailmgr to set the permissions
   and ownership of the created password table to that of the original.
 
+- Added a feature to all qmail-based modules to treat all domains as
+  local if $CVM_QMAIL_ASSUME_LOCAL is set.
+
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/
 -------------------------------------------------------------------------------

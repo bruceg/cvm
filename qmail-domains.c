@@ -32,6 +32,8 @@ static dict locals;
 static struct stat locals_stat;
 static str locals_path;
 
+static int assume_local = 0;
+
 static int map_lower(str* s)
 {
   str_lower(s);
@@ -87,6 +89,8 @@ int qmail_domains_reinit(void)
 
 int qmail_domains_init(void)
 {
+  assume_local = getenv("CVM_QMAIL_ASSUME_LOCAL") != 0;
+
   if (!str_copy2s(&vdomains_path, qmail_root, "/control/virtualdomains")
       || !str_copy2s(&locals_path, qmail_root, "/control/locals"))
     return -1;
@@ -118,7 +122,9 @@ int qmail_domains_lookup(const str* d, str* domain, str* prefix)
     }
   }
   if (e == 0)
-    return 0;
+    return assume_local
+      ? (str_copys(prefix, "") ? 1 : -1)
+      : 0;
   if (!str_copy(prefix, (str*)e->data))
     return -1;
   return 1;
