@@ -23,27 +23,25 @@ what system account and virtual account to use.</p>
 
 <dl>
 
-<dt><tt>$QMAIL_ROOT</tt> (optional)</dt> <dd>The root directory under
-which all the qmail configuration files are expected to be found.
-Defaults to "<tt>/var/qmail</tt>", which is the normal qmail install
-path.</dd>
-
-<dt><tt>$VMAILMGR_PWFILE</tt> (optional)</dt> <dd>The relative path to
-the password file located in the virtual domain's home directory.
-Defaults to "<tt>passwd.cdb</tt>"</dd>
-
-<dt><tt>$VMAILMGR_DEFAULT</tt> (optional)</dt> <dd>The name of the
-default or "catch-all" account to look up if no match is found for the
-virtual account name.  Defaults to "<tt>+</tt>", and is only used in
-lookup mode.</dd>
-
 <dt><tt>$VMAILMGR_AUTOCONVERT</tt> (optional)</td> <dd>If this is set,
 encrypted passwords in the virtual password file will be automatically
 converted to plain text format after the first successful
 authentication.  Plain text passwords are required for use of
 challenge-response authentication methods such as CRAM-MD5.</dd>
 
+<dt><tt>$VMAILMGR_DEFAULT</tt> (optional)</dt> <dd>The name of the
+default or "catch-all" account to look up if no match is found for the
+virtual account name.  Defaults to "<tt>+</tt>", and is only used in
+lookup mode.</dd>
+
+<dt><tt>$VMAILMGR_PWFILE</tt> (optional)</dt> <dd>The relative path to
+the password file located in the virtual domain's home directory.
+Defaults to "<tt>passwd.cdb</tt>"</dd>
+
 </dl>
+
+<p>Note: All configuration variables available for <a
+href="cvm-qmail.html">cvm-qmail</a> are also usable here.</p>
 
 </body>
 </html>

@@ -28,13 +28,18 @@ checks as necessary.</tt>
 
 <dl>
 
+<dt><tt>$CVM_QMAIL_ASSUME_LOCAL</tt> (optional)</dt> <dd>If set, all
+domains not found in <tt>control/virtualdomains</tt> are assumed to be
+local domains.</dd>
+
 <dt><tt>$CVM_QMAIL_MISSINGDOMAIN</tt> (optional)</dt> <dd>If this is set
 and the domain name is not a local or virtual qmail domain, this domain
 name is substituted and the lookup succeeds.  This allows for setups
 where domains listed in <tt>control/rcpthosts</tt> and
 <tt>control/morercpthosts.cdb</tt> (which are accepted by the SMTP
 receiver) are not listed as local or virtual domains.  If this is set to
-an empty value, "<tt>localhost</tt>" is substituted.</dd>
+an empty value, "<tt>localhost</tt>" is substituted.  This has no effect
+if <tt>$CVM_QMAIL_ASSUME_LOCAL</tt> is set.</dd>
 
 <dt><tt>$CVM_QMAIL_MISSINGUSER</tt> (optional)</dt> <dd>When missing
 domain substitution is being done, the value of this variable is used to
@@ -46,10 +51,6 @@ systems.</dd>
 which all the qmail configuration files are expected to be found.
 Defaults to "<tt>/var/qmail</tt>", which is the normal qmail install
 path.</dd>
-
-<dt><tt>$CVM_QMAIL_ASSUME_LOCAL</tt> (optional)</dt> <dd>If set, all
-domains not found in <tt>control/virtualdomains</tt> are assumed to be
-local domains.</dd>
 
 </dl>
 
