@@ -1,8 +1,8 @@
 vmautoconvert.o
 vmlookup.o
 getpwnam.o
-module.a
-qmail.a
+libcvm-module.a
+libcvm-qmail.a
 -lbg
 socket.lib
 crypt.lib

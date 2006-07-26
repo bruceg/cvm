@@ -1,4 +1,4 @@
-module.a
+libcvm-module.a
 crypt.lib
 shadow.lib
 s.lib

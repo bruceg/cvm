@@ -34,11 +34,11 @@ c:::644:cvm:v1client.h
 c:::644:cvm:v2client.h
 
 >lib
-s:::::libcvm-client.a:libcvm-v1client.a
-c:::644::libcvm-command.a:command.a
-c:::644::libcvm-local.a:local.a
-c:::644::libcvm-module.a:module.a
-c:::644::libcvm-sasl.a:sasl.a
-c:::644::libcvm-udp.a:udp.a
-c:::644::libcvm-v1client.a:v1client.a
-c:::644::libcvm-v2client.a:v2client.a
+s:::::libcvm-client.a
+c:::644::libcvm-command.a
+c:::644::libcvm-local.a
+c:::644::libcvm-module.a
+c:::644::libcvm-sasl.a
+c:::644::libcvm-udp.a
+c:::644::libcvm-v1client.a
+c:::644::libcvm-v2client.a

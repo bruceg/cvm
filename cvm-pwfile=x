@@ -1,4 +1,4 @@
-module.a
+libcvm-module.a
 -lbg
 -lpwcmp
 crypt.lib

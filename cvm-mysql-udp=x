@@ -1,6 +1,6 @@
 cvm-mysql.o
-udp.a
-sql.a
+libcvm-udp.a
+libcvm-sql.a
 -lbg
 -lpwcmp
 crypt.lib

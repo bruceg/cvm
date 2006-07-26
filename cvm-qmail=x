@@ -1,5 +1,5 @@
 getpwnam.o
-module.a
-qmail.a
+libcvm-module.a
+libcvm-qmail.a
 -lbg
 crypt.lib

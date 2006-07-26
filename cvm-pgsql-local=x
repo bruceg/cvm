@@ -1,6 +1,6 @@
 cvm-pgsql.o
-local.a
-sql.a
+libcvm-local.a
+libcvm-sql.a
 -lbg
 -lpwcmp
 crypt.lib

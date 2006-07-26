@@ -1,5 +1,5 @@
 getpwnam.o
-module.a
+libcvm-module.a
 -lbg
 crypt.lib
 shadow.lib
