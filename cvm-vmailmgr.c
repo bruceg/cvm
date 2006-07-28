@@ -1,5 +1,5 @@
 /* cvm-vmailmgr.c - Direct file access vmailmgr CVM
- * Copyright (C) 2004,2005  Bruce Guenter <bruceg@em.ca>
+ * Copyright (C) 2006  Bruce Guenter <bruce@untroubled.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

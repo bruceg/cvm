@@ -7,8 +7,8 @@ Group: Utilities/System
 Source: http://untroubled.org/cvm/cvm-@VERSION@.tar.gz
 BuildRoot: %{_tmppath}/cvm-buildroot
 URL: http://untroubled.org/cvm/
-Packager: Bruce Guenter <bruceg@em.ca>
-BuildRequires: bglibs >= 1.027
+Packager: Bruce Guenter <bruce@untroubled.org>
+BuildRequires: bglibs >= 1.100
 BuildRequires: mysql-devel
 BuildRequires: postgresql-devel
 Obsoletes: cvm-vmailmgr
