@@ -26,21 +26,21 @@ Development versions of @PACKAGE@ are available via Subversion at:
 
 Requirements:
 
-- bglibs library package version 1.020 or later.
+- bglibs library package version 1.100 or later.
 - The vmailmgr modules should work with all versions of vmailmgr that
   use CDB password tables, introduced in vmailmgr version 0.89 (only
   tested with version 0.96.9)
+- libtool
 
 Installation:
 
 - Make sure the latest version of bglibs from
   http://untroubled.org/bglibs/ is compiled and installed.
 - Build the sources by running "make"
-- Run the "instshow" command to see what will be installed (optional).
 - After the package has been compiled, run the following commands as root:
-	./installer
-	./instcheck
-  These commands will produce no output if there are no errors.
+	make install
+  If you want to install in a different directory, run:
+	make install install_prefix=/prefix
 
 vmailmgr Configuration:
 
@@ -59,7 +59,7 @@ vmailmgr Configuration:
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/
 
-This program is Copyright(C) 2005 Bruce Guenter, and may be copied
+This program is Copyright(C) @YEAR@ Bruce Guenter, and may be copied
 according to the GNU GENERAL PUBLIC LICENSE (GPL) Version 2 or a later
 version.  A copy of this license is included with this package.  This
 package comes with no warranty of any kind.
