@@ -1,6 +1,6 @@
 cvm-mysql.o
-libcvm-local.a
-libcvm-sql.a
+libcvm-local.la
+libcvm-sql.la
 -lbg
 -lpwcmp
 crypt.lib

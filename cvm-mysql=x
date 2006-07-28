@@ -1,5 +1,5 @@
-libcvm-module.a
-libcvm-sql.a
+libcvm-module.la
+libcvm-sql.la
 -lbg
 -lpwcmp
 crypt.lib

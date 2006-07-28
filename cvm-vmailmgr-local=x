@@ -2,8 +2,8 @@ cvm-vmailmgr.o
 vmautoconvert.o
 vmlookup.o
 getpwnam.o
-libcvm-local.a
-libcvm-qmail.a
+libcvm-local.la
+libcvm-qmail.la
 -lbg
 socket.lib
 crypt.lib

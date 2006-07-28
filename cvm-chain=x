@@ -1,5 +1,5 @@
-libcvm-module.a
-libcvm-v2client.a
+libcvm-module.la
+libcvm-v2client.la
 socket.lib
 s.lib
 -lbg
