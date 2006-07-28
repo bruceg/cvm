@@ -2,13 +2,13 @@
 s:::::libcvm-client.a:libcvm-v2client.a
 s:::::libcvm-client.la:libcvm-v2client.la
 s:::::libcvm-client.so:libcvm-v2client.so
-l:::644::libcvm-command.la
-l:::644::libcvm-local.la
-l:::644::libcvm-module.la
-l:::644::libcvm-sasl.la
-l:::644::libcvm-udp.la
-l:::644::libcvm-v1client.la
-l:::644::libcvm-v2client.la
+l:::755::libcvm-command.la
+l:::755::libcvm-local.la
+l:::755::libcvm-module.la
+l:::755::libcvm-sasl.la
+l:::755::libcvm-udp.la
+l:::755::libcvm-v1client.la
+l:::755::libcvm-v2client.la
 
 >bin
 l:::755::cvm-benchclient
