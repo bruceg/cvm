@@ -8,6 +8,7 @@ Source: http://untroubled.org/cvm/cvm-@VERSION@.tar.gz
 BuildRoot: %{_tmppath}/cvm-buildroot
 URL: http://untroubled.org/cvm/
 Packager: Bruce Guenter <bruce@untroubled.org>
+BuildRequires: libtool
 BuildRequires: bglibs >= 1.100
 BuildRequires: mysql-devel
 BuildRequires: postgresql-devel
@@ -61,16 +62,22 @@ make install_prefix=%{buildroot} install
 %clean
 rm -rf %{buildroot}
 
+%post
+/sbin/ldconfig
+
 %files
 %defattr(-,root,root)
 %doc COPYING NEWS README *.html
 %{_bindir}/cvm-[^mp]*
 %{_bindir}/cvm-pwfile
+%{_libdir}/*.so.*
 
 %files devel
 %defattr(-,root,root)
 %{_includedir}/*
-%{_libdir}/*
+%{_libdir}/*.a
+%{_libdir}/*.la
+%{_libdir}/*.so
 
 %files mysql
 %defattr(-,root,root)
