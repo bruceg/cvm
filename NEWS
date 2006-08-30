@@ -1,6 +1,9 @@
 -------------------------------------------------------------------------------
 Changes in version 0.82
 
+- Fixed handling of user/domain name splitting in the client library
+  when the caller doesn't initially provide a domain name.
+
 - cvm_client_setenv now also sets $MAILDIR for use with Courier IMAP.
 
 Development of this version has been sponsored by FutureQuest, Inc.
