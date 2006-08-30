@@ -84,8 +84,10 @@ int cvm_client_setenv(void)
   if (cvm_fact_domain &&
       setenv("DOMAIN", cvm_fact_domain, 1) != 0) return 0;
   if (cvm_fact_mailbox &&
-      (setenv("MAIL", cvm_fact_mailbox, 1) != 0 ||
-       setenv("MAILBOX", cvm_fact_mailbox, 1) != 0)) return 0;
+      (setenv("MAIL", cvm_fact_mailbox, 1) != 0
+       || setenv("MAILBOX", cvm_fact_mailbox, 1) != 0
+       || setenv("MAILDIR", cvm_fact_mailbox, 1)))
+    return 0;
   if (!set_gids()) return 0;
   return 1;
 }
