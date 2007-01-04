@@ -1,4 +1,10 @@
 -------------------------------------------------------------------------------
+Changes in version 0.83
+
+
+Development of this version has been sponsored by FutureQuest, Inc.
+ossi@FutureQuest.net  http://www.FutureQuest.net/
+-------------------------------------------------------------------------------
 Changes in version 0.82
 
 - Fixed handling of user/domain name splitting in the client library
