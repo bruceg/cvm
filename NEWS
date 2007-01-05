@@ -1,6 +1,9 @@
 -------------------------------------------------------------------------------
 Changes in version 0.83
 
+- Fixed a bug that caused the domain output to be set incorrectly when
+  doing qmail lookups with a domain not in the control files with
+  $CVM_QMAIL_ASSUME_LOCAL set.
 
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/

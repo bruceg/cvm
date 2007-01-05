@@ -121,10 +121,15 @@ int qmail_domains_lookup(const str* d, str* domain, str* prefix)
 	break;
     }
   }
-  if (e == 0)
-    return assume_local
-      ? (str_copys(prefix, "") ? 1 : -1)
-      : 0;
+  if (e == 0) {
+    if (assume_local) {
+      if (!str_copys(prefix, "")) return -1;
+      if (!str_copy(domain, d)) return -1;
+      str_lower(domain);
+      return 1;
+    }
+    return 0;
+  }
   if (!str_copy(prefix, (str*)e->data))
     return -1;
   return 1;
