@@ -1,5 +1,5 @@
 /* cvm/module_output.c - Response formatting
- * Copyright (C)2006  Bruce Guenter <bruce@untroubled.org>
+ * Copyright (C)2008  Bruce Guenter <bruce@untroubled.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -92,13 +92,8 @@ void cvm_module_fact_end(unsigned code)
   if (cvm_module_outbuflen >= BUFSIZE)
     code = CVME_BAD_MODDATA;
   cvm_module_outbuffer[0] = code;
-  if (code == 0 || cvm_module_inbuffer[0] == CVM2_PROTOCOL) {
-    *outbufptr++ = 0;
-    ++cvm_module_outbuflen;
-  }
-  else {
-    cvm_module_outbuflen = 1;
-  }
+  *outbufptr++ = 0;
+  ++cvm_module_outbuflen;
 }
 
 int cvm_module_fact_uint(unsigned number, unsigned long data)
