@@ -165,6 +165,17 @@ prefixed with a slash ('/'), it must be interpreted as relative to the
 home directory.</td>
 </tr>
 
+<tr>
+ <td><tt>16</tt></td>
+ <td><tt>CVM_FACT_OUTOFSCOPE</tt></td>
+ <td>integer</td>
+ <td>Optional</td>
+ <td>This fact is only relevant on permanent failures.  If present, a
+   non-zero value indicates that validation failed because the given
+   credentials were outside of the scope for which the module is
+   authoritative.</td>
+</tr>
+
 </table></p>
 
 </body>

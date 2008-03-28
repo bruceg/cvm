@@ -16,6 +16,7 @@
 #define CVM_FACT_HOME_PHONE 13
 #define CVM_FACT_DOMAIN 14
 #define CVM_FACT_MAILBOX 15
+#define CVM_FACT_OUTOFSCOPE 16
 
 extern const char* cvm_fact_username;
 extern unsigned long cvm_fact_userid;
