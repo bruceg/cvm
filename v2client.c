@@ -1,5 +1,5 @@
 /* cvm/client.c - CVM client library
- * Copyright (C)2006  Bruce Guenter <bruce@untroubled.org>
+ * Copyright (C)2008  Bruce Guenter <bruce@untroubled.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,8 +52,6 @@ static int parse_buffer(void)
     return CVME_BAD_MODDATA;
   if (memcmp(buffer+2, randombytes.s, randombytes.len) != 0)
     return CVME_BAD_MODDATA;
-  if (buffer[0] != 0)
-    return buffer[0];
   if (buffer[buflen-1] != 0)
     return CVME_BAD_MODDATA;
   /* This funny loop gives all the strings in the buffer NUL termination. */
@@ -65,6 +63,8 @@ static int parse_buffer(void)
     buffer[o] = 0;
   }
   offsets[i].type = offsets[i].start = 0;
+  if (buffer[0] != 0)
+    return buffer[0];
   /* Extract required and common facts. */
   if (cvm_client_fact_str(CVM_FACT_USERNAME, &cvm_fact_username, &i) ||
       cvm_client_fact_uint(CVM_FACT_USERID, &cvm_fact_userid) ||
