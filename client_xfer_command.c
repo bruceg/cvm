@@ -72,9 +72,9 @@ static int waitforit(void)
   pid_t tmp;
   while ((tmp = wait(&status)) != -1) {
     if (tmp == pid)
-      return WIFEXITED(status) ? WEXITSTATUS(status) : CVME_IO;
+      return WIFEXITED(status) ? WEXITSTATUS(status) : -CVME_IO;
   }
-  return CVME_IO;
+  return -CVME_IO;
 }
 
 static int write_buffer(int fd, unsigned char* buffer, unsigned buflen)
@@ -117,9 +117,13 @@ unsigned cvm_xfer_command(const char* module,
       (*buflen = read_buffer(pipes[1], buffer)) == 0 ||
       close(pipes[1]) == -1) {
     killit();
-    if ((result = waitforit()) != 0) return result;
+    if ((result = waitforit()) < 0)
+      return -result;
     return CVME_IO;
   }
 
-  return waitforit();
+  if ((result = waitforit()) < 0)
+    return -result;
+  buffer[0] = result;
+  return 0;
 }
