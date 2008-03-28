@@ -61,14 +61,14 @@ unsigned cvm_xfer_udp(const char* hostport,
   struct hostent* he;
   ipv4addr ip;
   
-  if ((portstr = strchr(hostport, ':')) == 0) return 1;
+  if ((portstr = strchr(hostport, ':')) == 0) return CVME_GENERAL;
   if (hostname) free(hostname);
   hostname = malloc(portstr-hostport+1);
   memcpy(hostname, hostport, portstr-hostport);
   hostname[portstr-hostport] = 0;
   port = strtoul(portstr+1, &portstr, 10);
-  if (*portstr != 0) return 1;
-  if ((he = gethostbyname(hostname)) == 0) return 1;
+  if (*portstr != 0) return CVME_GENERAL;
+  if ((he = gethostbyname(hostname)) == 0) return CVME_GENERAL;
   memcpy(&ip, he->h_addr_list[0], 4);
   
   if ((sock = socket_udp()) == -1) return CVME_IO;

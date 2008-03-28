@@ -1,5 +1,5 @@
 /* cvm/client_xfer_command.c - CVM client command transmission library
- * Copyright (C)2006  Bruce Guenter <bruce@untroubled.org>
+ * Copyright (C)2008  Bruce Guenter <bruce@untroubled.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -72,9 +72,9 @@ static int waitforit(void)
   pid_t tmp;
   while ((tmp = wait(&status)) != -1) {
     if (tmp == pid)
-      return WIFEXITED(status) ? WEXITSTATUS(status) : 1;
+      return WIFEXITED(status) ? WEXITSTATUS(status) : CVME_IO;
   }
-  return 1;
+  return CVME_IO;
 }
 
 static int write_buffer(int fd, unsigned char* buffer, unsigned buflen)
