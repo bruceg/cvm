@@ -1,5 +1,5 @@
 /* cvm-qmail.c - qmail lookup-only CVM
- * Copyright (C)2006  Bruce Guenter <bruce@untroubled.org>
+ * Copyright (C)2008  Bruce Guenter <bruce@untroubled.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,6 +44,11 @@ int cvm_module_lookup(void)
   case -1:
     return CVME_IO;
   case 0:
+    break;
+  case 1:
+    cvm_module_fact_uint(CVM_FACT_OUTOFSCOPE, 1);
+    /* Fall through */
+  default:
     return CVME_PERMFAIL;
   }
 

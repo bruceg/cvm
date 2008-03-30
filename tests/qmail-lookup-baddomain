@@ -1,0 +1,6 @@
+env CVM_LOOKUP_SECRET=secret \
+$src/cvm-testclient $tmp/cvm-qmail-lookup user other.dom
+
+<result>
+cvm-testclient: Authentication failed, error #100 (Credentials rejected)
+out of scope:     1

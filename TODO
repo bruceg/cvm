@@ -1,3 +1,5 @@
+- Fix cvm-chain to handle the OUTOFSCOPE fact?
+
 - Write tests for:
   - cvm_client_split_account in v2client.c
   - cvm_client_ucspi_domain and cvm_client_setugid (?)

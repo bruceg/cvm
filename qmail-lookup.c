@@ -1,5 +1,5 @@
 /* qmail-lookup.c - qmail CVM lookup routines
- * Copyright (C)2006  Bruce Guenter <bruce@untroubled.org>
+ * Copyright (C)2008  Bruce Guenter <bruce@untroubled.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,6 +41,12 @@ int qmail_lookup_init(void)
   return 0;
 }
 
+/* Look up the CVM domain and account name in the qmail configuration.
+ * Returns:
+ * -1 System or other error
+ * 0 Success
+ * 1 Domain not found
+ * 2 Account not found */
 int qmail_lookup_cvm(struct qmail_user* user,
 		     str* domain,
 		     str* username,
@@ -64,7 +70,7 @@ int qmail_lookup_cvm(struct qmail_user* user,
     return -1;
   case 0:
     if (missingdomain == 0)
-      return 0;
+      return 1;
     if (!str_copys(domain, missingdomain)
 	|| !str_copys(&fullname, missinguser))
       return -1;
@@ -83,7 +89,7 @@ int qmail_lookup_cvm(struct qmail_user* user,
   case -1:
     return -1;
   case 0:
-    return 0;
+    return 2;
   }
-  return 1;
+  return 0;
 }

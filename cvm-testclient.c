@@ -32,14 +32,14 @@ static void s(const char* name, const char* value)
 {
   obuf_puts(&outbuf, name);
   obuf_puts(&outbuf, (value == 0) ? "(null)" : value);
-  obuf_putc(&outbuf, '\n');
+  obuf_endl(&outbuf);
 }
 
 static void u(const char* name, unsigned long value)
 {
   obuf_puts(&outbuf, name);
   obuf_putu(&outbuf, value);
-  obuf_putc(&outbuf, '\n');
+  obuf_endl(&outbuf);
 }
 
 int main(int argc, char** argv)
@@ -64,6 +64,8 @@ int main(int argc, char** argv)
     num[fmt_udec(num, i)] = 0;
     msg5("Authentication failed, error #", num, " (",
 	 (i < cvm_nerr) ? cvm_errlist[i] : "Unknown error code", ")");
+    if (cvm_client_fact_uint(CVM_FACT_OUTOFSCOPE, &v) == 0)
+      u("out of scope:     ", v);
     return i;
   }
 
@@ -80,6 +82,5 @@ int main(int argc, char** argv)
   s("mailbox path:     ", cvm_fact_mailbox);
   while (cvm_client_fact_uint(CVM_FACT_SUPP_GROUPID, &v) == 0)
     u("supp. group ID:   ", v);
-  obuf_flush(&outbuf);
   return 0;
 }

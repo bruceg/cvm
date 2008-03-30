@@ -1,5 +1,5 @@
 /* vmlookup.c - vmailmgr CVM lookup routines
- * Copyright (C)2006  Bruce Guenter <bruce@untroubled.org>
+ * Copyright (C)2008  Bruce Guenter <bruce@untroubled.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -70,11 +70,21 @@ int lookup_virtuser(void)
 
   DEBUG("cvm domain = '", cvm_module_credentials[CVM_CRED_DOMAIN].s, "'");
   switch (qmail_lookup_cvm(&vmuser, &domain, &baseuser, &virtuser)) {
-  case -1: return CVME_IO;
-  case 0:  return CVME_PERMFAIL;
-  }
-  if (virtuser.len == 0)
+  case -1:
+    return CVME_IO;
+  case 0:
+    break;
+  default:
+    /* Either the domain was not found, or it was found pointing to a
+     * nonexistant user.  In either case, there is no vmailmgr table to
+     * look up. */
+    cvm_module_fact_uint(CVM_FACT_OUTOFSCOPE, 1);
     return CVME_PERMFAIL;
+  }
+  if (virtuser.len == 0) {
+    cvm_module_fact_uint(CVM_FACT_OUTOFSCOPE, 1);
+    return CVME_PERMFAIL;
+  }
 
   memset(&cdb, 0, sizeof cdb);
   str_lower(&virtuser);

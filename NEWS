@@ -1,5 +1,9 @@
 -------------------------------------------------------------------------------
-Changes in version 0.83
+Changes in version 0.85
+
+- Introduced an "out of scope" fact, to be used on credential rejection
+  results when the supplied credentials are outside of the scope of
+  authority of the module.
 
 - Fixed a bug that caused the domain output to be set incorrectly when
   doing qmail lookups with a domain not in the control files with

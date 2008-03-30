@@ -1,4 +1,6 @@
 $src/cvm-testclient $src/cvm-vmailmgr virt test.tld pass
+echo
+$src/cvm-testclient $src/cvm-vmailmgr missing test.tld pass
 <result>
 user name:        virt
 user ID:          @UID@
@@ -11,3 +13,5 @@ system user name: user
 system directory: @TMPDIR@
 domain:           test.tld
 mailbox path:     @TMPDIR@/virt
+
+cvm-testclient: Authentication failed, error #100 (Credentials rejected)

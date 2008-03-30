@@ -7,6 +7,8 @@ echo
 $src/cvm-testclient $src/cvm-chain virt test.tld pass
 echo
 $src/cvm-testclient $src/cvm-chain notexist test.tld pass
+echo
+$src/cvm-testclient $src/cvm-chain notexist other.dom pass
 
 unset CVM_CHAIN0 CVM_CHAIN1
 
@@ -34,5 +36,7 @@ system user name: user
 system directory: @TMPDIR@
 domain:           test.tld
 mailbox path:     @TMPDIR@/virt
+
+cvm-testclient: Authentication failed, error #100 (Credentials rejected)
 
 cvm-testclient: Authentication failed, error #100 (Credentials rejected)
