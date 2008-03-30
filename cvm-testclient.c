@@ -62,8 +62,9 @@ int main(int argc, char** argv)
   
   if (i) {
     num[fmt_udec(num, i)] = 0;
-    die5(i, "Authentication failed, error #", num, " (",
+    msg5("Authentication failed, error #", num, " (",
 	 (i < cvm_nerr) ? cvm_errlist[i] : "Unknown error code", ")");
+    return i;
   }
 
   s("user name:        ", cvm_fact_username);

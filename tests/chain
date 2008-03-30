@@ -35,4 +35,4 @@ system directory: @TMPDIR@
 domain:           test.tld
 mailbox path:     @TMPDIR@/virt
 
-cvm-testclient: Fatal: Authentication failed, error #100 (Credentials rejected)
+cvm-testclient: Authentication failed, error #100 (Credentials rejected)

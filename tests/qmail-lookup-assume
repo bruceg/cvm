@@ -7,7 +7,7 @@ env CVM_LOOKUP_SECRET=secret CVM_QMAIL_ASSUME_LOCAL=1 \
 $src/cvm-testclient $tmp/cvm-qmail-lookup user nothingness
 
 <result>
-cvm-testclient: Fatal: Authentication failed, error #100 (Credentials rejected)
+cvm-testclient: Authentication failed, error #100 (Credentials rejected)
 
 user name:        user
 user ID:          @UID@
