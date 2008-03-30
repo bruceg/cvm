@@ -8,3 +8,4 @@ client_xfer_local.o
 client_xfer_udp.o
 errors.o
 facts.o
+random.o

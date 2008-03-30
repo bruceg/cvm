@@ -29,6 +29,7 @@
 #include "v2client.h"
 #include "credentials.h"
 #include "protocol.h"
+#include "random.h"
 
 const char* cvm_client_account_split_chars = "@";
 
@@ -91,6 +92,23 @@ static unsigned char* buffer_add(unsigned char* ptr, unsigned type,
   return ptr + len;
 }
 
+static void make_randombytes(void)
+{
+  unsigned i;
+  static int initialized = 0;
+
+  if (!initialized)
+    cvm_random_init();
+
+  if (randombytes.len == 0) {
+    str_ready(&randombytes, 8);
+    randombytes.len = 8;
+  }
+
+  for (i = 0; i < randombytes.len; ++i)
+    randombytes.s[i] = cvm_random(0x100);
+}
+
 static unsigned build_buffer(unsigned count,
 			     const struct cvm_credential* credentials)
 {
@@ -99,7 +117,7 @@ static unsigned build_buffer(unsigned count,
   unsigned i;
   int has_secret;
 
-  /* FIXME: generate real random data here */
+  make_randombytes();
   ptr = buffer_add(buffer, CVM2_PROTOCOL, randombytes.len, randombytes.s);
 
   for (i = 0, has_secret = 0; i < count; ++i, ++credentials) {
