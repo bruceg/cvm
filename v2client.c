@@ -94,15 +94,20 @@ static unsigned char* buffer_add(unsigned char* ptr, unsigned type,
 
 static void make_randombytes(void)
 {
-  unsigned i;
   static int initialized = 0;
+  unsigned i;
+  const char *e;
 
   if (!initialized)
     cvm_random_init();
 
   if (randombytes.len == 0) {
-    str_ready(&randombytes, 8);
-    randombytes.len = 8;
+    if ((e = getenv("CVM_RANDOM_BYTES")) != 0)
+      i = atoi(e);
+    else
+      i = 8;
+    str_ready(&randombytes, i);
+    randombytes.len = i;
   }
 
   for (i = 0; i < randombytes.len; ++i)

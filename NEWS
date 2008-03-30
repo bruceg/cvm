@@ -5,6 +5,9 @@ Changes in version 0.85
   results when the supplied credentials are outside of the scope of
   authority of the module.
 
+- A random anti-spoofing tag is added to all version 2 client requests.
+  Its length is set by $CVM_RANDOM_BYTES and defaults to 8.
+
 - Fixed a bug that caused the domain output to be set incorrectly when
   doing qmail lookups with a domain not in the control files with
   $CVM_QMAIL_ASSUME_LOCAL set.
