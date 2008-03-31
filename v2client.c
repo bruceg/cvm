@@ -115,14 +115,18 @@ static void make_randombytes(void)
 }
 
 static unsigned build_buffer(unsigned count,
-			     const struct cvm_credential* credentials)
+			     const struct cvm_credential* credentials,
+			     int addrandom)
 {
   const char* env;
   unsigned char* ptr;
   unsigned i;
   int has_secret;
 
-  make_randombytes();
+  if (addrandom)
+    make_randombytes();
+  else
+    randombytes.len = 0;
   ptr = buffer_add(buffer, CVM2_PROTOCOL, randombytes.len, randombytes.s);
 
   for (i = 0, has_secret = 0; i < count; ++i, ++credentials) {
@@ -216,7 +220,9 @@ int cvm_client_authenticate(const char* module, unsigned count,
 {
   int result;
   void (*oldsig)(int);
-  if (!build_buffer(count, credentials))
+  int addrandom = memcmp(module, "cvm-udp:", 8) == 0;
+
+  if (!build_buffer(count, credentials, addrandom))
     return CVME_GENERAL;
   
   oldsig = signal(SIGPIPE, SIG_IGN);
