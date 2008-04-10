@@ -10,7 +10,9 @@
 
 <p>Input to the authenticator is as follows.  All items except the
 first, which is a single byte, are NUL-terminated strings.  The total
-length of the input must not exceed 512 bytes. <ol>
+length of the input must not exceed 512 bytes.</p>
+
+<ol>
 
 <li>Protocol number, 1.
 
@@ -22,9 +24,11 @@ length of the input must not exceed 512 bytes. <ol>
 
 <li>An empty string (ie a single NUL byte).
 
-</ol></p>
+</ol>
 
-<p>The credentials consist of one of the following:<ul>
+<p>The credentials consist of one of the following:</p>
+
+<ul>
 
 <li>For plain login, the password.
 
@@ -33,7 +37,7 @@ length of the input must not exceed 512 bytes. <ol>
 <li>For CRAM-MD5 keyed hashing, as specified in RFC 2095, the
 challenge and MD5 digest.
 
-</ul></p>
+</ul>
 
 <h2>Output</h2>
 
@@ -54,14 +58,16 @@ last fact and indicates the end of the list.</p>
 
 <h2>Environment Variables</h2>
 
-<p>The following environment variables may be set by the invoker:<dl>
+<p>The following environment variables may be set by the invoker:</p>
+
+<dl>
 
 <dt><tt>SERVICE</tt> <dd>The service name, to be used (for example) by
 PAM modules to determine which configuration file to load.
 
 </dl>
 
-<b>Note:</b> for non-command modules, the invoker is NOT the CVM
+<p><b>Note:</b> for non-command modules, the invoker is NOT the CVM
 client.  The CVM client has no control over the environment variables
 of non-command modules.</p>
 

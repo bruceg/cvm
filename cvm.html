@@ -46,18 +46,20 @@ implement on both sides than PAM and the authmod framework.</p>
 
 <h2>Contact Modes</h2>
 
-<p>CVM modules may be contacted by one of three modes:<ol>
+<p>CVM modules may be contacted by one of three modes:</p>
+
+<ol>
 
 <li>Command execution: Use a module name of
 <tt>cvm-command:/path/to/command</tt>.  The <tt>cvm-command:</tt>
-prefix is optional.
+prefix is optional.</li>
 
 <li>UNIX (or local) domain socket:  Use a module name of
-<tt>cvm-local:/path/to/socket</tt>.
+<tt>cvm-local:/path/to/socket</tt>.</li>
 
-<li>UDP:  Use a module name of <tt>cvm-udp:hostname:port</tt>.
+<li>UDP:  Use a module name of <tt>cvm-udp:hostname:port</tt>.</li>
 
-</ol></p>
+</ol>
 
 <p>A random tag is added to the transmitted data to prevent spoofing
 when a remote module is being contacted (UDP mode) using
@@ -66,21 +68,23 @@ by <tt>$CVM_RANDOM_BYTES</tt>, and defaults to 8 bytes.</p>
 
 <h2>Module Invocation</h2>
 
-<p>CVM modules are invoked using a similar syntax to the above:<ol>
+<p>CVM modules are invoked using a similar syntax to the above:</p>
+
+<ol>
 
 <li>UNIX (or local) domain server: Use a command-line argument of
 <tt>cvm-local:/path/to/socket</tt>.  If <tt>$CVM_SOCKET_MODE</tt> is
 set, the created socket will have this mode (in octal, defaults to
 <tt>777</tt>).  If <tt>$CVM_SOCKET_OWNER</tt> or
 <tt>$CVM_SOCKET_GROUP</tt> are set, the created socket will have its
-UID/GID set appropriately.
+UID/GID set appropriately.</li>
 
 <li>UDP socket server: Use a command-line argument of
 <tt>cvm-udp:hostname:port</tt>.  The <tt>hostname</tt> argument
 specifies the IP to bind the socket to.  Normally this will be
-<tt>0</tt> to bind to all IPs.
+<tt>0</tt> to bind to all IPs.</li>
 
-</ol></p>
+</ol>
 
 <p>If <tt>$CVM_LOOKUP_SECRET</tt> is set, the module operates in "lookup
 mode".  In this mode, the authentication function provided by the module

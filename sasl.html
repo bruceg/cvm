@@ -17,7 +17,9 @@ authentication using CV modules.</p>
 
 <p>To configuration an application that uses cvm-sasl, set one or more
 of the following environment variables to the name of a CVM that can
-accept the indicated type of credentials: <table border=1>
+accept the indicated type of credentials:</p>
+
+<table border=1>
 
 <tr> <th>Name</th> <th>SASL Mechanism</th> <th>CVM Credentials</th>
 </tr>
@@ -33,7 +35,7 @@ password</td> </tr>
 
 </table>
 
-Note: as of this writing, there are no CRAM-MD5 CVMs, so that
+<p>Note: as of this writing, there are no CRAM-MD5 CVMs, so that
 functionality is completely untested.  If <tt>$CVM_SASL_LOGIN</tt> is
 set, it is overrides <tt>$CVM_SASL_PLAIN</tt> for LOGIN
 authenticaiton.</p>

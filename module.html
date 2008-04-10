@@ -6,7 +6,9 @@
 <h1>CVM Module Library</h1>
 
 <p>To write a module using the CVM module library, you must provide
-the following items:<dl>
+the following items:</p>
+
+<dl>
 
 <dt><tt>int cvm_module_init(void)</tt> <dd>This function is called once
 when the CVM starts up.
@@ -37,14 +39,14 @@ framework, with the optional facts being sent only if they have been
 set.  If any other facts are to be returned to the client, send them in
 this function with <tt>cvm_module_fact_str(unsigned number, const char*
 data)</tt> or <tt>cvm_module_fact_uint(unsigned number, unsigned
-data)</tt>.</p>
+data)</tt>.
 
 <dt><tt>void cvm_module_stop(void)</tt> <dd>This routine is called once
 when the CVM is shut down.
 
 </dl>
 
-If any function fails due to a temporary error (read error, out of
+<p>If any function fails due to a temporary error (read error, out of
 memory, connection failed, etc), it must return a non-zero <a
 href="errors.html">error code</a> (other than <tt>CVME_PERMFAIL</tt>).
 Otherwise, return zero.</p>
@@ -64,3 +66,6 @@ multiple types of validation, but may do so by examinimg which types of
 credentials are present in the input.  The invoker will choose which
 modules to invoke depending on what type of credentials it needs
 validated.</p>
+
+</body>
+</html>
