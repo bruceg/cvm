@@ -59,6 +59,11 @@ prefix is optional.
 
 </ol></p>
 
+<p>A random tag is added to the transmitted data to prevent spoofing
+when a remote module is being contacted (UDP mode) using
+the <a href="protocol-2.html">version 2 protocol</a>.  Its size is set
+by <tt>$CVM_RANDOM_BYTES</tt>, and defaults to 8 bytes.</p>
+
 <h2>Module Invocation</h2>
 
 <p>CVM modules are invoked using a similar syntax to the above:<ol>
