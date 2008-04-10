@@ -3,7 +3,9 @@ Changes in version 0.85
 
 - Introduced an "out of scope" fact, to be used on credential rejection
   results when the supplied credentials are outside of the scope of
-  authority of the module.
+  authority of the module.  The cvm-vmailmgr and cvm-qmail modules
+  report this fact as appropriate, and cvm-chain copies it as
+  appropriate from the modules it invokes.
 
 - A random anti-spoofing tag is added to all version 2 client requests.
   Its length is set by $CVM_RANDOM_BYTES and defaults to 8.
