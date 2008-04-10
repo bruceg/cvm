@@ -32,9 +32,11 @@ mailbox path:     @TMPDIR@
 
 <result user-addr-x local.dom>
 cvm-testclient: Authentication failed, error #100 (Credentials rejected)
+out of scope:     0
 
 <result user-wild local.dom>
 cvm-testclient: Authentication failed, error #100 (Credentials rejected)
+out of scope:     0
 
 <result user-wild-x local.dom>
 user name:        user
@@ -77,9 +79,11 @@ mailbox path:     @TMPDIR@/alias
 
 <result alias-x local.dom>
 cvm-testclient: Authentication failed, error #100 (Credentials rejected)
+out of scope:     0
 
 <result awild local.dom>
 cvm-testclient: Authentication failed, error #100 (Credentials rejected)
+out of scope:     0
 
 <result awild-x local.dom>
 user name:        alias

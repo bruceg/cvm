@@ -1,3 +1,4 @@
 $src/cvm-testclient $src/cvm-vmailmgr virt test.tld 'xpass'
 <result>
 cvm-testclient: Authentication failed, error #100 (Credentials rejected)
+out of scope:     0

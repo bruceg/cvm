@@ -123,5 +123,7 @@ int lookup_virtuser(void)
   }
   cdb_free(&cdb);
   close(fd);
+  if (err == CVME_PERMFAIL)
+    cvm_module_fact_uint(CVM_FACT_OUTOFSCOPE, 0);
   return err;
 }

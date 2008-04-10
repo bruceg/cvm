@@ -117,10 +117,12 @@ int cvm_module_authenticate(void)
   
   if (lock_disabled && !vpw.is_mailbox_enabled) {
     DEBUG("Mailbox is disabled", 0, 0);
+    cvm_module_fact_uint(CVM_FACT_OUTOFSCOPE, 0);
     return CVME_PERMFAIL;
   }
   if (vpw.pass.len < 3) {
     DEBUG("Encoded password is too short", 0, 0);
+    cvm_module_fact_uint(CVM_FACT_OUTOFSCOPE, 0);
     return CVME_PERMFAIL;
   }
   stored = vpw.pass.s;
@@ -146,6 +148,7 @@ int cvm_module_authenticate(void)
     return 0;
   }
   DEBUG("authentication denied", 0, 0);
+  cvm_module_fact_uint(CVM_FACT_OUTOFSCOPE, 0);
   return CVME_PERMFAIL;
 }
 

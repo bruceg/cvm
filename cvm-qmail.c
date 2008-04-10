@@ -47,8 +47,9 @@ int cvm_module_lookup(void)
     break;
   case 1:
     cvm_module_fact_uint(CVM_FACT_OUTOFSCOPE, 1);
-    /* Fall through */
+    return CVME_PERMFAIL;
   default:
+    cvm_module_fact_uint(CVM_FACT_OUTOFSCOPE, 0);
     return CVME_PERMFAIL;
   }
 
@@ -56,6 +57,7 @@ int cvm_module_lookup(void)
   case -1:
     return CVME_IO;
   case 0:
+    cvm_module_fact_uint(CVM_FACT_OUTOFSCOPE, 0);
     return CVME_PERMFAIL;
   }
 

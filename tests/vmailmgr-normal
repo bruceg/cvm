@@ -15,3 +15,4 @@ domain:           test.tld
 mailbox path:     @TMPDIR@/virt
 
 cvm-testclient: Authentication failed, error #100 (Credentials rejected)
+out of scope:     0
