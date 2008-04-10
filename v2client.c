@@ -110,8 +110,7 @@ static void make_randombytes(void)
     randombytes.len = i;
   }
 
-  for (i = 0; i < randombytes.len; ++i)
-    randombytes.s[i] = cvm_random(0x100);
+  cvm_random_fill((unsigned char*)randombytes.s, randombytes.len);
 }
 
 static unsigned build_buffer(unsigned count,

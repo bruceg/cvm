@@ -23,34 +23,10 @@
 #include <systime.h>
 #include <unistd.h>
 #include <uint32.h>
+#include <crypto/surfrand.h>
 #include "random.h"
 
-static uint32 seed[32];
-static uint32 in[12];
-static uint32 out[8];
-static int outleft = 0;
-
-#define ROTATE(x,b) (((x) << (b)) | ((x) >> (32 - (b))))
-#define MUSH(i,b) x = t[i] += (((x ^ seed[i]) + sum) ^ ROTATE(x,b));
-
-static void surf(void)
-{
-  uint32 t[12]; uint32 x; uint32 sum = 0;
-  int r; int i; int loop;
-
-  for (i = 0;i < 12;++i) t[i] = in[i] ^ seed[12 + i];
-  for (i = 0;i < 8;++i) out[i] = seed[24 + i];
-  x = t[11];
-  for (loop = 0;loop < 2;++loop) {
-    for (r = 0;r < 16;++r) {
-      sum += 0x9e3779b9;
-      MUSH(0,5) MUSH(1,7) MUSH(2,9) MUSH(3,13)
-      MUSH(4,5) MUSH(5,7) MUSH(6,9) MUSH(7,13)
-      MUSH(8,5) MUSH(9,7) MUSH(10,9) MUSH(11,13)
-    }
-    for (i = 0;i < 8;++i) out[i] ^= t[i + 4];
-  }
-}
+static struct surfrand state;
 
 void cvm_random_init(void)
 {
@@ -58,30 +34,16 @@ void cvm_random_init(void)
   struct timeval tv;
   uint32 data[32];
 
-  for (i = 0; i < 32; ++i)
-    seed[i] += data[i];
-
   gettimeofday(&tv, 0);
-  in[4] = tv.tv_sec;
-  in[5] = tv.tv_usec;
-  in[6] = getpid();
-  in[7] = getppid();
+  data[0] += tv.tv_sec;
+  data[1] += tv.tv_usec;
+  data[2] = getpid();
+  data[3] = getppid();
+
+  surfrand_init(&state, data, 32);
 }
 
-unsigned int cvm_random(unsigned int n)
+void cvm_random_fill(unsigned char* buf, unsigned len)
 {
-  if (!n)
-    return 0;
-
-  if (outleft == 0) {
-    /* 8 * 2^32^4 period */
-    if (++in[0] == 0)
-      if (++in[1] == 0)
-	if (++in[2] == 0)
-	  ++in[3];
-    surf();
-    outleft = 8;
-  }
-
-  return out[--outleft] % n;
+  surfrand_fill(&state, buf, len);
 }

@@ -9,7 +9,7 @@ BuildRoot: %{_tmppath}/cvm-buildroot
 URL: http://untroubled.org/cvm/
 Packager: Bruce Guenter <bruce@untroubled.org>
 BuildRequires: libtool
-BuildRequires: bglibs >= 1.100
+BuildRequires: bglibs >= 1.103
 BuildRequires: mysql-devel
 BuildRequires: postgresql-devel
 Obsoletes: cvm-vmailmgr
