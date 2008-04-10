@@ -51,6 +51,8 @@ int cvm_module_lookup(void)
   int i;
   int credcount;
   int code;
+  unsigned long outofscope = 1;
+  int saw_outofscope = 0;
   struct cvm_credential creds[CVM_CRED_MAX+1];
 
   for (i = credcount = 0; i <= CVM_CRED_MAX; ++i) {
@@ -66,7 +68,13 @@ int cvm_module_lookup(void)
     code = cvm_client_authenticate(chains[i], credcount, creds);
     if (code == 0)
       return 0;
+    if (outofscope
+	&& code == CVME_PERMFAIL
+	&& cvm_client_fact_uint(CVM_FACT_OUTOFSCOPE, &outofscope) == 0)
+      saw_outofscope = 1;
   }
+  if (saw_outofscope)
+    cvm_module_fact_uint(CVM_FACT_OUTOFSCOPE, outofscope);
   return code;
 }
 

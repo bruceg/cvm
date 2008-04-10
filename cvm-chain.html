@@ -19,6 +19,12 @@ returns success (no error), the module passes the results back to its
 caller, otherwise it calls the second module and so on.  If no module
 succeeds, the error code from the last module is returned.</p>
 
+<p>If any of the modules reports the <a href="facts.html">"out of scope"
+fact</a> in a permanent failure, this module will report it as well.
+The output fact will be true unless any module reported a false value.
+This way, if any module reports that the credentials were within its
+scope, so will cvm-chain.</p>
+
 <h2>Configuration Variables:</h2>
 
 <dl>
