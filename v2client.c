@@ -98,16 +98,18 @@ static void make_randombytes(void)
   unsigned i;
   const char *e;
 
-  if (!initialized)
+  if (!initialized) {
     cvm_random_init();
 
-  if (randombytes.len == 0) {
-    if ((e = getenv("CVM_RANDOM_BYTES")) != 0)
-      i = atoi(e);
-    else
-      i = 8;
-    str_ready(&randombytes, i);
-    randombytes.len = i;
+    if (randombytes.len == 0) {
+      if ((e = getenv("CVM_RANDOM_BYTES")) != 0)
+	i = atoi(e);
+      else
+	i = 8;
+      str_ready(&randombytes, i);
+      randombytes.len = i;
+    }
+    initialized = 1;
   }
 
   cvm_random_fill((unsigned char*)randombytes.s, randombytes.len);
