@@ -160,12 +160,12 @@ int cvm_client_authenticate(const char* module, const char* account,
   
   oldsig = signal(SIGPIPE, SIG_IGN);
   if (!memcmp(module, "cvm-udp:", 8))
-    result = cvm_xfer_udp(module+8, &request, &response);
+    result = cvm_xfer_udp_packets(module+8, &request, &response);
   else if (!memcmp(module, "cvm-local:", 10))
-    result = cvm_xfer_local(module+10, &request, &response);
+    result = cvm_xfer_local_packets(module+10, &request, &response);
   else {
     if (!memcmp(module, "cvm-command:", 12)) module += 12;
-    result = cvm_xfer_command(module, &request, &response);
+    result = cvm_xfer_command_packets(module, &request, &response);
   }
   signal(SIGPIPE, oldsig);
   if (result != 0) return result;

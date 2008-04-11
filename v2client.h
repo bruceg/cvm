@@ -32,15 +32,26 @@ extern int cvm_client_fact_uint(unsigned number, unsigned long* data);
 extern int cvm_client_setugid(void);
 extern int cvm_client_setenv(void);
 
+extern unsigned cvm_xfer_command_packets(const char* module,
+					 const struct cvm_packet* request,
+					 struct cvm_packet* response);
+extern unsigned cvm_xfer_local_packets(const char* path,
+				       const struct cvm_packet* request,
+				       struct cvm_packet* response);
+extern unsigned cvm_xfer_udp_packets(const char* hostport,
+				     const struct cvm_packet* request,
+				     struct cvm_packet* response);
+
+/* Wrapper functions for library compatibility. */
 extern unsigned cvm_xfer_command(const char* module,
-				 const struct cvm_packet* request,
-				 struct cvm_packet* response);
+				 unsigned char buffer[CVM_BUFSIZE],
+				 unsigned* buflen);
 extern unsigned cvm_xfer_local(const char* path,
-			       const struct cvm_packet* request,
-			       struct cvm_packet* response);
+			       unsigned char buffer[CVM_BUFSIZE],
+			       unsigned* buflen);
 extern unsigned cvm_xfer_udp(const char* hostport,
-			     const struct cvm_packet* request,
-			     struct cvm_packet* response);
+			     unsigned char buffer[CVM_BUFSIZE],
+			     unsigned* buflen);
 
 /* Wrapper functions. */
 extern int cvm_client_authenticate_password(const char* module,

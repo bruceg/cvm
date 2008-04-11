@@ -24,9 +24,9 @@
 #include "protocol.h"
 
 /* UNIX local-domain socket module invocation ********************************/
-unsigned cvm_xfer_local(const char* path,
-			const struct cvm_packet* request,
-			struct cvm_packet* response)
+unsigned cvm_xfer_local_packets(const char* path,
+				const struct cvm_packet* request,
+				struct cvm_packet* response)
 {
   int sock;
   int result;

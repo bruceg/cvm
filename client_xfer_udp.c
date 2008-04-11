@@ -52,9 +52,9 @@ static int udp_sendrecv(int sock, ipv4addr* ip, ipv4port port,
   return 0;
 }
 
-unsigned cvm_xfer_udp(const char* hostport,
-		      const struct cvm_packet* request,
-		      struct cvm_packet* response)
+unsigned cvm_xfer_udp_packets(const char* hostport,
+			      const struct cvm_packet* request,
+			      struct cvm_packet* response)
 {
   static char* hostname;
   char* portstr;

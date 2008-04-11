@@ -4,6 +4,7 @@ client_domain.o
 client_setugid.o
 client_setenv.o
 client_xfer_command.o
+client_xfer_compat.o
 client_xfer_local.o
 client_xfer_udp.o
 errors.o

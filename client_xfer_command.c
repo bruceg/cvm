@@ -103,9 +103,9 @@ static unsigned read_buffer(int fd, unsigned char* buffer)
   return buflen;
 }
 
-unsigned cvm_xfer_command(const char* module,
-			  const struct cvm_packet* request,
-			  struct cvm_packet* response)
+unsigned cvm_xfer_command_packets(const char* module,
+				  const struct cvm_packet* request,
+				  struct cvm_packet* response)
 {
   int pipes[2];
   int result;

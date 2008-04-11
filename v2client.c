@@ -258,13 +258,13 @@ int cvm_client_authenticate(const char* modules, unsigned count,
    * OUTOFSCOPE set to 0. */
   striter_loop(&i, &module_list, '\0') {
     if (!memcmp(i.startptr, "cvm-udp:", 8))
-      result = cvm_xfer_udp(i.startptr+8, &request, &response);
+      result = cvm_xfer_udp_packets(i.startptr+8, &request, &response);
     else if (!memcmp(i.startptr, "cvm-local:", 10))
-      result = cvm_xfer_local(i.startptr+10, &request, &response);
+      result = cvm_xfer_local_packets(i.startptr+10, &request, &response);
     else {
       if (!memcmp(i.startptr, "cvm-command:", 12))
 	i.startptr += 12;
-      result = cvm_xfer_command(i.startptr, &request, &response);
+      result = cvm_xfer_command_packets(i.startptr, &request, &response);
     }
     /* Note: the result returned by cvm_xfer_* indicates if transmission
      * succeeded, not the actual result of validation.  The validation
