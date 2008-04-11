@@ -31,28 +31,30 @@
 
 /* UDP module invocation *****************************************************/
 static int udp_sendrecv(int sock, ipv4addr* ip, ipv4port port,
-			struct cvm_packet* packet)
+			const struct cvm_packet* request,
+			struct cvm_packet* response)
 {
   int timeout;
   int try;
   iopoll_fd ifd;
-  unsigned len = packet->length;
 
   ifd.fd = sock;
   ifd.events = IOPOLL_READ;
   for (timeout = 2, try = 0; try < 4; timeout *= 2, ++try) {
-    if ((unsigned)socket_send4(sock, packet->data, len, ip, port) != len)
+    if ((unsigned)socket_send4(sock, request->data, request->length,
+			       ip, port) != request->length)
       return 0;
     if (iopoll(&ifd, 1, timeout*1000) != 0)
-      return (packet->length = socket_recv4(sock, packet->data,
-					    CVM_BUFSIZE, ip,
-					    &port)) != (unsigned)-1;
+      return (response->length = socket_recv4(sock, response->data,
+					      CVM_BUFSIZE, ip,
+					      &port)) != (unsigned)-1;
   }
   return 0;
 }
 
 unsigned cvm_xfer_udp(const char* hostport,
-		      struct cvm_packet* packet)
+		      const struct cvm_packet* request,
+		      struct cvm_packet* response)
 {
   static char* hostname;
   char* portstr;
@@ -72,7 +74,7 @@ unsigned cvm_xfer_udp(const char* hostport,
   memcpy(&ip, he->h_addr_list[0], 4);
   
   if ((sock = socket_udp()) == -1) return CVME_IO;
-  if (!udp_sendrecv(sock, &ip, port, packet)) {
+  if (!udp_sendrecv(sock, &ip, port, request, response)) {
     close(sock);
     return CVME_IO;
   }

@@ -31,7 +31,8 @@
 
 const char* cvm_client_account_split_chars = "@";
 
-static struct cvm_packet packet;
+static struct cvm_packet request;
+static struct cvm_packet response;
 
 /* Packet management code ****************************************************/
 static int parse_packet(struct cvm_packet* p)
@@ -112,7 +113,7 @@ int cvm_client_fact_str(unsigned number, const char** data)
   static unsigned last_number = -1;
   
   if (!ptr || number != last_number)
-    ptr = packet.data+1;
+    ptr = response.data+1;
   last_number = number;
   
   while (*ptr) {
@@ -154,19 +155,19 @@ int cvm_client_authenticate(const char* module, const char* account,
   int result;
   void (*oldsig)(int);
   if (domain == 0) domain = "";
-  if (!build_packet(&packet, account, domain, credentials, parse_domain))
+  if (!build_packet(&request, account, domain, credentials, parse_domain))
     return CVME_GENERAL;
   
   oldsig = signal(SIGPIPE, SIG_IGN);
   if (!memcmp(module, "cvm-udp:", 8))
-    result = cvm_xfer_udp(module+8, &packet);
+    result = cvm_xfer_udp(module+8, &request, &response);
   else if (!memcmp(module, "cvm-local:", 10))
-    result = cvm_xfer_local(module+10, &packet);
+    result = cvm_xfer_local(module+10, &request, &response);
   else {
     if (!memcmp(module, "cvm-command:", 12)) module += 12;
-    result = cvm_xfer_command(module, &packet);
+    result = cvm_xfer_command(module, &request, &response);
   }
   signal(SIGPIPE, oldsig);
   if (result != 0) return result;
-  return parse_packet(&packet);
+  return parse_packet(&response);
 }

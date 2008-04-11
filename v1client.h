@@ -24,11 +24,14 @@ extern int cvm_client_setugid(void);
 extern int cvm_client_setenv(void);
 
 extern unsigned cvm_xfer_command(const char* module,
-				 struct cvm_packet* packet);
+				 const struct cvm_packet* request,
+				 struct cvm_packet* response);
 extern unsigned cvm_xfer_local(const char* path,
-			       struct cvm_packet* packet);
+			       const struct cvm_packet* request,
+			       struct cvm_packet* response);
 extern unsigned cvm_xfer_udp(const char* hostport,
-			     struct cvm_packet* packet);
+			     const struct cvm_packet* request,
+			     struct cvm_packet* response);
 
 #ifndef CVM_NOCOMPAT
 

@@ -25,7 +25,8 @@
 
 /* UNIX local-domain socket module invocation ********************************/
 unsigned cvm_xfer_local(const char* path,
-			struct cvm_packet* packet)
+			const struct cvm_packet* request,
+			struct cvm_packet* response)
 {
   int sock;
   int result;
@@ -33,26 +34,26 @@ unsigned cvm_xfer_local(const char* path,
   unsigned done;
   unsigned len;
   result = CVME_IO;
-  len = packet->length;
+  response->length = 0;
   if ((sock = socket_unixstr()) != -1 &&
       socket_connectu(sock, path)) {
-    for (done = 0, len = packet->length; done < len; done += io) {
-      if ((io = write(sock, packet->data+done, len-done)) == 0) break;
+    for (done = 0, len = request->length; done < len; done += io) {
+      if ((io = write(sock, request->data+done, len-done)) == 0) break;
       if (io == (unsigned)-1) break;
     }
     socket_shutdown(sock, 0, 1);
     if (done >= len) {
       for (done = 0; done < CVM_BUFSIZE; done += io) {
-	if ((io = read(sock, packet->data+done, CVM_BUFSIZE-done)) == 0) break;
+	if ((io = read(sock, response->data+done, CVM_BUFSIZE-done)) == 0)
+	  break;
 	if (io == (unsigned)-1) done = CVM_BUFSIZE+1;
       }
       if (done <= CVM_BUFSIZE) {
-	len = done;
+	response->length = done;
 	result = 0;
       }
     }
   }
   close(sock);
-  packet->length = len;
   return result;
 }

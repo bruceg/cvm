@@ -33,7 +33,9 @@
 
 const char* cvm_client_account_split_chars = "@";
 
-static struct cvm_packet packet;
+static struct cvm_packet request;
+static struct cvm_packet response;
+
 static struct 
 {
   unsigned type;
@@ -166,7 +168,7 @@ int cvm_client_fact_str(unsigned number, const char** data, unsigned* length)
   
   while (offsets[o].type != 0) {
     if (offsets[o++].type == number) {
-      *length = (*data = packet.data + offsets[o-1].start)[-1];
+      *length = (*data = response.data + offsets[o-1].start)[-1];
       err = 0;
       break;
     }
@@ -226,17 +228,17 @@ int cvm_client_authenticate(const char* module, unsigned count,
   void (*oldsig)(int);
   int addrandom = memcmp(module, "cvm-udp:", 8) == 0;
 
-  if (!build_packet(&packet, count, credentials, addrandom))
+  if (!build_packet(&request, count, credentials, addrandom))
     return CVME_GENERAL;
   
   oldsig = signal(SIGPIPE, SIG_IGN);
   if (!memcmp(module, "cvm-udp:", 8))
-    result = cvm_xfer_udp(module+8, &packet);
+    result = cvm_xfer_udp(module+8, &request, &response);
   else if (!memcmp(module, "cvm-local:", 10))
-    result = cvm_xfer_local(module+10, &packet);
+    result = cvm_xfer_local(module+10, &request, &response);
   else {
     if (!memcmp(module, "cvm-command:", 12)) module += 12;
-    result = cvm_xfer_command(module, &packet);
+    result = cvm_xfer_command(module, &request, &response);
   }
   signal(SIGPIPE, oldsig);
   /* Note: the result returned by cvm_xfer_* indicates if transmission
@@ -244,5 +246,5 @@ int cvm_client_authenticate(const char* module, unsigned count,
   if (result != 0)
     return result;
   /* The validation result is returned by parse_packet. */
-  return parse_packet(&packet);
+  return parse_packet(&response);
 }
