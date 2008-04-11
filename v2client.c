@@ -33,12 +33,7 @@
 
 const char* cvm_client_account_split_chars = "@";
 
-struct buffer
-{
-  unsigned char data[CVM_BUFSIZE];
-  unsigned length;
-};
-static struct buffer buffer;
+static struct cvm_packet packet;
 static struct 
 {
   unsigned type;
@@ -46,30 +41,30 @@ static struct
 } offsets[CVM_BUFSIZE/2];
 static str randombytes;
 
-/* Buffer management code ****************************************************/
-static int parse_buffer(struct buffer* b)
+/* Packet management code ****************************************************/
+static int parse_packet(struct cvm_packet* p)
 {
   unsigned i;
   unsigned o;
-  if (b->length < 3)
+  if (p->length < 3)
     return CVME_BAD_MODDATA;
-  if (b->data[1] != randombytes.len)
+  if (p->data[1] != randombytes.len)
     return CVME_BAD_MODDATA;
-  if (memcmp(b->data+2, randombytes.s, randombytes.len) != 0)
+  if (memcmp(p->data+2, randombytes.s, randombytes.len) != 0)
     return CVME_BAD_MODDATA;
-  if (b->data[b->length-1] != 0)
+  if (p->data[p->length-1] != 0)
     return CVME_BAD_MODDATA;
-  /* This funny loop gives all the strings in the b->data NUL termination. */
-  for (i = 0, o = b->data[1] + 2;
-       o < sizeof b->data && b->data[o] != 0;
-       ++i, o += b->data[o+1] + 2) {
-    offsets[i].type = b->data[o];
+  /* This funny loop gives all the strings in the p->data NUL termination. */
+  for (i = 0, o = p->data[1] + 2;
+       o < sizeof p->data && p->data[o] != 0;
+       ++i, o += p->data[o+1] + 2) {
+    offsets[i].type = p->data[o];
     offsets[i].start = o+2;
-    b->data[o] = 0;
+    p->data[o] = 0;
   }
   offsets[i].type = offsets[i].start = 0;
-  if (b->data[0] != 0)
-    return b->data[0];
+  if (p->data[0] != 0)
+    return p->data[0];
   /* Extract required and common facts. */
   if (cvm_client_fact_str(CVM_FACT_USERNAME, &cvm_fact_username, &i) ||
       cvm_client_fact_uint(CVM_FACT_USERID, &cvm_fact_userid) ||
@@ -86,18 +81,18 @@ static int parse_buffer(struct buffer* b)
   return 0;
 }
 
-static unsigned buffer_add(struct buffer* b, unsigned type,
+static unsigned packet_add(struct cvm_packet* p, unsigned type,
 			   unsigned len, const char* data)
 {
   unsigned char* ptr;
-  if (b->length + len + 2 >= CVM_BUFSIZE-1)
+  if (p->length + len + 2 >= CVM_BUFSIZE-1)
     return 0;
-  ptr = b->data + b->length;
+  ptr = p->data + p->length;
   *ptr++ = type;
   *ptr++ = len;
   memcpy(ptr, data, len);
-  b->length += len + 2;
-  return b->length;
+  p->length += len + 2;
+  return 1;
 }
 
 static void make_randombytes(void)
@@ -123,7 +118,8 @@ static void make_randombytes(void)
   cvm_random_fill((unsigned char*)randombytes.s, randombytes.len);
 }
 
-static unsigned build_buffer(unsigned count,
+static unsigned build_packet(struct cvm_packet* p,
+			     unsigned count,
 			     const struct cvm_credential* credentials,
 			     int addrandom)
 {
@@ -135,24 +131,24 @@ static unsigned build_buffer(unsigned count,
     make_randombytes();
   else
     randombytes.len = 0;
-  buffer.length = 0;
-  if (!buffer_add(&buffer, CVM2_PROTOCOL, randombytes.len, randombytes.s))
+  p->length = 0;
+  if (!packet_add(p, CVM2_PROTOCOL, randombytes.len, randombytes.s))
     return 0;
 
   for (i = 0, has_secret = 0; i < count; ++i, ++credentials) {
     if (credentials->type == CVM_CRED_SECRET)
       has_secret = 1;
-    if (!buffer_add(&buffer, credentials->type,
+    if (!packet_add(p, credentials->type,
 		    credentials->value.len, credentials->value.s))
       return 0;
   }
 
   if (!has_secret
       && (env = getenv("CVM_LOOKUP_SECRET")) != 0)
-    if (!buffer_add(&buffer, CVM_CRED_SECRET, strlen(env), env))
+    if (!packet_add(p, CVM_CRED_SECRET, strlen(env), env))
       return 0;
 
-  buffer.data[buffer.length++] = 0;
+  p->data[p->length++] = 0;
   return 1;
 }
 
@@ -170,7 +166,7 @@ int cvm_client_fact_str(unsigned number, const char** data, unsigned* length)
   
   while (offsets[o].type != 0) {
     if (offsets[o++].type == number) {
-      *length = (*data = buffer.data + offsets[o-1].start)[-1];
+      *length = (*data = packet.data + offsets[o-1].start)[-1];
       err = 0;
       break;
     }
@@ -230,23 +226,23 @@ int cvm_client_authenticate(const char* module, unsigned count,
   void (*oldsig)(int);
   int addrandom = memcmp(module, "cvm-udp:", 8) == 0;
 
-  if (!build_buffer(count, credentials, addrandom))
+  if (!build_packet(&packet, count, credentials, addrandom))
     return CVME_GENERAL;
   
   oldsig = signal(SIGPIPE, SIG_IGN);
   if (!memcmp(module, "cvm-udp:", 8))
-    result = cvm_xfer_udp(module+8, buffer.data, &buffer.length);
+    result = cvm_xfer_udp(module+8, &packet);
   else if (!memcmp(module, "cvm-local:", 10))
-    result = cvm_xfer_local(module+10, buffer.data, &buffer.length);
+    result = cvm_xfer_local(module+10, &packet);
   else {
     if (!memcmp(module, "cvm-command:", 12)) module += 12;
-    result = cvm_xfer_command(module, buffer.data, &buffer.length);
+    result = cvm_xfer_command(module, &packet);
   }
   signal(SIGPIPE, oldsig);
   /* Note: the result returned by cvm_xfer_* indicates if transmission
    * succeeded, not the actual result of validation. */
   if (result != 0)
     return result;
-  /* The validation result is returned by parse_buffer. */
-  return parse_buffer(&buffer);
+  /* The validation result is returned by parse_packet. */
+  return parse_packet(&packet);
 }

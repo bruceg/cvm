@@ -104,17 +104,16 @@ static unsigned read_buffer(int fd, unsigned char* buffer)
 }
 
 unsigned cvm_xfer_command(const char* module,
-			  unsigned char buffer[CVM_BUFSIZE],
-			  unsigned* buflen)
+			  struct cvm_packet* packet)
 {
   int pipes[2];
   int result;
 
   if (!pipefork(module, pipes)) return CVME_IO;
   
-  if (!write_buffer(pipes[0], buffer, *buflen) ||
+  if (!write_buffer(pipes[0], packet->data, packet->length) ||
       close(pipes[0]) == -1 ||
-      (*buflen = read_buffer(pipes[1], buffer)) == 0 ||
+      (packet->length = read_buffer(pipes[1], packet->data)) == 0 ||
       close(pipes[1]) == -1) {
     killit();
     if ((result = waitforit()) < 0)
@@ -124,6 +123,6 @@ unsigned cvm_xfer_command(const char* module,
 
   if ((result = waitforit()) < 0)
     return -result;
-  buffer[0] = result;
+  packet->data[0] = result;
   return 0;
 }

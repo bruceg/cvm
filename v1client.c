@@ -31,15 +31,17 @@
 
 const char* cvm_client_account_split_chars = "@";
 
-static unsigned char buffer[CVM_BUFSIZE];
-static unsigned buflen;
+static struct cvm_packet packet;
 
-/* Buffer management code ****************************************************/
-static int parse_buffer(void)
+/* Packet management code ****************************************************/
+static int parse_packet(struct cvm_packet* p)
 {
-  if (buffer[0] != 0) return buffer[0];
-  if (buflen < 3) return CVME_BAD_MODDATA;
-  if (buffer[buflen-1] != 0 || buffer[buflen-2] != 0) return CVME_BAD_MODDATA;
+  if (p->data[0] != 0)
+    return p->data[0];
+  if (p->length < 3
+      || p->data[p->length-1] != 0
+      || p->data[p->length-2] != 0)
+    return CVME_BAD_MODDATA;
   if (cvm_client_fact_str(CVM_FACT_USERNAME, &cvm_fact_username) ||
       cvm_client_fact_uint(CVM_FACT_USERID, &cvm_fact_userid) ||
       cvm_client_fact_uint(CVM_FACT_GROUPID, &cvm_fact_groupid) ||
@@ -55,24 +57,28 @@ static int parse_buffer(void)
   return 0;
 }
 
-static unsigned char* buffer_add(unsigned char* ptr,
-				 const char* str, unsigned len)
-{
-  if (ptr - buffer + len + 1 >= CVM_BUFSIZE-1) return 0;
-  memcpy(ptr, str, len);
-  ptr[len] = 0;
-  return ptr + len + 1;
-}
-
-static unsigned build_buffer(const char* account, const char* domain,
-			     const char** credentials, int parse_domain)
+static int packet_add(struct cvm_packet* p,
+		      const char* str, unsigned len)
 {
   unsigned char* ptr;
+  if (p->length + len + 1 >= CVM_BUFSIZE-1)
+    return 0;
+  ptr = p->data + p->length;
+  memcpy(ptr, str, len);
+  ptr[len] = 0;
+  p->length += len + 1;
+  return 1;
+}
+
+static unsigned build_packet(struct cvm_packet* p,
+			     const char* account, const char* domain,
+			     const char** credentials, int parse_domain)
+{
   unsigned i;
   unsigned actlen;
   
-  buffer[0] = CVM1_PROTOCOL;
-  ptr = buffer + 1;
+  p->data[0] = CVM1_PROTOCOL;
+  p->length = 1;
 
   actlen = strlen(account);
   if (parse_domain) {
@@ -89,15 +95,14 @@ static unsigned build_buffer(const char* account, const char* domain,
     }
   }
   
-  if ((ptr = buffer_add(ptr, account, actlen)) == 0) return 0;
-  if ((ptr = buffer_add(ptr, domain, strlen(domain))) == 0) return 0;
+  if (!packet_add(p, account, actlen)) return 0;
+  if (!packet_add(p, domain, strlen(domain))) return 0;
 
   for (i = 0; credentials[i] != 0; i++)
-    if ((ptr = buffer_add(ptr, credentials[i], strlen(credentials[i]))) == 0)
+    if (!packet_add(p, credentials[i], strlen(credentials[i])))
       return 0;
 
-  *ptr++ = 0;
-  buflen = ptr - buffer;
+  p->data[p->length++] = 0;
   return 1;
 }
 
@@ -107,7 +112,7 @@ int cvm_client_fact_str(unsigned number, const char** data)
   static unsigned last_number = -1;
   
   if (!ptr || number != last_number)
-    ptr = buffer+1;
+    ptr = packet.data+1;
   last_number = number;
   
   while (*ptr) {
@@ -149,19 +154,19 @@ int cvm_client_authenticate(const char* module, const char* account,
   int result;
   void (*oldsig)(int);
   if (domain == 0) domain = "";
-  if (!build_buffer(account, domain, credentials, parse_domain))
+  if (!build_packet(&packet, account, domain, credentials, parse_domain))
     return CVME_GENERAL;
   
   oldsig = signal(SIGPIPE, SIG_IGN);
   if (!memcmp(module, "cvm-udp:", 8))
-    result = cvm_xfer_udp(module+8, buffer, &buflen);
+    result = cvm_xfer_udp(module+8, &packet);
   else if (!memcmp(module, "cvm-local:", 10))
-    result = cvm_xfer_local(module+10, buffer, &buflen);
+    result = cvm_xfer_local(module+10, &packet);
   else {
     if (!memcmp(module, "cvm-command:", 12)) module += 12;
-    result = cvm_xfer_command(module, buffer, &buflen);
+    result = cvm_xfer_command(module, &packet);
   }
   signal(SIGPIPE, oldsig);
   if (result != 0) return result;
-  return parse_buffer();
+  return parse_packet(&packet);
 }

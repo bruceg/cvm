@@ -6,6 +6,12 @@
 
 #define CVM_BUFSIZE 512
 
+struct cvm_packet
+{
+  unsigned length;
+  unsigned char data[CVM_BUFSIZE];
+};
+
 extern const char* cvm_client_account_split_chars;
 extern const char* cvm_client_ucspi_domain(void);
 extern int cvm_client_authenticate(const char* module, const char* account,
@@ -18,14 +24,11 @@ extern int cvm_client_setugid(void);
 extern int cvm_client_setenv(void);
 
 extern unsigned cvm_xfer_command(const char* module,
-				 unsigned char buffer[CVM_BUFSIZE],
-				 unsigned* buflen);
+				 struct cvm_packet* packet);
 extern unsigned cvm_xfer_local(const char* path,
-			       unsigned char buffer[CVM_BUFSIZE],
-			       unsigned* buflen);
+			       struct cvm_packet* packet);
 extern unsigned cvm_xfer_udp(const char* hostport,
-			     unsigned char buffer[CVM_BUFSIZE],
-			     unsigned* buflen);
+			     struct cvm_packet* packet);
 
 #ifndef CVM_NOCOMPAT
 
