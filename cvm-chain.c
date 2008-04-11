@@ -66,10 +66,9 @@ int cvm_module_lookup(void)
   for (code = i = 0; i < chain_count && ((code & CVME_FATAL) == 0); i++) {
     cvm_chain_init();
     code = cvm_client_authenticate(chains[i], credcount, creds);
-    if (code == 0)
-      return 0;
+    if (code != CVME_PERMFAIL)
+      return code;
     if (outofscope
-	&& code == CVME_PERMFAIL
 	&& cvm_client_fact_uint(CVM_FACT_OUTOFSCOPE, &outofscope) == 0)
       saw_outofscope = 1;
   }
