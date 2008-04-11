@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
-Changes in version 0.85
+Changes in version 0.90
 
 - Added support for chaining modules within the version client library.
   To use this, specify the module string as a list of modules separated
