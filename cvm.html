@@ -61,6 +61,14 @@ prefix is optional.</li>
 
 </ol>
 
+<p>Modules may be chained in the client.  To do so, specify the list of
+  modules separated by a comma.  For example:</p>
+
+<pre>cvm-local:/path/to/socket,cvm-command:/path/to/module</pre>
+
+<p>The first module to either report success, a temporary failure, or
+  permanent failure with an in-scope result terminates the chain.</p>
+
 <p>A random tag is added to the transmitted data to prevent spoofing
 when a remote module is being contacted (UDP mode) using
 the <a href="protocol-2.html">version 2 protocol</a>.  Its size is set

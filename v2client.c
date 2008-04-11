@@ -25,6 +25,8 @@
 
 #include <sysdeps.h>
 #include <net/socket.h>
+#include <str/iter.h>
+#include <str/str.h>
 
 #include "v2client.h"
 #include "credentials.h"
@@ -221,30 +223,62 @@ int cvm_client_split_account(str* account, str* domain)
 }
 
 /* Top-level wrapper *********************************************************/
-int cvm_client_authenticate(const char* module, unsigned count,
+int cvm_client_authenticate(const char* modules, unsigned count,
 			    const struct cvm_credential* credentials)
 {
   int result;
   void (*oldsig)(int);
-  int addrandom = memcmp(module, "cvm-udp:", 8) == 0;
+  int addrandom;
+  static str module_list;
+  striter i;
+  unsigned long u;
+
+  /* Make a copy of the module list so we can make the strings NUL
+   * terminated internally. */
+  if (!str_copys(&module_list, modules))
+    return CVME_IO | CVME_FATAL;
+  str_subst(&module_list, ',', '\0');
+
+  /* Set addrandom to true if any module uses UDP. */
+  addrandom = 0;
+  striter_loop(&i, &module_list, '\0') {
+    if (memcmp(i.startptr, "cvm-udp:", 8) == 0) {
+      addrandom = 1;
+      break;
+    }
+  }
 
   if (!build_packet(&request, count, credentials, addrandom))
     return CVME_GENERAL;
   
   oldsig = signal(SIGPIPE, SIG_IGN);
-  if (!memcmp(module, "cvm-udp:", 8))
-    result = cvm_xfer_udp(module+8, &request, &response);
-  else if (!memcmp(module, "cvm-local:", 10))
-    result = cvm_xfer_local(module+10, &request, &response);
-  else {
-    if (!memcmp(module, "cvm-command:", 12)) module += 12;
-    result = cvm_xfer_command(module, &request, &response);
+
+  /* Invoke each module in the list, exiting when any module produces a
+   * non-PERMFAIL result, or when it produces a PERMFAIL result with
+   * OUTOFSCOPE set to 0. */
+  striter_loop(&i, &module_list, '\0') {
+    if (!memcmp(i.startptr, "cvm-udp:", 8))
+      result = cvm_xfer_udp(i.startptr+8, &request, &response);
+    else if (!memcmp(i.startptr, "cvm-local:", 10))
+      result = cvm_xfer_local(i.startptr+10, &request, &response);
+    else {
+      if (!memcmp(i.startptr, "cvm-command:", 12))
+	i.startptr += 12;
+      result = cvm_xfer_command(i.startptr, &request, &response);
+    }
+    /* Note: the result returned by cvm_xfer_* indicates if transmission
+     * succeeded, not the actual result of validation.  The validation
+     * result is returned by parse_packet. */
+    if (result == 0)
+      result = parse_packet(&response);
+    /* Return success and temporary failures. */
+    if (result != CVME_PERMFAIL)
+      break;
+    /* Also return permanent failure if the result is in scope. */
+    if (cvm_client_fact_uint(CVM_FACT_OUTOFSCOPE, &u) == 0
+	&& u == 0)
+      break;
   }
   signal(SIGPIPE, oldsig);
-  /* Note: the result returned by cvm_xfer_* indicates if transmission
-   * succeeded, not the actual result of validation. */
-  if (result != 0)
-    return result;
-  /* The validation result is returned by parse_packet. */
-  return parse_packet(&response);
+  return result;
 }

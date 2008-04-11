@@ -1,6 +1,14 @@
 -------------------------------------------------------------------------------
 Changes in version 0.85
 
+- Added support for chaining modules within the version client library.
+  To use this, specify the module string as a list of modules separated
+  with commas.  For example:
+
+	cvm-command:/path/to/module,cvm-local:/path/to/socket
+
+  This enhancement deprecates the cvm-chain module.
+
 - Introduced an "out of scope" fact, to be used on credential rejection
   results when the supplied credentials are outside of the scope of
   authority of the module.  The cvm-vmailmgr and cvm-qmail modules
