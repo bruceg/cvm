@@ -236,6 +236,10 @@ int cvm_client_authenticate(const char* module, unsigned count,
     result = cvm_xfer_command(module, buffer, &buflen);
   }
   signal(SIGPIPE, oldsig);
-  if (result != 0) return result;
+  /* Note: the result returned by cvm_xfer_* indicates if transmission
+   * succeeded, not the actual result of validation. */
+  if (result != 0)
+    return result;
+  /* The validation result is returned by parse_buffer. */
   return parse_buffer();
 }
