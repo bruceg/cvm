@@ -1,0 +1,44 @@
+CVM_CHAIN0=$src/cvm-pwfile
+CVM_CHAIN1=$src/cvm-vmailmgr
+export CVM_CHAIN0 CVM_CHAIN1
+
+$src/cvm-testclient $src/cvm-chain pwfuser test.tld testpass
+echo
+$src/cvm-testclient $src/cvm-chain virt test.tld pass
+echo
+$src/cvm-testclient $src/cvm-chain notexist test.tld pass
+echo
+$src/cvm-testclient $src/cvm-chain notexist other.dom pass
+
+unset CVM_CHAIN0 CVM_CHAIN1
+
+<result>
+user name:        pwfuser
+user ID:          123
+group ID:         456
+real name:        Gecos
+directory:        /home/ftp
+shell:            /bin/false
+group name:       (null)
+system user name: (null)
+system directory: (null)
+domain:           (null)
+mailbox path:     (null)
+
+user name:        virt
+user ID:          @UID@
+group ID:         @GID@
+real name:        (null)
+directory:        @TMPDIR@/virt
+shell:            (null)
+group name:       (null)
+system user name: user
+system directory: @TMPDIR@
+domain:           test.tld
+mailbox path:     @TMPDIR@/virt
+
+cvm-testclient: Authentication failed, error #100 (Credentials rejected)
+out of scope:     0
+
+cvm-testclient: Authentication failed, error #100 (Credentials rejected)
+out of scope:     1
