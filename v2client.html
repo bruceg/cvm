@@ -37,6 +37,10 @@ drop root priviledges as soon as possible after successful
 authentication.  Where reasonable, the client should also chroot to
 the directory for added protection.</p>
 
+<p>A random tag is added to the transmitted data to prevent spoofing
+when a remote module is being contacted (UDP mode).  Its size is set
+by <tt>$CVM_RANDOM_BYTES</tt>, and defaults to 8 bytes.</p>
+
 <dt><tt>int cvm_client_split_account(str* account, str* domain)</tt>
 <dd><p>This function splits a domain name, if present, from of the
 account name.  It searches for the last instance of any character from
