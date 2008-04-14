@@ -2,8 +2,8 @@ CVM_LOOKUP_SECRET=secret \
 $src/cvm-testclient $tmp/cvm-qmail-lookup addr ''
 <result>
 user name:        user
-user ID:          500
-group ID:         500
+user ID:          @UID@
+group ID:         @GID@
 real name:        (null)
 directory:        /home/bruce/dev/cvm/tests-tmp
 shell:            (null)
