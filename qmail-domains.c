@@ -16,6 +16,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 #include <sysdeps.h>
+#include <errno.h>
 #include <sys/stat.h>
 
 #include <dict/dict.h>
@@ -56,7 +57,7 @@ static int load_vdomains(void)
 {
   struct stat s;
   switch (stat_changed(vdomains_path.s, &vdomains_stat, &s)) {
-  case -1: return 0;
+  case -1: return (errno == ENOENT) ? 1 : 0;
   case 0: return 1;
   }
   // FIXME: obuf_putsflush(&errbuf, "Reloading virtualdomains\n");

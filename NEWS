@@ -1,6 +1,7 @@
 -------------------------------------------------------------------------------
 Changes in version 0.91
 
+- Fixed failure in cvm-qmail when virtualdomains did not exist.
 
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/

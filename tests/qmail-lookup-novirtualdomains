@@ -1,0 +1,10 @@
+mv $QMAIL_ROOT/control/virtualdomains $QMAIL_ROOT/control/vds
+
+env CVM_LOOKUP_SECRET=secret \
+$src/cvm-testclient $tmp/cvm-qmail-lookup user test.tld
+
+mv $QMAIL_ROOT/control/vds $QMAIL_ROOT/control/virtualdomains
+
+<result>
+cvm-testclient: Authentication failed, error #100 (Credentials rejected)
+out of scope:     1
