@@ -37,7 +37,7 @@ l?:::755::cvm-vchkpw
 >include
 s:::::cvm-sasl.h:cvm/sasl.h
 d:::755:cvm
-s:::644:cvm:client.h:v1client.h
+s:::644:cvm:client.h:v2client.h
 c:::644:cvm:credentials.h
 c:::644:cvm:errors.h
 c:::644:cvm:facts.h

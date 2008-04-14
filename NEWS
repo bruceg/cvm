@@ -3,6 +3,8 @@ Changes in version 0.91
 
 - Fixed failure in cvm-qmail when virtualdomains did not exist.
 
+- Fixed client.h symlink to point to v2client.h to match the library.
+
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/
 -------------------------------------------------------------------------------
