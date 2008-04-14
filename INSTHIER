@@ -24,6 +24,7 @@ l?:::755::cvm-pgsql-local
 l?:::755::cvm-pgsql-udp
 l:::755::cvm-pwfile
 l:::755::cvm-qmail
+l?:::755::cvm-sqlite
 l:::755::cvm-testclient
 l:::755::cvm-v1benchclient
 l:::755::cvm-v1checkpassword

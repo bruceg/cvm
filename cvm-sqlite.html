@@ -1,0 +1,107 @@
+<html>
+<!--
+# cvm-sqlite.html
+# manual page for cvm-sqlite
+# wcm, 2008.01.02 - 2008.01.02
+# ===
+-->
+<body>
+
+<h2><a href="http://untroubled.org/cvm/cvm.html">CVM</a></h2>
+<h2><a href="http://untroubled.org/cvm/sql.html">CVM SQL Framework</a></h2>
+
+<h1>The cvm-sqlite Module</h1>
+
+<h2>Synopsis:</h2> <p>SQLite module</p>
+
+<h2>Credentials:</h2>
+
+<ol>
+<li>Pass phrase
+</ol>
+
+<h2>Description:</h2>
+
+<p>This module queries an
+<a href="http://www.sqlite.org/">SQLite</a>
+database for credential validation.
+</p>
+
+<h2>Configuration Variables:</h2>
+
+<p>The following environmental variables are required in the
+execution environment of <tt>cvm-sqlite</tt>:
+</p>
+
+<dl>
+<dt><tt>$CVM_SQLITE_DB</tt></dt>
+<dd>The full path to the credential database file.
+</dd>
+
+<dt><tt>$CVM_SQLITE_QUERY</tt></dt>
+<dd>The SQL query statement used to submit for credential validation.
+</dd>
+
+<dt><tt>$CVM_SQLITE_PWCMP</tt></dt>
+<dd>The <a
+href="http://untroubled.org/pwcmp/pwcmp.html">password comparison module</a> to use.
+Set to one of two values:
+<ul>
+<li>'crypt', for passwords stored encrypted</li>
+<li>'plain', for passwords stored unencrypted</li>
+</ul>
+</dd>
+
+</dl>
+
+<h2>Sample Schema</h2>
+
+<p>The following <tt>CREATE TABLE</tt> statement is shown as an example
+for initializing an SQLite database for use with this CVM:
+</p>
+
+<pre>
+<tt>
+CREATE TABLE accounts (
+  username      TEXT NOT NULL,  -- required
+  domain        TEXT NOT NULL DEFAULT '',
+  password      TEXT NOT NULL,  -- required
+  userid        TEXT NOT NULL,  -- required
+  groupid       TEXT NOT NULL,  -- required
+  realname      TEXT,           -- opt
+  directory     TEXT NOT NULL,  -- required
+  shell         TEXT,           -- opt
+  groupname     TEXT,           -- opt
+  sys_username  TEXT,           -- opt
+  sys_directory TEXT,           -- opt
+  mailbox_path  TEXT,           -- opt
+  UNIQUE (username, domain)
+);
+</tt>
+</pre>
+
+<h2>Sample Query</h2>
+
+<p>The following example shows <tt>CVM_SQLITE_QUERY</tt>
+defined with a query statement for use with the above schema:
+</p>
+
+<pre>
+<tt>
+CVM_SQLITE_QUERY='
+  SELECT
+    -- required:
+    password, username, userid, groupid, directory,
+    -- optional gecos:
+    realname, shell,
+    -- optional other:
+    groupname, domain, sys_username, sys_directory, mailbox_path
+  FROM accounts
+  WHERE username=$account
+  AND   domain=$domain '
+</tt>
+</pre>
+
+
+</body>
+</html>

@@ -1,0 +1,6 @@
+libcvm-module.la
+libcvm-sql.la
+-lbg
+-lpwcmp
+-L/usr/lib/sqlite -lsqlite3
+crypt.lib
