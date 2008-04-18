@@ -36,6 +36,7 @@ static struct qmail_user user;
 static str domain;
 static str username;
 static str ext;
+static str path;
 
 /* Account name is either "baseuser-virtuser" or "virtuser@domain" */
 int cvm_module_lookup(void)
@@ -53,7 +54,7 @@ int cvm_module_lookup(void)
     return CVME_PERMFAIL;
   }
 
-  switch (qmail_dotfile_exists(&user, ext.s)) {
+  switch (qmail_dotfile_exists(&user, ext.s, &path)) {
   case -1:
     return CVME_IO;
   case 0:

@@ -24,9 +24,9 @@
 
 #include "qmail.h"
 
-int qmail_dotfile_exists(const struct qmail_user* user, const char* ext)
+int qmail_dotfile_exists(const struct qmail_user* user, const char* ext,
+			 str* path)
 {
-  static str path;
   struct stat st;
   int split;
   int baselen;
@@ -35,14 +35,14 @@ int qmail_dotfile_exists(const struct qmail_user* user, const char* ext)
   if (user->dash == 0)
     return ext == 0 || *ext == 0;
 
-  if (!str_copy(&path, &user->homedir)) return -1;
-  if (!str_cats(&path, "/.qmail")) return -1;
-  baselen = path.len;
-  if (!str_catc(&path, user->dash)) return -1;
-  if (!str_cat(&path, &user->ext)) return -1;
+  if (!str_copy(path, &user->homedir)) return -1;
+  if (!str_cats(path, "/.qmail")) return -1;
+  baselen = path->len;
+  if (!str_catc(path, user->dash)) return -1;
+  if (!str_cat(path, &user->ext)) return -1;
   if (ext != 0) {
     while (*ext) {
-      if (!str_catc(&path, isupper(*ext)
+      if (!str_catc(path, isupper(*ext)
 		    ? tolower(*ext)
 		    : (*ext == '.')
 		    ? ':'
@@ -52,17 +52,17 @@ int qmail_dotfile_exists(const struct qmail_user* user, const char* ext)
     }
   }
 
-  split = path.len;
+  split = path->len;
   for (;;) {
-    if (stat(path.s, &st) == 0)
+    if (stat(path->s, &st) == 0)
       return 1;
     if (errno != ENOENT)
       return -1;
-    if ((split = str_findprev(&path, '-', split - 1)) == -1
+    if ((split = str_findprev(path, '-', split - 1)) == -1
 	|| split < baselen)
       break;
-    path.len = split + 1;
-    if (!str_cats(&path, "default")) return -1;
+    path->len = split + 1;
+    if (!str_cats(path, "default")) return -1;
   }
   return 0;
 }
