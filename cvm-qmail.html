@@ -17,12 +17,15 @@
 if an address is valid, using the same lookups that qmail would.  It
 first checks <tt>control/locals</tt> and then
 <tt>control/virtualdomains</tt> to determine if the domain is valid, and
-to determine the prefix to add to virtual domain usernames.  It then
-looks up the resulting username in <tt>users/cdb</tt> (or the system
-password table if the CDB does not exist) to determine the correct home
-directory.  If the address would require a <tt>.qmail-something</tt>
-file, it ensures that that file exists as well, doing <tt>-default</tt>
-checks as necessary.</tt>
+to determine the prefix to add to virtual domain usernames.  If the
+domain is not found, it fails with <a href="facts.html">OUTOFSCOPE</a>
+set to true.  It then looks up the resulting username
+in <tt>users/cdb</tt> (or the system password table if the CDB does not
+exist) to determine the correct home directory.  If the address would
+require a <tt>.qmail-something</tt> file, it ensures that that file
+exists as well, doing <tt>-default</tt> checks as necessary.  If the
+address is not deliverable based on these checks, it fails
+with <a href="facts.html">OUTOFSCOPE</a> set to false.</p>
 
 <h2>Configuration Variables:</h2>
 

@@ -17,7 +17,9 @@
 
 <p>This module validates credentials using accounts in a vmailmgr
 system.  It does domain lookups the same way qmail would to determine
-what system account and virtual account to use.</p>
+what system account and virtual account to use.  If the domain is not
+being managed by vmailmgr, it fails with
+<a href="facts.html">OUTOFSCOPE</a> set to true.</p>
 
 <h2>Configuration Variables:</h2>
 
