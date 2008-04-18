@@ -5,6 +5,10 @@ Changes in version 0.91
 
 - Fixed client.h symlink to point to v2client.h to match the library.
 
+- Fixed cvm-vmailmgr to fail with OUTOFSCOPE=1 when the virtual password
+  table file does not exist, instead of failing with an I/O error.  This
+  should improve its ability to chain with other modules.
+
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/
 -------------------------------------------------------------------------------

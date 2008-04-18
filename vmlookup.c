@@ -90,7 +90,13 @@ int lookup_virtuser(void)
   str_lower(&virtuser);
   /* Found a virtual user, authenticate it. */
   if (chdir(vmuser.homedir.s) == -1) return CVME_IO;
-  if ((fd = open(pwfile, O_RDONLY)) == -1) return CVME_IO;
+  if ((fd = open(pwfile, O_RDONLY)) == -1) {
+    if (errno == ENOENT) {
+      cvm_module_fact_uint(CVM_FACT_OUTOFSCOPE, 1);
+      return CVME_PERMFAIL;
+    }
+    return CVME_IO;
+  }
   cdb_init(&cdb, fd);
   switch (cdb_get(&cdb, &virtuser, &vpwdata)) {
   case -1:
