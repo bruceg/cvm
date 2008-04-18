@@ -1,6 +1,9 @@
 -------------------------------------------------------------------------------
 Changes in version 0.91
 
+- Added a "lookaside" mode to cvm-qmail, to assist with proper chaining
+  to cvm-vmailmgr or other modules.
+
 - Fixed failure in cvm-qmail when virtualdomains did not exist.
 
 - Fixed client.h symlink to point to v2client.h to match the library.

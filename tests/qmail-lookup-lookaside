@@ -1,0 +1,50 @@
+doit() {
+    echo "$1" >$tmp/.qmail-lookaside-default
+    $src/cvm-testclient $tmp/cvm-qmail-lookup lookaside-someone test.tld
+}
+
+export CVM_LOOKUP_SECRET=secret
+export CVM_QMAIL_LOOKASIDE='/bin/program1 /bin/program2 /bin/program3'
+
+doit '| /bin/program foo'
+echo
+doit '| /bin/program1 foo'
+echo
+doit '| /bin/program2 foo'
+echo
+doit '| /bin/program3 foo'
+echo
+doit ' |/bin/program1'
+echo
+doit $'#before\n|/bin/program2\n#after'
+
+unset CVM_LOOKUP_SECRET
+unset CVM_QMAIL_LOOKASIDE
+
+<result>
+user name:        user
+user ID:          @UID@
+group ID:         @GID@
+real name:        (null)
+directory:        @TMPDIR@
+shell:            (null)
+group name:       (null)
+system user name: user
+system directory: @TMPDIR@
+domain:           test.tld
+mailbox path:     @TMPDIR@
+
+cvm-testclient: Authentication failed, error #100 (Credentials rejected)
+out of scope:     1
+
+cvm-testclient: Authentication failed, error #100 (Credentials rejected)
+out of scope:     1
+
+cvm-testclient: Authentication failed, error #100 (Credentials rejected)
+out of scope:     1
+
+cvm-testclient: Authentication failed, error #100 (Credentials rejected)
+out of scope:     1
+
+cvm-testclient: Authentication failed, error #100 (Credentials rejected)
+out of scope:     1
