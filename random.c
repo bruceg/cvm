@@ -30,7 +30,6 @@ static struct surfrand state;
 
 void cvm_random_init(void)
 {
-  int i;
   struct timeval tv;
   uint32 data[32];
 
