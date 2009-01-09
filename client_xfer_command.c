@@ -49,7 +49,7 @@ static int pipefork(const char* cmd, int pipes[2])
     close(pipe2[0]);
     dup2(pipe2[1], 1);
     close(pipe2[1]);
-    execlp(cmd, cmd, 0);
+    execlp(cmd, cmd, NULL);
     exit(1);
   default:
     close(pipe1[0]);
