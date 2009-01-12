@@ -78,7 +78,7 @@ int sql_auth_init(void)
   if(err != SQLITE_OK)
       return CVME_FATAL;
 
-  result_rows = 0;  
+  result_rows = 0;
   return 0;
 }
 
