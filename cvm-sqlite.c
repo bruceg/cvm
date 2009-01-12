@@ -59,6 +59,8 @@ static int my_callback(void *callback_arg, int nfields, char **data, char **fiel
   row.data = data;
   ++result_rows;
   return 0;
+  (void)callback_arg;
+  (void)field_names;
 }
 
 
@@ -99,6 +101,7 @@ int sql_auth_query(const str *query)
 int sql_post_query(const str *query)
 {
   return 0;
+  (void)query;
 }
 
 
