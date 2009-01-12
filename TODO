@@ -1,3 +1,8 @@
+- Add a CVM suitable for anonymous FTP
+
+- v1client dies if domain is NULL in cvm_client_authenticate
+  (can't reproduce this bug)
+
 - Write tests for:
   - cvm_client_split_account in v2client.c
   - cvm_client_ucspi_domain and cvm_client_setugid (?)
