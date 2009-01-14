@@ -1,0 +1,40 @@
+make_sqlite
+
+# Can it look up the right user
+$src/cvm-testclient $src/cvm-sqlite sluser '' testpass
+
+echo
+# Does it check the password
+$src/cvm-testclient $src/cvm-sqlite sluser '' testpasx
+
+echo
+# Does it look up the domain
+$src/cvm-testclient $src/cvm-sqlite sluser domain pass2
+
+rm $CVM_SQLITE_DB
+<result>
+user name:        sluser
+user ID:          123
+group ID:         456
+real name:        realname
+directory:        /home/sluser
+shell:            /bin/false
+group name:       (null)
+system user name: (null)
+system directory: (null)
+domain:           
+mailbox path:     (null)
+
+cvm-testclient: Authentication failed, error #100 (Credentials rejected)
+
+user name:        sluser
+user ID:          234
+group ID:         567
+real name:        sluser2
+directory:        /home/sluser2
+shell:            /bin/true
+group name:       (null)
+system user name: (null)
+system directory: (null)
+domain:           domain
+mailbox path:     (null)

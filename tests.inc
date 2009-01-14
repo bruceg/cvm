@@ -10,6 +10,33 @@ make_pwfile()
   ) >$CVM_PWFILE_PATH
 }
 
+CVM_SQLITE_DB=$tmp/db.sqlite
+CVM_SQLITE_QUERY='SELECT password, username, userid, groupid, directory, realname, shell, groupname, domain, sys_username, sys_directory, mailbox_path FROM accounts WHERE username=$account AND domain=$domain'
+CVM_SQLITE_PWCMP=plain
+export CVM_SQLITE_DB CVM_SQLITE_QUERY CVM_SQLITE_PWCMP
+make_sqlite()
+{
+  sqlite3 $CVM_SQLITE_DB <<EOF
+CREATE TABLE accounts (
+  username      TEXT NOT NULL,
+  domain        TEXT NOT NULL,
+  password      TEXT NOT NULL,
+  userid        TEXT NOT NULL,
+  groupid       TEXT NOT NULL,
+  realname      TEXT,
+  directory     TEXT NOT NULL,
+  shell         TEXT,
+  groupname     TEXT,
+  sys_username  TEXT,
+  sys_directory TEXT,
+  mailbox_path  TEXT,
+  UNIQUE (username, domain)
+);
+INSERT INTO accounts VALUES ('sluser','','testpass',123,456,'realname','/home/sluser','/bin/false',NULL,NULL,NULL,NULL);
+INSERT INTO accounts VALUES ('sluser','domain','pass2',234,567,'sluser2','/home/sluser2','/bin/true',NULL,NULL,NULL,NULL);
+EOF
+}
+
 for base in pwfile qmail vmailmgr; do
 
 cat <<EOF >$tmp/cvm-$base-lookup
@@ -71,3 +98,4 @@ sasltest() {
   $src/sasl-auth-test "$@"
   rm -f $CVM_PWFILE_PATH
 }
+
