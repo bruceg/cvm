@@ -12,6 +12,8 @@ Changes in version 0.91
   table file does not exist, instead of failing with an I/O error.  This
   should improve its ability to chain with other modules.
 
+- Added cvm-sqlite from Wayne Marshall
+
 Development of this version has been sponsored by FutureQuest, Inc.
 ossi@FutureQuest.net  http://www.FutureQuest.net/
 -------------------------------------------------------------------------------
