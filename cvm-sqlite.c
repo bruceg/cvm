@@ -1,22 +1,28 @@
-/* cvm-sqlite.c
-** cvm module for sqlite-backed credential database
-** wcm, 2007.12.28 - 2007.12.31
-** ===
-*/
+/* Copyright (C) 2008  Bruce Guenter <bruce@untroubled.org>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * Placed into the public domain by Wayne Marshall <wcm@guinix.com>
+ */
 
-/* standard headers: */
 #include <stdlib.h>
-
-/* bglib headers: */
-#include <str/str.h>
-
-/* sqlite: */
 #include <sqlite3.h>
 
-/* cvm interfaces: */
+#include <str/str.h>
 #include <cvm/module.h>
 
-/* cvm-sql interface: */
 #include "sql.h"
 
 const char program[] = "cvm-sqlite";
@@ -40,10 +46,6 @@ static const char *dbfile;
 static sqlite3 *db;
 static int result_rows;
 static struct sql_row row;
-
-
-
-/* implementation: */
 
 /*
 ** sqlite3 query callback interface

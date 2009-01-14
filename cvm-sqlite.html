@@ -1,10 +1,4 @@
 <html>
-<!--
-# cvm-sqlite.html
-# manual page for cvm-sqlite
-# wcm, 2008.01.02 - 2008.01.02
-# ===
--->
 <body>
 
 <h2><a href="http://untroubled.org/cvm/cvm.html">CVM</a></h2>
@@ -35,12 +29,10 @@ execution environment of <tt>cvm-sqlite</tt>:
 
 <dl>
 <dt><tt>$CVM_SQLITE_DB</tt></dt>
-<dd>The full path to the credential database file.
-</dd>
+<dd>The full path to the credential database file.</dd>
 
 <dt><tt>$CVM_SQLITE_QUERY</tt></dt>
-<dd>The SQL query statement used to submit for credential validation.
-</dd>
+<dd>The SQL query statement used to submit for credential validation.</dd>
 
 <dt><tt>$CVM_SQLITE_PWCMP</tt></dt>
 <dd>The <a
@@ -49,16 +41,14 @@ Set to one of two values:
 <ul>
 <li>'crypt', for passwords stored encrypted</li>
 <li>'plain', for passwords stored unencrypted</li>
-</ul>
-</dd>
+</ul></dd>
 
 </dl>
 
 <h2>Sample Schema</h2>
 
 <p>The following <tt>CREATE TABLE</tt> statement is shown as an example
-for initializing an SQLite database for use with this CVM:
-</p>
+for initializing an SQLite database for use with this CVM:</p>
 
 <pre>
 <tt>
@@ -83,8 +73,7 @@ CREATE TABLE accounts (
 <h2>Sample Query</h2>
 
 <p>The following example shows <tt>CVM_SQLITE_QUERY</tt>
-defined with a query statement for use with the above schema:
-</p>
+defined with a query statement for use with the above schema:</p>
 
 <pre>
 <tt>
