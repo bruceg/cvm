@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
-Changes in version 0.91
+Changes in version 0.95
 
 - Added a "lookaside" mode to cvm-qmail, to assist with proper chaining
   to cvm-vmailmgr or other modules.
