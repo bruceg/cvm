@@ -11,7 +11,7 @@ This package contains:
 - A UNIX/POSIX system module (uses getpwnam).
 - A flat-file module.
 - A vmailmgr module.
-- MySQL and PgSQL modules.
+- MySQL, PgSQL, and SQLite modules.
 - A library for client writers.
 - A set of libraries for module writers.
 
