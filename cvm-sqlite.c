@@ -18,10 +18,12 @@
  */
 
 #include <stdlib.h>
+#include <string.h>
 #include <sqlite3.h>
 
 #include <str/str.h>
 #include <cvm/module.h>
+#include <msg/msg.h>
 
 #include "sql.h"
 
@@ -31,15 +33,13 @@ const char sql_query_var[] = "CVM_SQLITE_QUERY";
 const char sql_pwcmp_var[] = "CVM_SQLITE_PWCMP";
 const char sql_postq_var[] = "CVM_SQLITE_POSTQ";
 
+#define MAX_NFIELDS 12
+
 /* struct for one row of query result: */
 struct sql_row {
-  int     nfields;
-  char  **data;
+  int nfields;
+  const char* data[MAX_NFIELDS];
 };
-
-/* sqlite3 query callback interface (called for each row in query result): */
-static int
-my_callback(void *callback_arg, int nfields, char **data, char **field_names);
 
 /* variables in scope of this file: */
 static const char *dbfile;
@@ -57,8 +57,16 @@ static struct sql_row row;
 */
 static int my_callback(void *callback_arg, int nfields, char **data, char **field_names)
 {
+  int i;
   row.nfields = nfields;
-  row.data = data;
+  for (i = 0; i < MAX_NFIELDS && i < nfields; ++i) {
+    if (row.data[i] != NULL)
+      free((char*)row.data[i]);
+    if (data[i] != NULL)
+      if ((data[i] = strdup(data[i])) == NULL)
+	return 1;
+    row.data[i] = data[i];
+  }
   ++result_rows;
   return 0;
   (void)callback_arg;
