@@ -3,31 +3,31 @@ $src/cvm-testclient $src/cvm-vmailmgr virt test.tld pass
 echo
 $src/cvm-testclient $src/cvm-vmailmgr virt test.tld pass
 echo
-cdbget virt <$tmp/passwd.cdb | xxd
+cdbget virt <$home/passwd.cdb | xxd
 <result>
 user name:        virt
 user ID:          @UID@
 group ID:         @GID@
 real name:        (null)
-directory:        @TMPDIR@/virt
+directory:        @TMPDIR@/home/virt
 shell:            (null)
 group name:       (null)
 system user name: user
-system directory: @TMPDIR@
+system directory: @TMPDIR@/home
 domain:           test.tld
-mailbox path:     @TMPDIR@/virt
+mailbox path:     @TMPDIR@/home/virt
 
 user name:        virt
 user ID:          @UID@
 group ID:         @GID@
 real name:        (null)
-directory:        @TMPDIR@/virt
+directory:        @TMPDIR@/home/virt
 shell:            (null)
 group name:       (null)
 system user name: user
-system directory: @TMPDIR@
+system directory: @TMPDIR@/home
 domain:           test.tld
-mailbox path:     @TMPDIR@/virt
+mailbox path:     @TMPDIR@/home/virt
 
 0000000: 020a 0108 0100 2430 2470 6173 7300 2e2f  ......\$0\$pass../
 0000010: 7669 7274 0000 002d 002d 002d 002d 0031  virt...-.-.-.-.1

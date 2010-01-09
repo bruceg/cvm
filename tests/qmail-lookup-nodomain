@@ -5,10 +5,10 @@ user name:        user
 user ID:          @UID@
 group ID:         @GID@
 real name:        (null)
-directory:        /home/bruce/dev/cvm/tests-tmp
+directory:        @TMPDIR@/home
 shell:            (null)
 group name:       (null)
 system user name: user
-system directory: /home/bruce/dev/cvm/tests-tmp
+system directory: @TMPDIR@/home
 domain:           noathost
-mailbox path:     /home/bruce/dev/cvm/tests-tmp
+mailbox path:     @TMPDIR@/home

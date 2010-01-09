@@ -7,26 +7,26 @@ user name:        virt
 user ID:          @UID@
 group ID:         @GID@
 real name:        (null)
-directory:        @TMPDIR@/virt
+directory:        @TMPDIR@/home/virt
 shell:            (null)
 group name:       (null)
 system user name: user
-system directory: @TMPDIR@
+system directory: @TMPDIR@/home
 domain:           noathost
-mailbox path:     @TMPDIR@/virt
+mailbox path:     @TMPDIR@/home/virt
 
 <result '' test.tld>
 user name:        virt
 user ID:          @UID@
 group ID:         @GID@
 real name:        (null)
-directory:        @TMPDIR@/virt
+directory:        @TMPDIR@/home/virt
 shell:            (null)
 group name:       (null)
 system user name: user
-system directory: @TMPDIR@
+system directory: @TMPDIR@/home
 domain:           test.tld
-mailbox path:     @TMPDIR@/virt
+mailbox path:     @TMPDIR@/home/virt
 
 <result '' other.tld>
 cvm-testclient: Authentication failed, error #100 (Credentials rejected)
@@ -37,39 +37,39 @@ user name:        virt
 user ID:          @UID@
 group ID:         @GID@
 real name:        (null)
-directory:        @TMPDIR@/virt
+directory:        @TMPDIR@/home/virt
 shell:            (null)
 group name:       (null)
 system user name: user
-system directory: @TMPDIR@
+system directory: @TMPDIR@/home
 domain:           test.tld
-mailbox path:     @TMPDIR@/virt
+mailbox path:     @TMPDIR@/home/virt
 
 <result @test.tld test.tld>
 user name:        virt
 user ID:          @UID@
 group ID:         @GID@
 real name:        (null)
-directory:        @TMPDIR@/virt
+directory:        @TMPDIR@/home/virt
 shell:            (null)
 group name:       (null)
 system user name: user
-system directory: @TMPDIR@
+system directory: @TMPDIR@/home
 domain:           test.tld
-mailbox path:     @TMPDIR@/virt
+mailbox path:     @TMPDIR@/home/virt
 
 <result @test.tld other.tld>
 user name:        virt
 user ID:          @UID@
 group ID:         @GID@
 real name:        (null)
-directory:        @TMPDIR@/virt
+directory:        @TMPDIR@/home/virt
 shell:            (null)
 group name:       (null)
 system user name: user
-system directory: @TMPDIR@
+system directory: @TMPDIR@/home
 domain:           test.tld
-mailbox path:     @TMPDIR@/virt
+mailbox path:     @TMPDIR@/home/virt
 
 <result @other.tld ''>
 cvm-testclient: Authentication failed, error #100 (Credentials rejected)

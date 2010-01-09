@@ -23,13 +23,13 @@ user name:        virt
 user ID:          @UID@
 group ID:         @GID@
 real name:        (null)
-directory:        @TMPDIR@/virt
+directory:        @TMPDIR@/home/virt
 shell:            (null)
 group name:       (null)
 system user name: user
-system directory: @TMPDIR@
+system directory: @TMPDIR@/home
 domain:           test.tld
-mailbox path:     @TMPDIR@/virt
+mailbox path:     @TMPDIR@/home/virt
 
 cvm-testclient: Authentication failed, error #100 (Credentials rejected)
 out of scope:     0

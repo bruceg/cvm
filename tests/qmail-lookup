@@ -9,26 +9,26 @@ user name:        user
 user ID:          @UID@
 group ID:         @GID@
 real name:        (null)
-directory:        @TMPDIR@
+directory:        @TMPDIR@/home
 shell:            (null)
 group name:       (null)
 system user name: user
-system directory: @TMPDIR@
+system directory: @TMPDIR@/home
 domain:           local.dom
-mailbox path:     @TMPDIR@
+mailbox path:     @TMPDIR@/home
 
 <result user-addr local.dom>
 user name:        user
 user ID:          @UID@
 group ID:         @GID@
 real name:        (null)
-directory:        @TMPDIR@
+directory:        @TMPDIR@/home
 shell:            (null)
 group name:       (null)
 system user name: user
-system directory: @TMPDIR@
+system directory: @TMPDIR@/home
 domain:           local.dom
-mailbox path:     @TMPDIR@
+mailbox path:     @TMPDIR@/home
 
 <result user-addr-x local.dom>
 cvm-testclient: Authentication failed, error #100 (Credentials rejected)
@@ -43,26 +43,26 @@ user name:        user
 user ID:          @UID@
 group ID:         @GID@
 real name:        (null)
-directory:        @TMPDIR@
+directory:        @TMPDIR@/home
 shell:            (null)
 group name:       (null)
 system user name: user
-system directory: @TMPDIR@
+system directory: @TMPDIR@/home
 domain:           local.dom
-mailbox path:     @TMPDIR@
+mailbox path:     @TMPDIR@/home
 
 <result user-wild-x-y-z local.dom>
 user name:        user
 user ID:          @UID@
 group ID:         @GID@
 real name:        (null)
-directory:        @TMPDIR@
+directory:        @TMPDIR@/home
 shell:            (null)
 group name:       (null)
 system user name: user
-system directory: @TMPDIR@
+system directory: @TMPDIR@/home
 domain:           local.dom
-mailbox path:     @TMPDIR@
+mailbox path:     @TMPDIR@/home
 
 <result alias local.dom>
 user name:        alias
@@ -103,39 +103,39 @@ user name:        user
 user ID:          @UID@
 group ID:         @GID@
 real name:        (null)
-directory:        @TMPDIR@
+directory:        @TMPDIR@/home
 shell:            (null)
 group name:       (null)
 system user name: user
-system directory: @TMPDIR@
+system directory: @TMPDIR@/home
 domain:           local.dom
-mailbox path:     @TMPDIR@
+mailbox path:     @TMPDIR@/home
 
 <result user-ADDR local.dom>
 user name:        user
 user ID:          @UID@
 group ID:         @GID@
 real name:        (null)
-directory:        @TMPDIR@
+directory:        @TMPDIR@/home
 shell:            (null)
 group name:       (null)
 system user name: user
-system directory: @TMPDIR@
+system directory: @TMPDIR@/home
 domain:           local.dom
-mailbox path:     @TMPDIR@
+mailbox path:     @TMPDIR@/home
 
 <result user-dot.addr local.dom>
 user name:        user
 user ID:          @UID@
 group ID:         @GID@
 real name:        (null)
-directory:        @TMPDIR@
+directory:        @TMPDIR@/home
 shell:            (null)
 group name:       (null)
 system user name: user
-system directory: @TMPDIR@
+system directory: @TMPDIR@/home
 domain:           local.dom
-mailbox path:     @TMPDIR@
+mailbox path:     @TMPDIR@/home
 
 <result adot.addr local.dom>
 user name:        alias
@@ -155,11 +155,11 @@ user name:        user
 user ID:          @UID@
 group ID:         @GID@
 real name:        (null)
-directory:        @TMPDIR@
+directory:        @TMPDIR@/home
 shell:            (null)
 group name:       (null)
 system user name: user
-system directory: @TMPDIR@
+system directory: @TMPDIR@/home
 domain:           local.dom
-mailbox path:     @TMPDIR@
+mailbox path:     @TMPDIR@/home
 

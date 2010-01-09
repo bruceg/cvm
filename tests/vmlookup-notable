@@ -1,13 +1,13 @@
-mv $tmp/passwd.cdb $tmp/passwd.cdb.donotuse
+mv $home/passwd.cdb $home/passwd.cdb.donotuse
 
 $src/cvm-testclient $src/cvm-vmailmgr virt test.tld 'xpass'
 
-mv $tmp/passwd.cdb.donotuse $tmp/passwd.cdb
-chmod 000 $tmp/passwd.cdb
+mv $home/passwd.cdb.donotuse $home/passwd.cdb
+chmod 000 $home/passwd.cdb
 
 $src/cvm-testclient $src/cvm-vmailmgr virt test.tld 'xpass'
 
-chmod 444 $tmp/passwd.cdb
+chmod 444 $home/passwd.cdb
 
 <result>
 cvm-testclient: Authentication failed, error #100 (Credentials rejected)

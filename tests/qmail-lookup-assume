@@ -14,10 +14,10 @@ user name:        user
 user ID:          @UID@
 group ID:         @GID@
 real name:        (null)
-directory:        @TMPDIR@
+directory:        @TMPDIR@/home
 shell:            (null)
 group name:       (null)
 system user name: user
-system directory: @TMPDIR@
+system directory: @TMPDIR@/home
 domain:           nothingness
-mailbox path:     @TMPDIR@
+mailbox path:     @TMPDIR@/home
