@@ -35,6 +35,13 @@ with <a href="facts.html">OUTOFSCOPE</a> set to false.</p>
 domains not found in <tt>control/virtualdomains</tt> are assumed to be
 local domains.</dd>
 
+<dt><tt>$CVM_QMAIL_CHECK_PERMS</tt> (optional)</dt> <dd>If set, the CVM
+will check that the <tt>.qmail</tt> file is accessible by temporarily
+switching to the target user ID.  If <tt>$CVM_QMAIL_CHECK_PERMS</tt>
+starts with a "<tt>-</tt>" and the lookup fails because access was
+denied, then the lookup is rejected with a permanent error, otherwise a
+temporary I/O error is returned.</dd>
+
 <dt><tt>$CVM_QMAIL_LOOKASIDE</tt> (optional)</dt> <dd>This variable
 contains a list of program names, separated by spaces.  If one of these
 program names is found as a program delivery in the <tt>.qmail</tt>

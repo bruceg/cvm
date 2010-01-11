@@ -1,0 +1,40 @@
+doit() {
+    echo "$1" >$tmp/.qmail-lookaside-default
+    $src/cvm-testclient $tmp/cvm-qmail-lookup lookaside-someone test.tld
+}
+
+export CVM_LOOKUP_SECRET=secret
+export CVM_QMAIL_CHECK_PERMS=0
+
+$src/cvm-testclient $tmp/cvm-qmail-lookup addr test.tld
+
+chmod 000 $home
+echo
+$src/cvm-testclient $tmp/cvm-qmail-lookup addr test.tld
+
+export CVM_QMAIL_CHECK_PERMS=-
+echo
+$src/cvm-testclient $tmp/cvm-qmail-lookup addr test.tld
+
+chmod 755 $home
+
+unset CVM_LOOKUP_SECRET
+unset CVM_QMAIL_CHECK_PERMS
+
+<result>
+user name:        user
+user ID:          @UID@
+group ID:         @GID@
+real name:        (null)
+directory:        @TMPDIR@/home
+shell:            (null)
+group name:       (null)
+system user name: user
+system directory: @TMPDIR@/home
+domain:           test.tld
+mailbox path:     @TMPDIR@/home
+
+cvm-testclient: Authentication failed, error #4 (Input/Output error)
+
+cvm-testclient: Authentication failed, error #100 (Credentials rejected)
+out of scope:     0

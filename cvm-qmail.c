@@ -17,6 +17,7 @@
  */
 #include <sysdeps.h>
 #include <ctype.h>
+#include <errno.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -34,6 +35,9 @@ static str domain;
 static str username;
 static str ext;
 static str programs;
+static int check_perms = 0;
+static uid_t saved_uid;
+static gid_t saved_gid;
 
 int cvm_module_init(void)
 {
@@ -44,6 +48,12 @@ int cvm_module_init(void)
     if (!str_copys(&programs, tmp))
       return CVME_IO | CVME_FATAL;
     str_subst(&programs, ' ', 0);
+  }
+
+  if ((tmp = getenv("CVM_QMAIL_CHECK_PERMS")) != 0 && tmp[0] != 0) {
+    check_perms = (tmp[0] == '-') ? CVME_PERMFAIL : CVME_IO;
+    saved_uid = getuid();
+    saved_gid = getgid();
   }
 
   return 0;
@@ -93,6 +103,7 @@ static int lookup_programs(const str* path)
 int cvm_module_lookup(void)
 {
   static str path;
+  int r;
 
   switch (qmail_lookup_cvm(&user, &domain, &username, &ext)) {
   case -1:
@@ -107,8 +118,21 @@ int cvm_module_lookup(void)
     return CVME_PERMFAIL;
   }
 
-  switch (qmail_dotfile_exists(&user, ext.s, &path)) {
+  if (check_perms) {
+    setegid(user.gid);
+    seteuid(user.uid);
+  }
+  r = qmail_dotfile_exists(&user, ext.s, &path);
+  if (check_perms) {
+    seteuid(saved_uid);
+    setegid(saved_gid);
+  }
+  switch (r) {
   case -1:
+    if (errno == EACCES && check_perms == CVME_PERMFAIL) {
+      cvm_module_fact_uint(CVM_FACT_OUTOFSCOPE, 0);
+      return CVME_PERMFAIL;
+    }
     return CVME_IO;
   case 0:
     cvm_module_fact_uint(CVM_FACT_OUTOFSCOPE, 0);
