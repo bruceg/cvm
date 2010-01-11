@@ -40,11 +40,9 @@
 - Split into cvm (containing the main modules) and lib/cvm (containing
   the client/module code).
 
-- Add support for allow/deny tables
-
 cvm-*sql:
 
-- Add an extra required boolean column to the query (for what?).
+- Add hooks for prepare/execute in SQL modules.
 
 cvm-vmailmgr:
 
