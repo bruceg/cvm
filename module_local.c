@@ -25,20 +25,54 @@
 
 #include <msg/msg.h>
 #include <net/socket.h>
+#include <unix/nonblock.h>
 
 #include "module.h"
 
 static const char* path;
 static int sock;
 static int conn;
+static unsigned long timeout = 1000;
+
+static int poll_timeout(int fd, int event, unsigned long* timeout_left)
+{
+  struct timeval start;
+  struct timeval end;
+  iopoll_fd io;
+  int r;
+
+  io.fd = fd;
+  io.events = event;
+  gettimeofday(&start, 0);
+  r = iopoll_restart(&io, 1, *timeout_left);
+  gettimeofday(&end, 0);
+  *timeout_left -= (end.tv_usec - start.tv_usec) / 1000
+    + (end.tv_sec - start.tv_sec) * 1000;
+  return r;
+}
 
 static int read_input(void)
 {
   unsigned rd;
+  unsigned long timeout_left;
+
   if ((conn = socket_acceptu(sock)) == -1) return CVME_IO;
-  for (cvm_module_inbuflen = 0;
+  if (!nonblock_on(conn)) {
+    close(conn);
+    return CVME_IO;
+  }
+
+  for (cvm_module_inbuflen = 0, timeout_left = timeout;
        cvm_module_inbuflen < BUFSIZE;
        cvm_module_inbuflen += rd) {
+
+    switch (poll_timeout(conn, IOPOLL_READ, &timeout_left)) {
+    case 0:
+    case -1:
+      close(conn);
+      return CVME_IO;
+    }
+
     if ((rd = read(conn, cvm_module_inbuffer+cvm_module_inbuflen,
 		   BUFSIZE-cvm_module_inbuflen)) == 0)
       break;
@@ -54,7 +88,13 @@ static void write_output(void)
 {
   unsigned wr;
   unsigned written;
-  for (written = 0; written < cvm_module_outbuflen; written += wr) {
+  unsigned long timeout_left;
+
+  for (written = 0, timeout_left = timeout;
+       written < cvm_module_outbuflen;
+       written += wr) {
+    if (poll_timeout(conn, IOPOLL_WRITE, &timeout_left) != 1)
+      break;
     if ((wr = write(conn, cvm_module_outbuffer+written,
 		    cvm_module_outbuflen-written)) == 0)
       break;
@@ -128,12 +168,18 @@ extern void usage(void);
 int local_main(const char* p)
 {
   int code;
+  const char* e;
   
   path = p;
   
   signal(SIGPIPE, SIG_IGN);
   signal(SIGINT, exitfn);
   signal(SIGTERM, exitfn);
+
+  if ((e = getenv("CVM_LOCAL_TIMEOUT")) == 0
+      || (timeout = strtoul(e, (char**)&e, 10)) == 0
+      || *e != 0)
+    timeout = DEFAULT_TIMEOUT;
 
   if ((code = make_socket()) != 0) return code;
   if ((code = cvm_module_init()) != 0) return code;

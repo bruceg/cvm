@@ -4,6 +4,8 @@ Changes in version 0.96
 - Added support for checking permissions in cvm-qmail.  See discussion
   of $CVM_QMAIL_CHECK_PERMS in cvm-qmail.html
 
+- Added support for I/O timeouts for cvm-local modules.
+
 - Fixed the SQLite module to copy the row data.
 
 Development of this version has been sponsored by FutureQuest, Inc.

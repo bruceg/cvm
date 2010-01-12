@@ -80,7 +80,9 @@ prefix is optional.</li>
 set, the created socket will have this mode (in octal, defaults to
 <tt>777</tt>).  If <tt>$CVM_SOCKET_OWNER</tt> or
 <tt>$CVM_SOCKET_GROUP</tt> are set, the created socket will have its
-UID/GID set appropriately.</li>
+UID/GID set appropriately.  The module will wait a maximum of 1000ms for
+complete input to be received from the client or to completely send the
+response.  This value may be overridden by <tt>$CVM_IO_TIMEOUT</tt>.</li>
 
 <li>UDP socket server: Use a command-line argument of
 <tt>cvm-udp:hostname:port</tt>.  The <tt>hostname</tt> argument

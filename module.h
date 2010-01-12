@@ -8,6 +8,7 @@
 #include <str/str.h>
 
 #define BUFSIZE 512
+#define DEFAULT_TIMEOUT 1000
 
 #define LOG_OK 'y'
 #define LOG_FAIL 'n'
