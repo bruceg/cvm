@@ -40,6 +40,10 @@
 - Split into cvm (containing the main modules) and lib/cvm (containing
   the client/module code).
 
+cvm-qmail:
+
+- Fix reloading of locals/vdomains when the file disappears.
+
 cvm-*sql:
 
 - Add hooks for prepare/execute in SQL modules.

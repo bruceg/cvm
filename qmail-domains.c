@@ -70,7 +70,7 @@ static int load_locals(void)
 {
   struct stat s;
   switch (stat_changed(locals_path.s, &locals_stat, &s)) {
-  case -1: return 0;
+  case -1: return (errno == ENOENT) ? 1 : 0;
   case 0: return 1;
   }
   // FIXME: obuf_putsflush(&errbuf, "Reloading locals\n");
