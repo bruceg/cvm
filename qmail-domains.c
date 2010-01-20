@@ -57,8 +57,16 @@ static int load_vdomains(void)
 {
   struct stat s;
   switch (stat_changed(vdomains_path.s, &vdomains_stat, &s)) {
-  case -1: return (errno == ENOENT) ? 1 : 0;
-  case 0: return 1;
+  case -1:
+    if (errno != ENOENT)
+      return 0;
+    vdomains_stat.st_mtime = 0;
+    vdomains_stat.st_ino = 0;
+    vdomains_stat.st_size = 0;
+    dict_free(&vdomains, dict_str_free);
+    return 1;
+  case 0:
+    return 1;
   }
   // FIXME: obuf_putsflush(&errbuf, "Reloading virtualdomains\n");
   vdomains_stat = s;
@@ -70,8 +78,16 @@ static int load_locals(void)
 {
   struct stat s;
   switch (stat_changed(locals_path.s, &locals_stat, &s)) {
-  case -1: return (errno == ENOENT) ? 1 : 0;
-  case 0: return 1;
+  case -1:
+    if (errno != ENOENT)
+      return 0;
+    locals_stat.st_mtime = 0;
+    locals_stat.st_ino = 0;
+    locals_stat.st_size = 0;
+    dict_free(&locals, dict_str_free);
+    return 1;
+  case 0:
+    return 1;
   }
   // FIXME: obuf_putsflush(&errbuf, "Reloading locals\n");
   locals_stat = s;
