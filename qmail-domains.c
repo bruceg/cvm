@@ -53,46 +53,47 @@ static int stat_changed(const char* path, const struct stat* orig,
   return 0;
 }
 
-static int load_vdomains(void)
+static int load_dict(const char* path, struct stat* oldstat,
+		     dict* dictp, void (*free_fn)(void*),
+		     int (*load_fn)(void))
 {
   struct stat s;
-  switch (stat_changed(vdomains_path.s, &vdomains_stat, &s)) {
+  switch (stat_changed(path, oldstat, &s)) {
   case -1:
     if (errno != ENOENT)
       return 0;
-    vdomains_stat.st_mtime = 0;
-    vdomains_stat.st_ino = 0;
-    vdomains_stat.st_size = 0;
-    dict_free(&vdomains, dict_str_free);
+    oldstat->st_mtime = 0;
+    oldstat->st_ino = 0;
+    oldstat->st_size = 0;
+    dict_free(dictp, free_fn);
     return 1;
   case 0:
     return 1;
   }
-  // FIXME: obuf_putsflush(&errbuf, "Reloading virtualdomains\n");
-  vdomains_stat = s;
-  dict_free(&vdomains, dict_str_free);
+  // FIXME: obuf_putsflush(&errbuf, "Reloading *path*\n");
+  *oldstat = s;
+  dict_free(dictp, free_fn);
+  return load_fn();
+}
+
+static int _load_vdomains(void)
+{
   return dict_load_map(&vdomains, vdomains_path.s, 0, ':', map_lower, 0);
+}
+
+static int load_vdomains(void)
+{
+  return load_dict(vdomains_path.s, &vdomains_stat, &vdomains, dict_str_free, _load_vdomains);
+}
+
+static int _load_locals(void)
+{
+  return dict_load_list(&locals, locals_path.s, 0, map_lower);
 }
 
 static int load_locals(void)
 {
-  struct stat s;
-  switch (stat_changed(locals_path.s, &locals_stat, &s)) {
-  case -1:
-    if (errno != ENOENT)
-      return 0;
-    locals_stat.st_mtime = 0;
-    locals_stat.st_ino = 0;
-    locals_stat.st_size = 0;
-    dict_free(&locals, dict_str_free);
-    return 1;
-  case 0:
-    return 1;
-  }
-  // FIXME: obuf_putsflush(&errbuf, "Reloading locals\n");
-  locals_stat = s;
-  dict_free(&locals, 0);
-  return dict_load_list(&locals, locals_path.s, 0, map_lower);
+  return load_dict(locals_path.s, &locals_stat, &locals, 0, _load_locals);
 }
 
 int qmail_domains_reinit(void)
