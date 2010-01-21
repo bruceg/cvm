@@ -61,7 +61,8 @@ int sasl_auth2(struct sasl_auth* sa,
   while (i == SASL_CHALLENGE) {
     i = -1;
     if (str_truncate(&challenge64, 0)
-	&& base64_encode_line(challenge.s, challenge.len, &challenge64)
+	&& base64_encode_line((const unsigned char*)challenge.s,
+			      challenge.len, &challenge64)
 	&& obuf_puts(sa->out, sa->prefix)
 	&& obuf_putstr(sa->out, &challenge64)
 	&& obuf_putsflush(sa->out, sa->suffix)

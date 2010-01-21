@@ -32,7 +32,7 @@ static ipv4port port;
 
 static int read_input(void)
 {
-  cvm_module_inbuflen = socket_recv4(sock, cvm_module_inbuffer, BUFSIZE,
+  cvm_module_inbuflen = socket_recv4(sock, (char*)cvm_module_inbuffer, BUFSIZE,
 				     &ip, &port);
   if (cvm_module_inbuflen == (unsigned)-1) return CVME_IO;
   return 0;
@@ -40,7 +40,8 @@ static int read_input(void)
 
 static void write_output(void)
 {
-  socket_send4(sock, cvm_module_outbuffer, cvm_module_outbuflen, &ip, port);
+  socket_send4(sock, (char*)cvm_module_outbuffer, cvm_module_outbuflen,
+	       &ip, port);
 }
 
 static void exitfn()

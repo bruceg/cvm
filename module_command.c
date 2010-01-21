@@ -37,7 +37,7 @@ static int read_input(void)
 static int write_output(void)
 {
   size_t wr;
-  char* ptr;
+  unsigned char* ptr;
   
   for (ptr = cvm_module_outbuffer;
        cvm_module_outbuflen > 0;

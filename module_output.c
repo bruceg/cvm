@@ -70,7 +70,7 @@ static void cvm2_fact_start(void)
   fact = v2fact;
   cvm_module_outbuflen = 0;
   outbufptr = cvm_module_outbuffer;
-  v2fact(0, cvm_module_inbuffer+2, cvm_module_inbuffer[1]);
+  v2fact(0, (char*)cvm_module_inbuffer+2, cvm_module_inbuffer[1]);
 }
 
 void cvm_module_fact_start(void)

@@ -41,11 +41,11 @@ static int udp_sendrecv(int sock, ipv4addr* ip, ipv4port port,
   ifd.fd = sock;
   ifd.events = IOPOLL_READ;
   for (timeout = 2, try = 0; try < 4; timeout *= 2, ++try) {
-    if ((unsigned)socket_send4(sock, request->data, request->length,
+    if ((unsigned)socket_send4(sock, (char*)request->data, request->length,
 			       ip, port) != request->length)
       return 0;
     if (iopoll(&ifd, 1, timeout*1000) != 0)
-      return (response->length = socket_recv4(sock, response->data,
+      return (response->length = socket_recv4(sock, (char*)response->data,
 					      CVM_BUFSIZE, ip,
 					      &port)) != (unsigned)-1;
   }

@@ -35,7 +35,7 @@
 static int read_start(ibuf* in, uint32* end)
 {
   unsigned char buf[2048];
-  if (!ibuf_read(in, buf, sizeof buf))
+  if (!ibuf_read(in, (char*)buf, sizeof buf))
     return 0;
   *end = uint32_get_lsb(buf);
   return 1;
@@ -46,7 +46,7 @@ static int read_cdb_pair(ibuf* in, str* key, str* data)
   unsigned char buf[8];
   uint32 keylen;
   uint32 datalen;
-  if (!ibuf_read(in, buf, sizeof buf))
+  if (!ibuf_read(in, (char*)buf, sizeof buf))
     return 0;
   keylen = uint32_get_lsb(buf);
   datalen = uint32_get_lsb(buf+4);

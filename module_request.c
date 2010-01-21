@@ -58,7 +58,7 @@ static int parse_v1_input(void)
 
   /* Prevent buffer run-off by ensuring there is at least one NUL byte */
   cvm_module_inbuffer[BUFSIZE] = 0;
-  buf = cvm_module_inbuffer + 1;
+  buf = (char*)cvm_module_inbuffer + 1;
   len = cvm_module_inbuflen - 1;
 
   /* Account name */
@@ -99,7 +99,7 @@ static int parse_v2_input(void)
     len = cvm_module_inbuffer[i+1];
     if (type <= CVM_CRED_MAX)
       if (!str_copyb(&cvm_module_credentials[type],
-		     cvm_module_inbuffer+i+2, len))
+		     (char*)cvm_module_inbuffer+i+2, len))
 	return CVME_IO;
   }
   if (i >= cvm_module_inbuflen

@@ -118,9 +118,9 @@ int cvm_client_fact_str(unsigned number, const char** data)
   
   while (*ptr) {
     unsigned char* tmp = ptr;
-    ptr += strlen(ptr) + 1;
+    ptr += strlen((char*)ptr) + 1;
     if (*tmp == number) {
-      *data = tmp + 1;
+      *data = (char*)tmp + 1;
       return 0;
     }
   }
