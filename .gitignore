@@ -24,7 +24,7 @@ cvm-v1testclient
 cvm-vmailmgr
 cvm-vmailmgr-local
 cvm-vmailmgr-udp
-libcompile
+ltcompile
 load
 ltload
 makeshlib
