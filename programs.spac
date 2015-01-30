@@ -1,8 +1,8 @@
 dependon([ fn[:-2] for fn in glob('*=x')
-	if fn[:9] <> 'cvm-mysql' \
-	   and fn[:9] <> 'cvm-pgsql' \
-	   and fn[:10] <> 'cvm-sqlite' \
-	   and fn[:10] <> 'cvm-vchkpw' ])
+	if fn[:9] != 'cvm-mysql' \
+	   and fn[:9] != 'cvm-pgsql' \
+	   and fn[:10] != 'cvm-sqlite' \
+	   and fn[:10] != 'cvm-vchkpw' ])
 dependon(map(lambda fn:fn[:-3], glob('*=sh')))
 dependon(map(lambda fn:fn[:-3], glob('*=pl')))
 dependon(map(lambda fn:fn[:-3], glob('*=py')))
