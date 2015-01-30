@@ -1,7 +1,7 @@
 #ifndef CVM__SASL__H__
 #define CVM__SASL__H__
 
-#include <str/str.h>
+#include <bglibs/str.h>
 
 struct sasl_state;
 

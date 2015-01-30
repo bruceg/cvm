@@ -21,8 +21,8 @@
 #include <string.h>
 #include <unistd.h>
 
-#include <msg/msg.h>
-#include <net/socket.h>
+#include <bglibs/msg.h>
+#include <bglibs/socket.h>
 
 #include "module.h"
 

@@ -1,6 +1,6 @@
 #include <string.h>
-#include <iobuf/obuf.h>
-#include <msg/msg.h>
+#include <bglibs/obuf.h>
+#include <bglibs/msg.h>
 #include "credentials.h"
 #include "sql.h"
 

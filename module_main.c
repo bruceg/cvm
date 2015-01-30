@@ -18,7 +18,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <msg/msg.h>
+#include <bglibs/msg.h>
 
 #include "module.h"
 

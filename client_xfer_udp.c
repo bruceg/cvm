@@ -23,8 +23,8 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-#include <sysdeps.h>
-#include <net/socket.h>
+#include <bglibs/sysdeps.h>
+#include <bglibs/socket.h>
 
 #include "v1client.h"
 #include "protocol.h"

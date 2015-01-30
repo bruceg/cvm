@@ -4,5 +4,6 @@ getpwnam.o
 libcvm-module.la
 libcvm-qmail.la
 -lbg
+-lvmailmgr
 socket.lib
 crypt.lib

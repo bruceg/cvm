@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-#include <sysdeps.h>
+#include <bglibs/sysdeps.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <pwd.h>
@@ -23,10 +23,10 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-#include <cdb/cdb.h>
-#include <cdb/str.h>
-#include <iobuf/iobuf.h>
-#include <str/str.h>
+#include <bglibs/cdb.h>
+#include <bglibs/cdb.h>
+#include <bglibs/iobuf.h>
+#include <bglibs/str.h>
 
 #include "qmail.h"
 

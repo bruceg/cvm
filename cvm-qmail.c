@@ -15,15 +15,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-#include <sysdeps.h>
+#include <bglibs/sysdeps.h>
 #include <ctype.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
-#include <iobuf/ibuf.h>
-#include <str/iter.h>
+#include <bglibs/ibuf.h>
+#include <bglibs/striter.h>
 
 #include "module.h"
 #include "qmail.h"

@@ -22,9 +22,9 @@
 #include <string.h>
 #include <sqlite3.h>
 
-#include <str/str.h>
+#include <bglibs/str.h>
 #include <cvm/module.h>
-#include <msg/msg.h>
+#include <bglibs/msg.h>
 
 #include "sql.h"
 

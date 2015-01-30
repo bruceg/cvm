@@ -18,7 +18,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
-#include <str/str.h>
+#include <bglibs/str.h>
 #include "module.h"
 #include "sql.h"
 

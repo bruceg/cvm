@@ -18,8 +18,8 @@
 #include <stdlib.h>
 #include "v2client.h"
 
-#include <fmt/number.h>
-#include <msg/msg.h>
+#include <bglibs/fmt.h>
+#include <bglibs/msg.h>
 
 const char program[] = "cvm-benchclient";
 const int msg_show_pid = 0;

@@ -15,18 +15,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-#include <sysdeps.h>
+#include <bglibs/sysdeps.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
-#include <cdb/make.h>
-#include <iobuf/iobuf.h>
-#include <path/path.h>
-#include <str/str.h>
+#include <bglibs/cdb.h>
+#include <bglibs/iobuf.h>
+#include <bglibs/path.h>
+#include <bglibs/str.h>
 #include <vmailmgr/vpwentry.h>
-#include <uint32.h>
+#include <bglibs/uint32.h>
 
 #include "module.h"
 #include "qmail.h"

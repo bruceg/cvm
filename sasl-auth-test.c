@@ -1,6 +1,6 @@
-#include <iobuf/iobuf.h>
-#include <msg/msg.h>
-#include <str/str.h>
+#include <bglibs/iobuf.h>
+#include <bglibs/msg.h>
+#include <bglibs/str.h>
 #include "sasl.h"
 
 const char program[] = "sasl-auth-test";

@@ -19,8 +19,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <misc/ucspi.h>
-#include <msg/msg.h>
+#include <bglibs/ucspi.h>
+#include <bglibs/msg.h>
 #include "v2client.h"
 
 const char program[] = "cvm-checkpassword";

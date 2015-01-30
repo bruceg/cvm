@@ -15,13 +15,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-#include <sysdeps.h>
+#include <bglibs/sysdeps.h>
 #include <errno.h>
 #include <sys/stat.h>
 
-#include <dict/dict.h>
-#include <dict/load.h>
-#include <str/str.h>
+#include <bglibs/dict.h>
+#include <bglibs/dict.h>
+#include <bglibs/str.h>
 
 #include "qmail.h"
 

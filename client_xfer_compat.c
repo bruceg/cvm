@@ -23,7 +23,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-#include <sysdeps.h>
+#include <bglibs/sysdeps.h>
 
 #include "v1client.h"
 

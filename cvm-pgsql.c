@@ -17,7 +17,7 @@
  */
 #include <libpq-fe.h>
 #include <stdlib.h>
-#include <str/str.h>
+#include <bglibs/str.h>
 #include "module.h"
 #include "sql.h"
 

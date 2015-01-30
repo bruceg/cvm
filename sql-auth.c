@@ -17,7 +17,7 @@
  */
 #include <stdlib.h>
 #include <string.h>
-#include <str/str.h>
+#include <bglibs/str.h>
 #include <pwcmp/client.h>
 #include "module.h"
 #include "sql.h"

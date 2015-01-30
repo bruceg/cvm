@@ -16,8 +16,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 #include <stdlib.h>
-#include <fmt/number.h>
-#include <msg/msg.h>
+#include <bglibs/fmt.h>
+#include <bglibs/msg.h>
 #include "v1client.h"
 
 const char program[] = "cvm-v1benchclient";

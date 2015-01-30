@@ -22,7 +22,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <sysdeps.h>
+#include <bglibs/sysdeps.h>
 
 #include "module.h"
 

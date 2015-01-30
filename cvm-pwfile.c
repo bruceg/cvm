@@ -15,14 +15,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-#include <sysdeps.h>
+#include <bglibs/sysdeps.h>
 #include <errno.h>
 #include <pwd.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include <iobuf/ibuf.h>
-#include <msg/msg.h>
+#include <bglibs/ibuf.h>
+#include <bglibs/msg.h>
 #include <pwcmp/client.h>
 
 #include "module.h"

@@ -1,8 +1,8 @@
 #include <string.h>
-#include <base64/base64.h>
-#include <iobuf/iobuf.h>
-#include <msg/msg.h>
-#include <str/str.h>
+#include <bglibs/base64.h>
+#include <bglibs/iobuf.h>
+#include <bglibs/msg.h>
+#include <bglibs/str.h>
 #include "sasl.h"
 #include "v2client.h"
 

@@ -5,7 +5,7 @@
 #include "errors.h"
 #include "facts.h"
 
-#include <str/str.h>
+#include <bglibs/str.h>
 
 #define BUFSIZE 512
 #define DEFAULT_TIMEOUT 1000

@@ -1,7 +1,7 @@
 #ifndef CVM__QMAIL__H__
 #define CVM__QMAIL__H__
 
-#include <str/str.h>
+#include <bglibs/str.h>
 
 struct qmail_user
 {

@@ -19,7 +19,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include <msg/msg.h>
+#include <bglibs/msg.h>
 
 #include "module.h"
 

@@ -3,7 +3,7 @@
 #include <ctype.h>
 #include <string.h>
 
-#include <sysdeps.h>
+#include <bglibs/sysdeps.h>
 
 #include "module.h"
 #include "v2client.h"

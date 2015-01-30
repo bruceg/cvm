@@ -1,7 +1,7 @@
 #ifndef CVM__V2CLIENT__H__
 #define CVM__V2CLIENT__H__
 
-#include <str/str.h>
+#include <bglibs/str.h>
 
 #include "facts.h"
 #include "errors.h"

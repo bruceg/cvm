@@ -19,7 +19,7 @@
 #include <mysql/mysql.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <str/str.h>
+#include <bglibs/str.h>
 #include "module.h"
 #include "sql.h"
 

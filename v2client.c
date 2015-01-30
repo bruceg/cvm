@@ -23,10 +23,10 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-#include <sysdeps.h>
-#include <net/socket.h>
-#include <str/iter.h>
-#include <str/str.h>
+#include <bglibs/sysdeps.h>
+#include <bglibs/socket.h>
+#include <bglibs/striter.h>
+#include <bglibs/str.h>
 
 #include "v2client.h"
 #include "credentials.h"

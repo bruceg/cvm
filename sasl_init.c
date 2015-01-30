@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
-#include <misc/ucspi.h>
+#include <bglibs/ucspi.h>
 #include "sasl.h"
 #include "sasl_internal.h"
 

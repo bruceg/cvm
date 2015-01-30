@@ -23,9 +23,9 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-#include <msg/msg.h>
-#include <net/socket.h>
-#include <unix/nonblock.h>
+#include <bglibs/msg.h>
+#include <bglibs/socket.h>
+#include <bglibs/unix.h>
 
 #include "module.h"
 

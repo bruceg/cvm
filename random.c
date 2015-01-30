@@ -20,10 +20,10 @@
  * domain as per http://cr.yp.to/distributors.html on 2007-12-28. */
 
 #include <string.h>
-#include <systime.h>
+#include <bglibs/systime.h>
 #include <unistd.h>
-#include <uint32.h>
-#include <crypto/surfrand.h>
+#include <bglibs/uint32.h>
+#include <bglibs/surfrand.h>
 #include "random.h"
 
 static struct surfrand state;
