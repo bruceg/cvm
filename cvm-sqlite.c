@@ -23,7 +23,7 @@
 #include <sqlite3.h>
 
 #include <bglibs/str.h>
-#include <cvm/module.h>
+#include "module.h"
 #include <bglibs/msg.h>
 
 #include "sql.h"
