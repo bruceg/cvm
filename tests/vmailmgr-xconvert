@@ -3,7 +3,7 @@ $src/cvm-testclient $src/cvm-vmailmgr virt test.tld pass
 echo
 $src/cvm-testclient $src/cvm-vmailmgr virt test.tld pass
 echo
-cdbget virt <$home/passwd.cdb | xxd
+cdbget virt <$home/passwd.cdb | hexdump -C # od -A x -t x1z -v
 <result>
 user name:        virt
 user ID:          @UID@
@@ -29,6 +29,7 @@ system directory: @TMPDIR@/home
 domain:           test.tld
 mailbox path:     @TMPDIR@/home/virt
 
-0000000: 020a 0108 0100 2430 2470 6173 7300 2e2f  ......\$0\$pass../
-0000010: 7669 7274 0000 002d 002d 002d 002d 0031  virt...-.-.-.-.1
-0000020: 3031 3637 3331 3335 3800 2d00            016731358.-.
+00000000  02 0a 01 08 01 00 24 30  24 70 61 73 73 00 2e 2f  |......\$0\$pass../|
+00000010  76 69 72 74 00 00 00 2d  00 2d 00 2d 00 2d 00 31  |virt...-.-.-.-.1|
+00000020  30 31 36 37 33 31 33 35  38 00 2d 00              |016731358.-.|
+0000002c
