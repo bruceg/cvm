@@ -34,6 +34,19 @@ int sasl_auth_caps(str* caps)
   return 1;
 }
 
+static int str_copy_escape(str* dest, const str* src)
+{
+  unsigned int i;
+  if (!str_ready(dest, src->len))
+    return 0;
+  for (i = 0; i < src->len; i++) {
+    unsigned char ch = src->s[i];
+    dest->s[i] = (ch >= 32 && ch <= 127) ? ch : '?';
+  }
+  dest->s[dest->len = src->len] = 0;
+  return 1;
+}
+
 int sasl_auth2(struct sasl_auth* sa,
 	       const char* mechanism,
 	       const char* init_response)
@@ -97,8 +110,20 @@ int sasl_auth2(struct sasl_auth* sa,
     msg4("SASL AUTH ", mechanism, " ", response.s);
     cvm_client_setenv();
   }
-  else
-    msg3("SASL AUTH ", mechanism, " failed");
+  else if (i == SASL_NO_MECH)
+    msg3("SASL AUTH ", mechanism, " failed: no such mechanism");
+  else {
+    if (sa->state.username.len > 0) {
+      str_copy_escape(&response, &sa->state.username);
+      if (sa->state.domain) {
+        str_catc(&response, '@');
+        str_cats(&response, sa->state.domain);
+      }
+      msgf("{SASL AUTH }s{ failed for \"}S{\"}", mechanism, &response);
+    }
+    else
+      msg3("SASL AUTH ", mechanism, " failed, no username");
+  }
   str_free(&response);
   str_free(&response64);
   str_free(&challenge);

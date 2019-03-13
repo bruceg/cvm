@@ -1,3 +1,6 @@
+
+- Enhanced the SASL library to output the username after failed
+  authentication.
 -------------------------------------------------------------------------------
 Changes in version 0.97
 

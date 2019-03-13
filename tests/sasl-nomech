@@ -2,6 +2,6 @@ sasltest BOGUS </dev/null
 
 <result>
 sasl-auth-test: AUTH LOGIN PLAIN
-sasl-auth-test: SASL AUTH BOGUS failed
+sasl-auth-test: SASL AUTH BOGUS failed: no such mechanism
 sasl-auth-test: Fatal: sasl_auth1 failed: 2
   504 Unrecognized authentication mechanism.

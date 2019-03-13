@@ -15,6 +15,8 @@ static int response1(struct sasl_state* ss,
   if ((j = str_findnext(response, 0, i)) == (unsigned)-1)
     return SASL_RESP_BAD;
   ++j;
+  if (!str_copyb(&ss->username, response->s + i, j - i - 1))
+    return SASL_TEMP_FAIL;
   return sasl_authenticate_plain(ss, response->s+i, response->s+j);
   (void)challenge;
 }

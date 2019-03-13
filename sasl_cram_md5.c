@@ -40,6 +40,8 @@ static int response1(struct sasl_state* ss,
   for (j = 0; j < 32; j += 2)
     binresp[j/2] = hex2bin[(unsigned char)response->s[i+j]] << 4
       | hex2bin[(unsigned char)response->s[i+j+1]];
+  if (!str_copys(&ss->username, response->s))
+    return SASL_TEMP_FAIL;
   return sasl_authenticate_cram(ss, response->s, "CRAM-MD5",
 				&ss->init, &binrespstr);
   (void)challenge;
