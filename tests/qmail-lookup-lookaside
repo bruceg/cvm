@@ -1,5 +1,8 @@
 doit() {
-    echo "$1" >$home/.qmail-lookaside-default
+    for line in "$@"
+    do
+    	echo "$line"
+    done > $home/.qmail-lookaside-default
     $src/cvm-testclient $tmp/cvm-qmail-lookup lookaside-someone test.tld
 }
 
@@ -16,7 +19,7 @@ doit '| /bin/program3 foo'
 echo
 doit ' |/bin/program1'
 echo
-doit $'#before\n|/bin/program2\n#after'
+doit '#before' '|/bin/program2' '#after'
 
 unset CVM_LOOKUP_SECRET
 unset CVM_QMAIL_LOOKASIDE
