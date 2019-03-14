@@ -3,10 +3,10 @@ sasltest PLAIN\ cHdmdXNlcgBwd2a1c2VyAHRlc3RwYXNZ </dev/null
 
 <result>
 sasl-auth-test: AUTH LOGIN PLAIN
-sasl-auth-test: SASL AUTH PLAIN failed for "pwfuser@localhost"
+sasl-auth-test: SASL AUTH PLAIN failed username=pwfuser domain=localhost
 sasl-auth-test: Fatal: sasl_auth1 failed: 1
   501 Authentication failed.
 sasl-auth-test: AUTH LOGIN PLAIN
-sasl-auth-test: SASL AUTH PLAIN failed for "pwf?ser@localhost"
+sasl-auth-test: SASL AUTH PLAIN failed username=pwf?ser domain=localhost
 sasl-auth-test: Fatal: sasl_auth1 failed: 1
   501 Authentication failed.

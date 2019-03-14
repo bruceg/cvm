@@ -34,17 +34,28 @@ int sasl_auth_caps(str* caps)
   return 1;
 }
 
-static int str_copy_escape(str* dest, const str* src)
+static int str_cats_escape(str* dest, const char* src)
 {
-  unsigned int i;
-  if (!str_ready(dest, src->len))
-    return 0;
-  for (i = 0; i < src->len; i++) {
-    unsigned char ch = src->s[i];
-    dest->s[i] = (ch >= 32 && ch <= 127) ? ch : '?';
+  char ch;
+  while ((ch = *src++) != 0) {
+    if (!str_catc(dest, (ch >= 32 && ch <= 127) ? ch : '?'))
+      return 0;
   }
-  dest->s[dest->len = src->len] = 0;
   return 1;
+}
+
+static void make_response(str* out, const char* username, const char* sys_user, const char* domain)
+{
+  str_copys(out, "username=");
+  str_cats_escape(out, username);
+  if (sys_user != NULL) {
+    str_cats(out, " sys_username=");
+    str_cats_escape(out, sys_user);
+  }
+  if (domain != NULL && domain[0] != 0) {
+    str_cats(out, " domain=");
+    str_cats_escape(out, domain);
+  }
 }
 
 int sasl_auth2(struct sasl_auth* sa,
@@ -96,17 +107,7 @@ int sasl_auth2(struct sasl_auth* sa,
       i = SASL_RESP_EOF;
   }
   if (i == SASL_AUTH_OK) {
-    str_truncate(&response, 0);
-    str_copys(&response, "username=");
-    str_cats(&response, cvm_fact_username);
-    if (cvm_fact_sys_username != 0) {
-      str_cats(&response, " sys_username=");
-      str_cats(&response, cvm_fact_sys_username);
-    }
-    if (cvm_fact_domain != 0 && cvm_fact_domain[0] != 0) {
-      str_cats(&response, " domain=");
-      str_cats(&response, cvm_fact_domain);
-    }
+    make_response(&response, cvm_fact_username, cvm_fact_sys_username, cvm_fact_domain);
     msg4("SASL AUTH ", mechanism, " ", response.s);
     cvm_client_setenv();
   }
@@ -114,12 +115,8 @@ int sasl_auth2(struct sasl_auth* sa,
     msg3("SASL AUTH ", mechanism, " failed: no such mechanism");
   else {
     if (sa->state.username.len > 0) {
-      str_copy_escape(&response, &sa->state.username);
-      if (sa->state.domain) {
-        str_catc(&response, '@');
-        str_cats(&response, sa->state.domain);
-      }
-      msgf("{SASL AUTH }s{ failed for \"}S{\"}", mechanism, &response);
+      make_response(&response, sa->state.username.s, NULL, sa->state.domain);
+      msg4("SASL AUTH ", mechanism, " failed ", response.s);
     }
     else
       msg3("SASL AUTH ", mechanism, " failed, no username");
